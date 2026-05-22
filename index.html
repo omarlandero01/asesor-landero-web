@@ -1,0 +1,835 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Proyecta el valor de tu Plan Personal de Retiro OptiMaxx Plus. Herramienta ilustrativa de Asesor Landero.">
+  <title>Proyecta tu Retiro – Asesor Landero</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <style>
+    :root{
+      --bg:#09101f;--surface:#111827;--surface2:#1a2540;
+      --gold:#c9a84c;--gold-light:#e0c06d;--gold-dim:rgba(201,168,76,0.12);
+      --blue:#3b82f6;--text:#f1f5f9;--text-muted:#94a3b8;--text-dim:#64748b;
+      --border:rgba(255,255,255,0.07);--error:#ef4444;--info:#0ea5e9;
+      --radius:16px;--radius-sm:10px;
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    html{scroll-behavior:smooth;}
+    body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;line-height:1.6;-webkit-font-smoothing:antialiased;}
+
+    .header{position:sticky;top:0;z-index:100;background:rgba(9,16,31,0.92);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:14px 20px;}
+    .header-inner{max-width:640px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;}
+    .logo-main{font-size:18px;font-weight:700;letter-spacing:-0.3px;}
+    .logo-main span{color:var(--gold);}
+    .logo-sub{font-size:10px;color:var(--text-muted);letter-spacing:2px;text-transform:uppercase;margin-top:2px;}
+    .header-badge{font-size:11px;background:var(--gold-dim);color:var(--gold);border:1px solid rgba(201,168,76,0.25);padding:4px 10px;border-radius:20px;font-weight:500;letter-spacing:0.5px;}
+
+    main{max-width:640px;margin:0 auto;padding:32px 20px 60px;}
+
+    .hero{text-align:center;margin-bottom:36px;}
+    .hero-eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:11px;color:var(--gold);font-weight:500;letter-spacing:2.5px;text-transform:uppercase;margin-bottom:14px;}
+    .hero-eyebrow::before,.hero-eyebrow::after{content:'';width:24px;height:1px;background:var(--gold);opacity:0.4;}
+    .hero h1{font-size:clamp(24px,6vw,34px);font-weight:800;line-height:1.2;letter-spacing:-0.5px;margin-bottom:14px;}
+    .hero h1 span{color:var(--gold);}
+    .hero p{font-size:14px;color:var(--text-muted);max-width:480px;margin:0 auto;line-height:1.75;}
+
+    .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;margin-bottom:20px;}
+    .card-header{padding:18px 22px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px;}
+    .card-icon{width:34px;height:34px;background:var(--gold-dim);border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;}
+    .card-title{font-size:14px;font-weight:600;}
+    .card-subtitle{font-size:12px;color:var(--text-muted);margin-top:2px;}
+    .card-body{padding:22px;}
+
+    .form-grid{display:grid;gap:18px;}
+    .form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+    .form-group{display:flex;flex-direction:column;gap:7px;}
+    label{font-size:11px;font-weight:600;color:var(--text-muted);letter-spacing:0.8px;text-transform:uppercase;display:flex;align-items:center;gap:4px;}
+    label .req{color:var(--gold);font-size:13px;}
+    label .opt{color:var(--text-dim);font-size:10px;font-weight:400;text-transform:none;letter-spacing:0;}
+    input[type="text"],input[type="number"],input[type="tel"],input[type="email"]{background:var(--bg);border:1px solid var(--border);border-radius:var(--radius-sm);color:var(--text);font-family:'Outfit',sans-serif;font-size:15px;padding:13px 16px;width:100%;transition:border-color 0.2s,box-shadow 0.2s;-webkit-appearance:none;appearance:none;}
+    input::placeholder{color:var(--text-dim);}
+    input:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 3px rgba(201,168,76,0.1);}
+    input.field-error{border-color:var(--error);}
+    .err{font-size:11px;color:var(--error);display:none;}
+    .err.show{display:block;}
+    .input-wrap{position:relative;}
+    .prefix{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--gold);font-weight:600;font-size:14px;pointer-events:none;}
+    .prefix~input{padding-left:36px;}
+    .suffix{position:absolute;right:14px;top:50%;transform:translateY(-50%);color:var(--text-dim);font-size:12px;pointer-events:none;}
+
+    /* INFLATION TOGGLE */
+    .infl-toggle{display:flex;align-items:center;gap:14px;padding:14px 16px;background:var(--bg);border:1px solid var(--border);border-radius:var(--radius-sm);cursor:pointer;transition:border-color 0.2s;}
+    .infl-toggle:has(input:checked){border-color:rgba(201,168,76,0.4);background:var(--gold-dim);}
+    .infl-toggle input[type="checkbox"]{width:18px;height:18px;min-width:18px;accent-color:var(--gold);cursor:pointer;padding:0;border:none;background:none;}
+    .infl-toggle-text{flex:1;}
+    .infl-toggle-label{font-size:13px;font-weight:600;color:var(--text);}
+    .infl-toggle-desc{font-size:11px;color:var(--text-muted);margin-top:2px;line-height:1.5;}
+    .infl-tag{font-size:10px;background:rgba(201,168,76,0.15);color:var(--gold);border:1px solid rgba(201,168,76,0.25);padding:2px 7px;border-radius:4px;font-weight:600;white-space:nowrap;}
+
+    /* PORTFOLIO */
+    .portfolio-grid{display:grid;gap:9px;}
+    .p-option{position:relative;}
+    .p-option input[type="radio"]{position:absolute;opacity:0;width:0;height:0;}
+    .p-label{display:flex;align-items:center;gap:12px;padding:13px 14px;background:var(--bg);border:1px solid var(--border);border-radius:var(--radius-sm);cursor:pointer;transition:all 0.2s;user-select:none;}
+    .p-option input[type="radio"]:checked+.p-label{border-color:var(--gold);background:var(--gold-dim);}
+    .p-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0;}
+    .p-info{flex:1;min-width:0;}
+    .p-name{font-size:13px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+    .p-inst{font-size:11px;color:var(--text-muted);margin-top:1px;}
+    .p-right{text-align:right;flex-shrink:0;}
+    .p-rate{font-size:13px;font-weight:700;color:var(--gold);}
+    .p-risk{font-size:10px;color:var(--text-dim);margin-top:2px;}
+    .p-cap-badge{font-size:9px;background:rgba(14,165,233,0.12);color:var(--info);border:1px solid rgba(14,165,233,0.25);padding:2px 6px;border-radius:4px;margin-top:3px;display:inline-block;font-weight:600;}
+    .p-live-badge{font-size:9px;background:rgba(16,185,129,0.12);color:#10b981;border:1px solid rgba(16,185,129,0.25);padding:2px 6px;border-radius:4px;margin-top:3px;display:inline-block;font-weight:600;}
+
+    .cap-notice-selection{display:none;background:rgba(14,165,233,0.07);border:1px solid rgba(14,165,233,0.2);border-radius:var(--radius-sm);padding:13px 15px;margin-top:2px;font-size:12px;color:#7dd3fc;line-height:1.6;}
+    .cap-notice-selection.show{display:block;}
+    .cap-notice-selection strong{color:var(--info);}
+
+    .min-note{font-size:11px;color:var(--text-dim);margin-top:-8px;}
+
+    .priv-wrap{display:flex;align-items:flex-start;gap:12px;padding:14px 16px;background:var(--bg);border:1px solid var(--border);border-radius:var(--radius-sm);}
+    .priv-wrap input[type="checkbox"]{width:17px;height:17px;min-width:17px;margin-top:2px;accent-color:var(--gold);cursor:pointer;padding:0;border:none;background:none;}
+    .priv-text{font-size:12px;color:var(--text-muted);line-height:1.65;}
+    .priv-link{color:var(--gold);text-decoration:underline;cursor:pointer;}
+
+    .btn-submit{width:100%;padding:16px 24px;background:linear-gradient(135deg,#c9a84c,#a8852e);color:#09101f;font-family:'Outfit',sans-serif;font-size:16px;font-weight:700;border:none;border-radius:var(--radius-sm);cursor:pointer;transition:all 0.2s;letter-spacing:0.3px;position:relative;overflow:hidden;}
+    .btn-submit:hover{transform:translateY(-1px);box-shadow:0 8px 24px rgba(201,168,76,0.28);}
+    .btn-submit:active{transform:translateY(0);}
+    .btn-submit:disabled{opacity:0.6;cursor:not-allowed;transform:none;}
+    .btn-submit.loading::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.2),transparent);animation:shimmer 1.1s infinite;}
+    @keyframes shimmer{from{transform:translateX(-100%);}to{transform:translateX(100%);}}
+
+    /* RESULTS */
+    .results{display:none;flex-direction:column;gap:18px;}
+    .results.show{display:flex;animation:fadeUp 0.45s ease both;}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(18px);}to{opacity:1;transform:translateY(0);}}
+
+    .cap-notice-results{display:none;background:rgba(14,165,233,0.07);border:1px solid rgba(14,165,233,0.2);border-radius:var(--radius-sm);padding:14px 16px;font-size:12px;color:#7dd3fc;line-height:1.7;}
+    .cap-notice-results.show{display:block;}
+    .cap-notice-results strong{color:var(--info);}
+
+    .infl-notice-results{display:none;background:rgba(201,168,76,0.07);border:1px solid rgba(201,168,76,0.2);border-radius:var(--radius-sm);padding:13px 16px;font-size:12px;color:var(--gold-light);line-height:1.6;}
+    .infl-notice-results.show{display:block;}
+
+    .bono-banner{background:linear-gradient(135deg,rgba(201,168,76,0.15),rgba(201,168,76,0.06));border:1px solid rgba(201,168,76,0.3);border-radius:var(--radius-sm);padding:14px 16px;display:flex;align-items:center;gap:14px;}
+    .bono-icon{font-size:24px;flex-shrink:0;}
+    .bono-text{flex:1;}
+    .bono-label{font-size:11px;color:var(--gold);font-weight:600;letter-spacing:0.8px;text-transform:uppercase;}
+    .bono-amount{font-size:20px;font-weight:800;color:var(--gold);line-height:1.2;}
+    .bono-desc{font-size:11px;color:var(--text-muted);margin-top:2px;}
+    .bono-fv{text-align:right;flex-shrink:0;}
+    .bono-fv-label{font-size:10px;color:var(--text-dim);text-transform:uppercase;letter-spacing:0.6px;}
+    .bono-fv-amount{font-size:15px;font-weight:700;color:var(--gold-light);}
+
+    .res-head{padding:26px 22px;text-align:center;}
+    .res-label{font-size:11px;color:var(--gold);font-weight:500;letter-spacing:2px;text-transform:uppercase;margin-bottom:5px;}
+    .res-portfolio{font-size:20px;font-weight:700;margin-bottom:4px;line-height:1.3;}
+    .res-years{font-size:13px;color:var(--text-muted);}
+
+    .metrics{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;padding:0 20px 22px;}
+    .metric{background:var(--bg);border:1px solid var(--border);border-radius:var(--radius-sm);padding:14px 12px;text-align:center;}
+    .metric.hi{background:var(--gold-dim);border-color:rgba(201,168,76,0.28);}
+    .metric-lbl{font-size:10px;color:var(--text-dim);text-transform:uppercase;letter-spacing:0.8px;margin-bottom:7px;font-weight:500;}
+    .metric-val{font-size:14px;font-weight:700;color:var(--text);line-height:1.2;}
+    .metric.hi .metric-val{color:var(--gold);font-size:15px;}
+
+    .chart-wrap{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px 22px;}
+    .chart-title{font-size:12px;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.8px;margin-bottom:18px;}
+    canvas{max-height:210px;}
+
+    .cta{background:linear-gradient(135deg,#1a2540,#111827);border:1px solid rgba(201,168,76,0.18);border-radius:var(--radius);padding:28px 22px;text-align:center;}
+    .cta-title{font-size:19px;font-weight:700;line-height:1.3;margin-bottom:8px;}
+    .cta-sub{font-size:13px;color:var(--text-muted);margin-bottom:22px;line-height:1.7;}
+    .btn-wa{display:inline-flex;align-items:center;justify-content:center;gap:10px;background:#25D366;color:#fff;font-family:'Outfit',sans-serif;font-size:15px;font-weight:700;padding:15px 28px;border-radius:var(--radius-sm);text-decoration:none;width:100%;transition:all 0.2s;}
+    .btn-wa:hover{background:#1ebe5c;transform:translateY(-1px);box-shadow:0 8px 24px rgba(37,211,102,0.28);}
+    .btn-wa svg{width:20px;height:20px;fill:currentColor;flex-shrink:0;}
+
+    .disclaimer{background:rgba(100,116,139,0.07);border:1px solid var(--border);border-radius:var(--radius-sm);padding:15px 16px;font-size:11px;color:var(--text-dim);line-height:1.75;}
+    .disclaimer strong{color:var(--text-muted);}
+
+    .btn-reset{background:none;border:1px solid var(--border);color:var(--text-muted);font-family:'Outfit',sans-serif;font-size:14px;padding:13px;border-radius:var(--radius-sm);cursor:pointer;width:100%;transition:border-color 0.2s;}
+    .btn-reset:hover{border-color:var(--text-dim);}
+
+    .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.75);backdrop-filter:blur(4px);z-index:1000;display:none;align-items:flex-end;}
+    .modal-overlay.show{display:flex;}
+    .modal{background:var(--surface);border-top:1px solid var(--border);border-radius:22px 22px 0 0;padding:24px 22px 40px;width:100%;max-height:78vh;overflow-y:auto;}
+    .modal-handle{width:36px;height:4px;background:var(--border);border-radius:2px;margin:0 auto 18px;}
+    .modal-title{font-size:17px;font-weight:700;margin-bottom:14px;}
+    .modal-body{font-size:13px;color:var(--text-muted);line-height:1.8;}
+    .modal-body p{margin-bottom:12px;}
+    .modal-close{width:100%;margin-top:22px;padding:14px;background:var(--gold-dim);color:var(--gold);border:1px solid rgba(201,168,76,0.3);border-radius:var(--radius-sm);font-family:'Outfit',sans-serif;font-size:15px;font-weight:600;cursor:pointer;}
+
+    .footer{text-align:center;padding:22px 20px 32px;font-size:12px;color:var(--text-dim);border-top:1px solid var(--border);margin-top:20px;}
+
+    @media(max-width:400px){.form-row{grid-template-columns:1fr;}.metrics{grid-template-columns:1fr;}.bono-fv{display:none;}}
+  </style>
+</head>
+<body>
+
+<header class="header">
+  <div class="header-inner">
+    <div>
+      <div class="logo-main">Asesor <span>Landero</span></div>
+      <div class="logo-sub">Planificación Financiera</div>
+    </div>
+    <div class="header-badge">🔒 Uso Ilustrativo</div>
+  </div>
+</header>
+
+<main>
+  <div class="hero">
+    <div class="hero-eyebrow">Simulador OptiMaxx Plus</div>
+    <h1>¿Cuánto tendrás<br><span>a los 65 años?</span></h1>
+    <p>Visualiza el potencial de tu Plan Personal de Retiro según diferentes estrategias de inversión. Incluye Bono de Fidelidad Allianz. Proyecciones con fines ilustrativos.</p>
+  </div>
+
+  <div class="card" id="formCard">
+    <div class="card-header">
+      <div class="card-icon">📋</div>
+      <div>
+        <div class="card-title">Tus datos</div>
+        <div class="card-subtitle">Campos con <span style="color:var(--gold)">*</span> son obligatorios</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="form-grid">
+
+        <div class="form-group">
+          <label>Nombre completo <span class="req">*</span></label>
+          <input type="text" id="nombre" placeholder="Tu nombre completo" autocomplete="name">
+          <span class="err" id="err-nombre">Ingresa tu nombre completo</span>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Edad actual <span class="req">*</span></label>
+            <div class="input-wrap">
+              <input type="number" id="edad" placeholder="Ej. 35" min="18" max="64" inputmode="numeric">
+              <span class="suffix">años</span>
+            </div>
+            <span class="err" id="err-edad">Entre 18 y 64 años</span>
+          </div>
+          <div class="form-group">
+            <label>WhatsApp <span class="req">*</span></label>
+            <div class="input-wrap">
+              <span class="prefix">+52</span>
+              <input type="tel" id="whatsapp" placeholder="10 dígitos" maxlength="10" inputmode="tel">
+            </div>
+            <span class="err" id="err-whatsapp">Número a 10 dígitos</span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Correo electrónico <span class="opt">(opcional)</span></label>
+          <input type="email" id="email" placeholder="tucorreo@ejemplo.com" autocomplete="email">
+        </div>
+
+        <div class="form-group">
+          <label>Aportación mensual <span class="req">*</span></label>
+          <div class="input-wrap">
+            <span class="prefix">$</span>
+            <input type="number" id="aportacion" placeholder="2,000" min="2000" step="500" inputmode="numeric">
+            <span class="suffix">MXN</span>
+          </div>
+          <div class="min-note">📌 Aportación mínima: $2,000 MXN mensuales</div>
+          <span class="err" id="err-aportacion">Mínimo $2,000 MXN mensuales</span>
+        </div>
+
+        <!-- INFLATION TOGGLE -->
+        <div class="form-group">
+          <label>Opciones de proyección</label>
+          <label class="infl-toggle" for="inflToggle" style="text-transform:none;letter-spacing:0;font-size:13px;font-weight:400;">
+            <input type="checkbox" id="inflToggle">
+            <div class="infl-toggle-text">
+              <div class="infl-toggle-label">Incremento de aportación conforme a la inflación</div>
+              <div class="infl-toggle-desc">La aportación mensual crece 4% cada año, igual que el simulador oficial Allianz.</div>
+            </div>
+            <span class="infl-tag">+4% anual</span>
+          </label>
+        </div>
+
+        <!-- PORTFOLIOS -->
+        <div class="form-group">
+          <label>Portafolio de interés <span class="req">*</span></label>
+          <div class="portfolio-grid">
+
+            <div class="p-option">
+              <input type="radio" name="portafolio" id="p1"
+                value="Portafolio Crecimiento Global"
+                data-calc-rate="0.10" data-capped="true" data-hist-rate="13">
+              <label class="p-label" for="p1" onclick="onPort('p1')">
+                <span class="p-dot" style="background:#3b82f6"></span>
+                <div class="p-info"><div class="p-name">Crecimiento Global</div><div class="p-inst">IVV – S&P 500</div></div>
+                <div class="p-right">
+                  <div class="p-rate">~13% hist.</div>
+                  <div class="p-cap-badge">Proyección: 10%</div>
+                  <div class="p-risk">Riesgo Alto</div>
+                </div>
+              </label>
+            </div>
+
+            <div class="p-option">
+              <input type="radio" name="portafolio" id="p2"
+                value="Portafolio Tecnológico"
+                data-calc-rate="0.10" data-capped="true" data-hist-rate="15">
+              <label class="p-label" for="p2" onclick="onPort('p2')">
+                <span class="p-dot" style="background:#8b5cf6"></span>
+                <div class="p-info"><div class="p-name">Tecnológico</div><div class="p-inst">QQQ – Nasdaq 100</div></div>
+                <div class="p-right">
+                  <div class="p-rate">~15% hist.</div>
+                  <div class="p-cap-badge">Proyección: 10%</div>
+                  <div class="p-risk">Riesgo Muy Alto</div>
+                </div>
+              </label>
+            </div>
+
+            <div class="p-option">
+              <input type="radio" name="portafolio" id="p3"
+                value="Portafolio Diversificado Mundial"
+                data-calc-rate="0.11" data-capped="false">
+              <label class="p-label" for="p3" onclick="onPort('p3')">
+                <span class="p-dot" style="background:#0891b2"></span>
+                <div class="p-info"><div class="p-name">Diversificado Mundial</div><div class="p-inst">MSCI ACWI</div></div>
+                <div class="p-right"><div class="p-rate">11% anual</div><div class="p-risk">Riesgo Moderado-Alto</div></div>
+              </label>
+            </div>
+
+            <div class="p-option">
+              <input type="radio" name="portafolio" id="p4"
+                value="Portafolio Oro"
+                data-calc-rate="0.10" data-capped="false">
+              <label class="p-label" for="p4" onclick="onPort('p4')">
+                <span class="p-dot" style="background:#d97706"></span>
+                <div class="p-info"><div class="p-name">Oro</div><div class="p-inst">iShares Gold Trust</div></div>
+                <div class="p-right"><div class="p-rate">10% anual</div><div class="p-risk">Riesgo Moderado</div></div>
+              </label>
+            </div>
+
+            <div class="p-option">
+              <input type="radio" name="portafolio" id="p5"
+                value="Portafolio Anti-Inflación"
+                data-calc-rate="0.07" data-capped="false">
+              <label class="p-label" for="p5" onclick="onPort('p5')">
+                <span class="p-dot" style="background:#059669"></span>
+                <div class="p-info"><div class="p-name">Anti-Inflación</div><div class="p-inst">UDIS – Pesos Reevaluables</div></div>
+                <div class="p-right"><div class="p-rate">7% anual</div><div class="p-risk">Riesgo Bajo-Moderado</div></div>
+              </label>
+            </div>
+
+            <div class="p-option">
+              <input type="radio" name="portafolio" id="p6"
+                value="Portafolio Conservador Dolarizado"
+                data-calc-rate="0" data-capped="false">
+              <label class="p-label" for="p6" onclick="onPort('p6')">
+                <span class="p-dot" style="background:#0369a1"></span>
+                <div class="p-info"><div class="p-name">Conservador Dolarizado</div><div class="p-inst">Alternativa Allianz · Conservador USD</div></div>
+                <div class="p-right">
+                  <div class="p-rate" id="usdRateDisplay">—% USD</div>
+                  <div class="p-cap-badge" id="usdRateMXN" style="background:rgba(59,130,246,0.12);color:#60a5fa;border-color:rgba(59,130,246,0.25);">~—% MXN</div>
+                  <div class="p-live-badge">Tasa Allianz vigente</div>
+                  <div class="p-risk">Riesgo Bajo</div>
+                </div>
+              </label>
+            </div>
+
+            <div class="p-option">
+              <input type="radio" name="portafolio" id="p7"
+                value="Portafolio Conservador en Pesos"
+                data-calc-rate="0" data-capped="false">
+              <label class="p-label" for="p7" onclick="onPort('p7')">
+                <span class="p-dot" style="background:#047857"></span>
+                <div class="p-info"><div class="p-name">Conservador en Pesos</div><div class="p-inst">Alternativa Allianz · Conservador MXN</div></div>
+                <div class="p-right">
+                  <div class="p-rate" id="mxnRateDisplay">—% anual</div>
+                  <div class="p-live-badge">Tasa Allianz vigente</div>
+                  <div class="p-risk">Riesgo Bajo</div>
+                </div>
+              </label>
+            </div>
+
+          </div>
+
+          <div class="cap-notice-selection" id="capNoticeSel">
+            <strong>ℹ️ Nota regulatoria:</strong> Este instrumento ha registrado un rendimiento histórico aproximado del <strong id="capHistRateSel">—</strong>% anual. De conformidad con la normativa de <strong>Allianz México</strong>, las proyecciones del plan OptiMaxx Plus se presentan con un tope máximo del <strong>10% anual</strong>. El rendimiento pasado no garantiza resultados futuros.
+          </div>
+          <span class="err" id="err-portafolio">Selecciona un portafolio</span>
+        </div>
+
+        <div class="priv-wrap">
+          <input type="checkbox" id="privacy">
+          <div class="priv-text">
+            Acepto el <span class="priv-link" onclick="openPrivacy()">Aviso de Privacidad</span>. Mis datos serán utilizados únicamente para recibir información sobre planificación financiera y retiro de parte de Asesor Landero.
+          </div>
+        </div>
+        <span class="err" id="err-privacy">Acepta el aviso de privacidad para continuar</span>
+
+        <button class="btn-submit" id="btnCalc" onclick="calcular()">
+          Ver mi proyección al retiro →
+        </button>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- RESULTS -->
+  <div class="results" id="results">
+
+    <div class="cap-notice-results" id="capNoticeRes">
+      <strong>ℹ️ Nota regulatoria – Proyección limitada al 10%:</strong> El portafolio seleccionado ha registrado un rendimiento histórico aproximado del <strong id="capHistRateRes">—</strong>% anual. Conforme a la normativa de Allianz México, esta proyección se presenta con un tope máximo del <strong>10% anual</strong>. Los rendimientos históricos no garantizan resultados futuros.
+    </div>
+
+    <div class="infl-notice-results" id="inflNoticeRes">
+      ✅ <strong>Proyección con inflación activada:</strong> La aportación mensual se incrementa 4% cada año, siguiendo la metodología del simulador oficial Allianz OptiMaxx Plus.
+    </div>
+
+    <div class="bono-banner" id="bonoBanner">
+      <div class="bono-icon">🎁</div>
+      <div class="bono-text">
+        <div class="bono-label">Bono de Fidelidad Allianz</div>
+        <div class="bono-amount" id="bonoAmount">—</div>
+        <div class="bono-desc">Capital adicional al inicio del plan · <span id="bonoPct">—</span> de tu aportación anual</div>
+      </div>
+      <div class="bono-fv">
+        <div class="bono-fv-label">Al retiro vale</div>
+        <div class="bono-fv-amount" id="bonoFV">—</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="res-head">
+        <div class="res-label" id="res-nombre">—</div>
+        <div class="res-portfolio" id="res-portfolio">—</div>
+
+      </div>
+      <div class="metrics">
+        <div class="metric"><div class="metric-lbl">Total aportado</div><div class="metric-val" id="res-aportado">—</div></div>
+        <div class="metric hi"><div class="metric-lbl">Valor total proyectado</div><div class="metric-val" id="res-total">—</div></div>
+        <div class="metric"><div class="metric-lbl">Rendimiento generado</div><div class="metric-val" id="res-ganancia">—</div></div>
+      </div>
+      <div style="padding:0 20px 20px;">
+        <div style="background:linear-gradient(135deg,rgba(16,185,129,0.12),rgba(16,185,129,0.05));border:1px solid rgba(16,185,129,0.25);border-radius:10px;padding:16px 18px;display:flex;align-items:center;justify-content:space-between;gap:12px;">
+          <div>
+            <div style="font-size:11px;color:#6ee7b7;font-weight:600;letter-spacing:0.8px;text-transform:uppercase;margin-bottom:4px;">💰 Pensión mensual estimada al retiro</div>
+            </div>
+          <div style="font-size:22px;font-weight:800;color:#34d399;white-space:nowrap;" id="res-pension">—</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="chart-wrap">
+      <div class="chart-title">Crecimiento acumulado proyectado</div>
+      <canvas id="myChart"></canvas>
+    </div>
+
+    <div class="cta">
+      <div class="cta-title">Tu retiro empieza hoy,<br>no mañana</div>
+      <div class="cta-sub">Estas cifras son ilustrativas. En una asesoría personalizada estructuramos el plan exacto que se adapta a tu realidad y metas de vida.</div>
+      <a class="btn-wa" id="waLink" href="#" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        Agendar asesoría personalizada
+      </a>
+    </div>
+
+    <div class="disclaimer">
+      <strong>⚠️ Aviso importante:</strong> Las proyecciones mostradas son exclusivamente ilustrativas, calculadas mediante la metodología del simulador Allianz OptiMaxx Plus y basadas en rendimientos históricos aproximados en términos nominales en pesos mexicanos. Conforme a la normativa de Allianz México, ninguna proyección supera el 10% de rendimiento anual. Los rendimientos pasados no garantizan resultados futuros. El Bono de Fidelidad está sujeto a permanencia. Las Alternativas de Rendimiento tienen riesgos implícitos; Allianz México no es responsable de minusvalías derivadas de su desempeño. Esta herramienta no constituye una recomendación de inversión.
+    </div>
+
+    <button class="btn-reset" onclick="resetForm()">← Hacer otra proyección</button>
+  </div>
+</main>
+
+<footer class="footer">
+  <div>© 2025 Asesor Landero · Planificación Financiera · Tabasco, México</div>
+  <div style="margin-top:5px"><span class="priv-link" onclick="openPrivacy()">Aviso de Privacidad</span></div>
+</footer>
+
+<div class="modal-overlay" id="privModal" onclick="closeOutside(event)">
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <div class="modal-title">Aviso de Privacidad</div>
+    <div class="modal-body">
+      <p>En cumplimiento con la <strong>Ley Federal de Protección de Datos Personales en Posesión de los Particulares (LFPDPPP)</strong>, le informamos lo siguiente:</p>
+      <p><strong>Responsable:</strong> Asesor Landero, agente independiente de seguros y asesor financiero, Tabasco, México.</p>
+      <p><strong>Datos que recabamos:</strong> Nombre completo, edad, número de WhatsApp, correo electrónico y datos de planificación financiera proporcionados voluntariamente.</p>
+      <p><strong>Finalidad:</strong> Sus datos serán utilizados exclusivamente para contactarle y proporcionarle información sobre planificación financiera, planes personales de retiro y productos de protección patrimonial. No serán compartidos con terceros no vinculados a este servicio.</p>
+      <p><strong>Derechos ARCO:</strong> Usted tiene derecho a Acceder, Rectificar, Cancelar u Oponerse al tratamiento de sus datos. Para ejercerlos, contáctenos directamente por WhatsApp.</p>
+      <p><strong>Consentimiento:</strong> Al proporcionar sus datos y calcular su proyección, otorga su consentimiento expreso para el tratamiento descrito.</p>
+    </div>
+    <button class="modal-close" onclick="closePrivacy()">Entendido</button>
+  </div>
+</div>
+
+<script>
+  /* ══════════════════════════════════════════════════════
+     CONFIGURACIÓN — editar solo estos valores si cambian
+  ══════════════════════════════════════════════════════ */
+  const WA_NUMBER  = '529933205649';
+  const SHEETS_URL = 'https://script.google.com/macros/s/AKfycbxeXclcuGh2_wigM5ZI5r93nNyHbXbYsqBXhzR-3-CyZq4FxaoqC5jGr5apoFjtV5mOwg/exec';
+
+  /* ══════════════════════════════════════════════════════════════════
+     TASAS ALLIANZ — Actualizar mensualmente con el portal oficial
+     Fuente: allianz.com.mx/servicios/consultas/rendimientos.html
+     Sección: OptiMaxx plus y educación
+     Última actualización: Mayo 2025
+  ══════════════════════════════════════════════════════════════════ */
+
+  // Conservador en Pesos → columna "Moneda Nacional · Conservador · 12M"
+  const ALLIANZ_MXN_RATE = 0.0672;   // 6.72 %
+
+  // Conservador Dolarizado → columna "Dólares · Conservador · 12M" (en USD)
+  const ALLIANZ_USD_RATE = 0.0333;   // 3.33 % USD
+
+  // Depreciación histórica promedio anual del peso vs dólar
+  // Revisar si el entorno cambia de forma estructural
+  const PESO_DEPRECIATION = 0.05;    // 5.00 % anual
+
+  // Tasa combinada en MXN = (1 + rendUSD) × (1 + depreciaciónPeso) − 1
+  const ALLIANZ_DOLARIZADO_MXN = (1 + ALLIANZ_USD_RATE) * (1 + PESO_DEPRECIATION) - 1;
+  // Resultado actual: ~8.50 % MXN
+
+  /* ══════════════════════════════════════════════════════════════════ */
+
+  // ── Parámetros del producto OptiMaxx Plus ─────────────────────────────────
+  // Inflación: INPC México oficial que usa Allianz en su simulador
+  const INFLATION_RATE    = 0.04;    // Topado al 4% (puede ser menor en años favorables)
+  // Cargo Gestión de Inversión: 0.1% mensual (aplicado sobre saldo)
+  const CARGO_GESTION     = 0.001;
+  // Cargo Administrativo: 0.196% trimestral (aplicado sobre saldo)
+  const CARGO_ADMIN       = 0.00196;
+  // ──────────────────────────────────────────────────────────────────────────
+
+  let chartInst = null;
+  const mxn = v => new Intl.NumberFormat('es-MX',{style:'currency',currency:'MXN',maximumFractionDigits:0}).format(v);
+
+  // Inyectar tasas Allianz en las tarjetas de portafolio al cargar
+  (function initAllianzRates() {
+    // Conservador en Pesos (p7)
+    const p7 = document.getElementById('p7');
+    p7.dataset.calcRate = String(ALLIANZ_MXN_RATE);
+    document.getElementById('mxnRateDisplay').textContent =
+      (ALLIANZ_MXN_RATE * 100).toFixed(2) + '% anual';
+
+    // Conservador Dolarizado (p6)
+    const p6 = document.getElementById('p6');
+    p6.dataset.calcRate = String(ALLIANZ_DOLARIZADO_MXN);
+    document.getElementById('usdRateDisplay').textContent =
+      (ALLIANZ_USD_RATE * 100).toFixed(2) + '% USD';
+    document.getElementById('usdRateMXN').textContent =
+      '~' + (ALLIANZ_DOLARIZADO_MXN * 100).toFixed(2) + '% MXN';
+  })();
+
+  /* ── PORTFOLIO SELECTION ── */
+  function onPort(id) {
+    const el  = document.getElementById(id);
+    const cap = el.dataset.capped === 'true';
+    const notice = document.getElementById('capNoticeSel');
+    if (cap) {
+      document.getElementById('capHistRateSel').textContent = el.dataset.histRate;
+      notice.classList.add('show');
+    } else {
+      notice.classList.remove('show');
+    }
+  }
+
+  function getPort() {
+    const el = document.querySelector('input[name="portafolio"]:checked');
+    if (!el) return null;
+    return {
+      name:     el.value,
+      calcRate: parseFloat(el.dataset.calcRate),
+      capped:   el.dataset.capped === 'true',
+      histRate: el.dataset.histRate || null
+    };
+  }
+
+  /* ── BONO DE FIDELIDAD ── */
+  function getBono(monthly, years) {
+    const annual = monthly * 12;
+    let bracket;
+    if      (years >= 15) bracket = 2;
+    else if (years >= 10) bracket = 1;
+    else if (years >= 5)  bracket = 0;
+    else return { pct: 0, amount: 0 };
+
+    const table = [
+      [90000, [0.35, 0.60, 1.00]],
+      [60000, [0.25, 0.50, 0.75]],
+      [36000, [0.15, 0.40, 0.65]],
+      [12000, [0.05, 0.30, 0.55]],
+    ];
+    for (const [thresh, rates] of table) {
+      if (annual >= thresh) {
+        const bonoPct = rates[bracket];
+        return { pct: bonoPct, amount: annual * bonoPct };
+      }
+    }
+    return { pct: 0, amount: 0 };
+  }
+
+    /* ══════════════════════════════════════════════════════════════════════
+     SIMULACIÓN MES A MES — Metodología exacta Allianz OptiMaxx Plus
+     Replica la pestaña "Proyeccion_Extendida" del simulador oficial:
+       · Inflación INPC 4.987% sobre aportaciones
+       · Bono en 12 pagos mensuales iguales (primer año)
+       · Cargo Gestión: 0.1%/mes sobre saldo
+       · Cargo Admin:   0.196%/trimestre sobre saldo
+  ══════════════════════════════════════════════════════════════════════ */
+  function simular(monthlyBase, annualRate, years, bonoAmt, useInflation) {
+    const monthlyRate = annualRate / 12;
+    let balance      = 0;
+    let totalContrib = 0;
+    const annualSnaps = [];
+
+    // Bono distribuido en 12 mensualidades iguales (primer año)
+    const bonoMonthly = bonoAmt / 12;
+
+    for (let month = 1; month <= years * 12; month++) {
+      const yearNum = Math.ceil(month / 12);
+
+      // Aportación mensual (crece con INPC si está activado)
+      const payment = useInflation
+        ? monthlyBase * Math.pow(1 + INFLATION_RATE, yearNum - 1)
+        : monthlyBase;
+
+      // Bono: cuota mensual durante los primeros 12 meses
+      const bonoThisMonth = month <= 12 ? bonoMonthly : 0;
+
+      // Rendimiento sobre saldo + bono + aportación
+      balance = (balance + bonoThisMonth) * (1 + monthlyRate) + payment;
+
+      // Cargo Gestión de Inversión (mensual)
+      balance -= balance * CARGO_GESTION;
+
+      // Cargo Administrativo (trimestral)
+      if (month % 3 === 0) {
+        balance -= balance * CARGO_ADMIN;
+      }
+
+      totalContrib += payment;
+
+      if (month % 12 === 0) {
+        annualSnaps.push({
+          year:        yearNum,
+          balance:     Math.round(balance),
+          totalContrib: Math.round(totalContrib)
+        });
+      }
+    }
+
+    return { finalBalance: balance, totalContrib, annualSnaps };
+  }
+
+  /* ── VALIDATION ── */
+  function setErr(id, show) {
+    document.getElementById('err-' + id).classList.toggle('show', show);
+    const el = document.getElementById(id);
+    if (el) el.classList.toggle('field-error', show);
+  }
+
+  function validate() {
+    let ok = true;
+    const n = document.getElementById('nombre').value.trim();
+    setErr('nombre', !n); if (!n) ok = false;
+    const e = parseInt(document.getElementById('edad').value);
+    const eOk = !isNaN(e) && e >= 18 && e <= 64;
+    setErr('edad', !eOk); if (!eOk) ok = false;
+    const w = document.getElementById('whatsapp').value.trim();
+    const wOk = /^\d{10}$/.test(w);
+    setErr('whatsapp', !wOk); if (!wOk) ok = false;
+    const a = parseFloat(document.getElementById('aportacion').value);
+    const aOk = !isNaN(a) && a >= 2000;
+    setErr('aportacion', !aOk); if (!aOk) ok = false;
+    const p = getPort();
+    setErr('portafolio', !p); if (!p) ok = false;
+    const pr = document.getElementById('privacy').checked;
+    setErr('privacy', !pr); if (!pr) ok = false;
+    return ok;
+  }
+
+  /* ── LEAD CAPTURE — envío ANTES de mostrar resultados ── */
+  function sendLead(data) {
+    // Fire-and-forget: el request se envía inmediatamente
+    // El delay de 1s antes de mostrar resultados garantiza
+    // que Google Sheets recibe el dato antes de que el usuario vea la proyección
+    fetch(SHEETS_URL, {
+      method:  'POST',
+      mode:    'no-cors',
+      headers: { 'Content-Type': 'application/json' },
+      body:    JSON.stringify(data)
+    }).catch(() => {});
+  }
+
+  /* ── CÁLCULO PRINCIPAL ── */
+  async function calcular() {
+    if (!validate()) return;
+
+    const btn = document.getElementById('btnCalc');
+    btn.disabled = true;
+    btn.classList.add('loading');
+    btn.textContent = 'Guardando tu información...';
+
+    const nombre      = document.getElementById('nombre').value.trim();
+    const edad        = parseInt(document.getElementById('edad').value);
+    const wa          = document.getElementById('whatsapp').value.trim();
+    const email       = document.getElementById('email').value.trim();
+    const aportacion  = parseFloat(document.getElementById('aportacion').value);
+    const port        = getPort();
+    const useInflation = document.getElementById('inflToggle').checked;
+    const years       = 65 - edad;
+
+    // ① ENVIAR LEAD PRIMERO
+    sendLead({
+      nombre,
+      edad,
+      whatsapp:   '+52' + wa,
+      email,
+      aportacion,
+      portafolio: port.name,
+      inflacion:  useInflation ? 'Sí' : 'No'
+    });
+
+    // ② ESPERA 1 SEGUNDO (garantiza que el lead llega a Sheets antes de mostrar resultados)
+    await new Promise(r => setTimeout(r, 1000));
+    btn.textContent = 'Calculando proyección...';
+
+    // ③ CALCULAR
+    const bono = getBono(aportacion, years);
+    const sim  = simular(aportacion, port.calcRate, years, bono.amount, useInflation);
+
+    const totalFV    = sim.finalBalance;
+    const totalAp    = sim.totalContrib;
+    const ganancia   = totalFV - totalAp;
+    // Bono al retiro: diferencia entre sim con bono y sim sin bono
+    const simSinBono = simular(aportacion, port.calcRate, years, 0, useInflation);
+    const bonoFV     = totalFV - simSinBono.finalBalance;
+
+    // ④ POBLAR RESULTADOS
+    document.getElementById('res-nombre').textContent    = nombre;
+    document.getElementById('res-portfolio').textContent = port.name;
+
+    document.getElementById('res-aportado').textContent  = mxn(totalAp);
+    document.getElementById('res-total').textContent     = mxn(totalFV);
+    document.getElementById('res-ganancia').textContent  = mxn(ganancia);
+    const pension = totalFV / 20 / 12;
+    document.getElementById('res-pension').textContent     = mxn(pension);
+
+    document.getElementById('bonoAmount').textContent = mxn(bono.amount);
+    document.getElementById('bonoPct').textContent    = (bono.pct * 100).toFixed(0) + '%';
+    document.getElementById('bonoFV').textContent     = mxn(bonoFV);
+    document.getElementById('bonoBanner').style.display = bono.amount > 0 ? 'flex' : 'none';
+
+    const capRes = document.getElementById('capNoticeRes');
+    if (port.capped) {
+      document.getElementById('capHistRateRes').textContent = port.histRate;
+      capRes.classList.add('show');
+    } else {
+      capRes.classList.remove('show');
+    }
+    document.getElementById('inflNoticeRes').classList.toggle('show', useInflation);
+
+    const msg = encodeURIComponent(
+      'Hola Omar, acabo de calcular mi proyección de retiro en tu herramienta. ' +
+      'Soy ' + nombre + ', tengo ' + edad + ' años y me gustaría agendar una asesoría personalizada.'
+    );
+    document.getElementById('waLink').href = 'https://wa.me/' + WA_NUMBER + '?text=' + msg;
+
+    // ⑤ GRÁFICA — usa snapshots anuales de la simulación
+    renderChart(sim.annualSnaps);
+
+    // ⑥ MOSTRAR RESULTADOS
+    document.getElementById('results').classList.add('show');
+    document.getElementById('results').scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+    btn.disabled = false;
+    btn.classList.remove('loading');
+    btn.textContent = 'Ver mi proyección al retiro →';
+  }
+
+  /* ── GRÁFICA ── */
+  function renderChart(snaps) {
+    if (chartInst) chartInst.destroy();
+    const labels    = snaps.map(s => 'Año ' + s.year);
+    const contrib   = snaps.map(s => s.totalContrib);
+    const projected = snaps.map(s => s.balance);
+
+    if (labels[0]) labels[0] = 'Año 1';
+
+    const ctx = document.getElementById('myChart').getContext('2d');
+    chartInst = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels,
+        datasets: [
+          {
+            label:           'Valor proyectado (con bono)',
+            data:            projected,
+            borderColor:     '#c9a84c',
+            backgroundColor: 'rgba(201,168,76,0.08)',
+            fill: true, tension: 0.4, borderWidth: 2,
+            pointRadius: 2, pointBackgroundColor: '#c9a84c'
+          },
+          {
+            label:           'Total aportado',
+            data:            contrib,
+            borderColor:     '#3b82f6',
+            backgroundColor: 'rgba(59,130,246,0.04)',
+            fill: true, tension: 0.4, borderWidth: 2,
+            pointRadius: 2, pointBackgroundColor: '#3b82f6'
+          }
+        ]
+      },
+      options: {
+        responsive: true, maintainAspectRatio: true,
+        plugins: {
+          legend: {
+            position: 'bottom',
+            labels: { color: '#94a3b8', font: { family: 'Outfit', size: 11 }, padding: 16, usePointStyle: true }
+          },
+          tooltip: {
+            backgroundColor: '#1a2540', titleColor: '#f1f5f9', bodyColor: '#94a3b8',
+            borderColor: 'rgba(255,255,255,0.08)', borderWidth: 1,
+            callbacks: { label: c => ' ' + c.dataset.label + ': ' + mxn(c.raw) }
+          }
+        },
+        scales: {
+          x: {
+            ticks: { color: '#64748b', font: { family: 'Outfit', size: 11 }, maxTicksLimit: 8 },
+            grid:  { color: 'rgba(255,255,255,0.04)' }
+          },
+          y: {
+            ticks: {
+              color: '#64748b', font: { family: 'Outfit', size: 11 },
+              callback: v => v >= 1e6 ? '$' + (v/1e6).toFixed(1) + 'M'
+                           : v >= 1e3 ? '$' + (v/1e3).toFixed(0) + 'k'
+                           : '$' + v
+            },
+            grid: { color: 'rgba(255,255,255,0.04)' }
+          }
+        }
+      }
+    });
+  }
+
+  /* ── RESET ── */
+  function resetForm() {
+    document.getElementById('results').classList.remove('show');
+    document.getElementById('capNoticeSel').classList.remove('show');
+    ['nombre','edad','whatsapp','email','aportacion'].forEach(id => document.getElementById(id).value = '');
+    document.querySelectorAll('input[name="portafolio"]').forEach(r => r.checked = false);
+    document.getElementById('privacy').checked = false;
+    document.getElementById('inflToggle').checked = false;
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  /* ── MODAL ── */
+  function openPrivacy()  { document.getElementById('privModal').classList.add('show'); document.body.style.overflow = 'hidden'; }
+  function closePrivacy() { document.getElementById('privModal').classList.remove('show'); document.body.style.overflow = ''; }
+  function closeOutside(e){ if (e.target === document.getElementById('privModal')) closePrivacy(); }
+</script>
+
+</body>
+</html>
