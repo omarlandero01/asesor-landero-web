@@ -168,6 +168,14 @@
     .footer{text-align:center;padding:22px 20px 32px;font-size:12px;color:var(--text-dim);border-top:1px solid var(--border);margin-top:20px;}
 
     @media(max-width:400px){.form-row{grid-template-columns:1fr;}.metrics{grid-template-columns:1fr;}.bono-fv{display:none;}}
+
+    .p-info-btn{display:inline-flex;align-items:center;gap:5px;margin-top:6px;font-size:11px;color:var(--text-dim);cursor:pointer;user-select:none;transition:color 0.2s;background:none;border:none;padding:0;font-family:'Outfit',sans-serif;}
+    .p-info-btn:hover{color:var(--gold);}
+    .p-desc-wrap{max-height:0;overflow:hidden;transition:max-height 0.35s ease;}
+    .p-desc-wrap.open{max-height:400px;}
+    .p-desc-box{background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.15);border-radius:var(--radius-sm);padding:12px 14px;margin-top:8px;}
+    .p-desc-type{font-size:10px;font-weight:700;color:var(--gold);letter-spacing:1px;text-transform:uppercase;margin-bottom:6px;}
+    .p-desc-text{font-size:12px;color:var(--text-muted);line-height:1.7;}
   </style>
 </head>
 <body>
@@ -275,6 +283,15 @@
                   <div class="p-risk">Riesgo Alto</div>
                 </div>
               </label>
+              <div class="p-info-btn" onclick="toggleDesc(event,'p1')">
+                <span>＋ ¿Qué hay dentro de este portafolio?</span>
+              </div>
+              <div class="p-desc-wrap" id="desc-p1">
+                <div class="p-desc-box">
+                  <div class="p-desc-type">📊 Renta Variable</div>
+                  <div class="p-desc-text">Invierte en las 500 empresas más grandes de Estados Unidos, distribuidas en los 11 sectores de la economía: tecnología, salud, finanzas, consumo, energía, industria, bienes raíces y más. A diferencia del portafolio tecnológico, ningún sector domina — es la economía estadounidense completa en un solo instrumento. Incluye empresas como Apple, Microsoft, JPMorgan, Johnson & Johnson y ExxonMobil. Su valor fluctúa con el mercado, pero históricamente ha sido uno de los instrumentos de mayor rendimiento sostenido a largo plazo.</div>
+                </div>
+              </div>
             </div>
 
             <div class="p-option">
@@ -290,6 +307,15 @@
                   <div class="p-risk">Riesgo Muy Alto</div>
                 </div>
               </label>
+              <div class="p-info-btn" onclick="toggleDesc(event,'p2')">
+                <span>＋ ¿Qué hay dentro de este portafolio?</span>
+              </div>
+              <div class="p-desc-wrap" id="desc-p2">
+                <div class="p-desc-box">
+                  <div class="p-desc-type">📊 Renta Variable — Mayor potencial, mayor volatilidad</div>
+                  <div class="p-desc-text">Replica el índice Nasdaq 100, concentrado en las 100 empresas tecnológicas y de innovación más grandes del mundo: Nvidia, Apple, Meta, Tesla, entre otras. Tiene mayor potencial de crecimiento que el S&P 500 pero también mayores oscilaciones en el corto plazo. Ideal para horizontes de largo plazo y tolerancia al riesgo alta.</div>
+                </div>
+              </div>
             </div>
 
             <div class="p-option">
@@ -301,6 +327,15 @@
                 <div class="p-info"><div class="p-name">Diversificado Mundial</div><div class="p-inst">MSCI ACWI</div></div>
                 <div class="p-right"><div class="p-rate">11% anual</div><div class="p-risk">Riesgo Moderado-Alto</div></div>
               </label>
+              <div class="p-info-btn" onclick="toggleDesc(event,'p3')">
+                <span>＋ ¿Qué hay dentro de este portafolio?</span>
+              </div>
+              <div class="p-desc-wrap" id="desc-p3">
+                <div class="p-desc-box">
+                  <div class="p-desc-type">📊 Renta Variable Global</div>
+                  <div class="p-desc-text">Invierte en más de 2,900 empresas de 47 países — mercados desarrollados como Estados Unidos, Europa y Japón, y mercados emergentes como México, Brasil e India. La diversificación geográfica reduce la exposición a cualquier economía en particular. Es la opción de renta variable más diversificada del portafolio.</div>
+                </div>
+              </div>
             </div>
 
             <div class="p-option">
@@ -312,17 +347,35 @@
                 <div class="p-info"><div class="p-name">Oro</div><div class="p-inst">iShares Gold Trust</div></div>
                 <div class="p-right"><div class="p-rate">10% anual</div><div class="p-risk">Riesgo Moderado</div></div>
               </label>
+              <div class="p-info-btn" onclick="toggleDesc(event,'p4')">
+                <span>＋ ¿Qué hay dentro de este portafolio?</span>
+              </div>
+              <div class="p-desc-wrap" id="desc-p4">
+                <div class="p-desc-box">
+                  <div class="p-desc-type">🪙 Activo Real — Reserva de valor</div>
+                  <div class="p-desc-text">Invierte en oro físico respaldado por lingotes reales almacenados en bóvedas. El oro no paga dividendos — su función principal es proteger tu poder adquisitivo ante inflación, crisis económicas y devaluaciones monetarias. Históricamente actúa como refugio cuando otros mercados caen.</div>
+                </div>
+              </div>
             </div>
 
             <div class="p-option">
               <input type="radio" name="portafolio" id="p5"
                 value="Portafolio Anti-Inflación"
-                data-calc-rate="0.07" data-capped="false">
+                data-calc-rate="0" data-capped="false">
               <label class="p-label" for="p5" onclick="onPort('p5')">
                 <span class="p-dot" style="background:#059669"></span>
                 <div class="p-info"><div class="p-name">Anti-Inflación</div><div class="p-inst">UDIS – Pesos Reevaluables</div></div>
-                <div class="p-right"><div class="p-rate">7% anual</div><div class="p-risk">Riesgo Bajo-Moderado</div></div>
+                <div class="p-right"><div class="p-rate" id="udisRateDisplay">—% anual</div><div class="p-live-badge" style="background:rgba(16,185,129,0.12);color:#10b981;border-color:rgba(16,185,129,0.25);">Tasa Allianz vigente</div><div class="p-risk">Riesgo Bajo-Moderado</div></div>
               </label>
+              <div class="p-info-btn" onclick="toggleDesc(event,'p5')">
+                <span>＋ ¿Qué hay dentro de este portafolio?</span>
+              </div>
+              <div class="p-desc-wrap" id="desc-p5">
+                <div class="p-desc-box">
+                  <div class="p-desc-type">🔒 Renta Fija — Protección contra la inflación</div>
+                  <div class="p-desc-text">Las UDIS (Unidades de Inversión) son una unidad de valor creada por Banco de México que se ajusta al ritmo de la inflación. Invertir aquí significa que tu dinero crece junto con el costo de vida — lo que ahorres hoy conserva su valor real con el tiempo. No es un instrumento de alto crecimiento; es estabilidad y protección del poder adquisitivo a largo plazo.</div>
+                </div>
+              </div>
             </div>
 
             <div class="p-option">
@@ -331,7 +384,7 @@
                 data-calc-rate="0" data-capped="false">
               <label class="p-label" for="p6" onclick="onPort('p6')">
                 <span class="p-dot" style="background:#0369a1"></span>
-                <div class="p-info"><div class="p-name">Conservador Dolarizado</div><div class="p-inst">Alternativa Allianz · Conservador USD</div></div>
+                <div class="p-info"><div class="p-name">Conservador Dolarizado</div><div class="p-inst">Conservador USD</div></div>
                 <div class="p-right">
                   <div class="p-rate" id="usdRateDisplay">—% USD</div>
                   <div class="p-cap-badge" id="usdRateMXN" style="background:rgba(59,130,246,0.12);color:#60a5fa;border-color:rgba(59,130,246,0.25);">~—% MXN</div>
@@ -339,6 +392,15 @@
                   <div class="p-risk">Riesgo Bajo</div>
                 </div>
               </label>
+              <div class="p-info-btn" onclick="toggleDesc(event,'p6')">
+                <span>＋ ¿Qué hay dentro de este portafolio?</span>
+              </div>
+              <div class="p-desc-wrap" id="desc-p6">
+                <div class="p-desc-box">
+                  <div class="p-desc-type">🔒 Renta Fija en Dólares Americanos</div>
+                  <div class="p-desc-text">El 100% se invierte en instrumentos gubernamentales de deuda en dólares americanos con vencimientos máximos de 5 años y alta calidad crediticia (mínimo S&P mxAA). Combina la estabilidad de la renta fija con la cobertura cambiaria del dólar — si el peso se deprecia, el valor de tu inversión en pesos sube proporcionalmente.</div>
+                </div>
+              </div>
             </div>
 
             <div class="p-option">
@@ -347,13 +409,22 @@
                 data-calc-rate="0" data-capped="false">
               <label class="p-label" for="p7" onclick="onPort('p7')">
                 <span class="p-dot" style="background:#047857"></span>
-                <div class="p-info"><div class="p-name">Conservador en Pesos</div><div class="p-inst">Alternativa Allianz · Conservador MXN</div></div>
+                <div class="p-info"><div class="p-name">Conservador en Pesos</div><div class="p-inst">Conservador MXN</div></div>
                 <div class="p-right">
                   <div class="p-rate" id="mxnRateDisplay">—% anual</div>
                   <div class="p-live-badge">Tasa Allianz vigente</div>
                   <div class="p-risk">Riesgo Bajo</div>
                 </div>
               </label>
+              <div class="p-info-btn" onclick="toggleDesc(event,'p7')">
+                <span>＋ ¿Qué hay dentro de este portafolio?</span>
+              </div>
+              <div class="p-desc-wrap" id="desc-p7">
+                <div class="p-desc-box">
+                  <div class="p-desc-type">🔒 Renta Fija en Pesos Mexicanos</div>
+                  <div class="p-desc-text">El 100% del portafolio se invierte en instrumentos de deuda en pesos mexicanos con vencimientos máximos de 5 años y alta calidad crediticia (mínimo S&P mxAA). Incluye principalmente deuda gubernamental y hasta un 30% en instrumentos privados de alta calificación. La duración máxima no excede 2 años, lo que le da estabilidad ante cambios en tasas de interés. Rendimientos predecibles y riesgo muy bajo.</div>
+                </div>
+              </div>
             </div>
 
           </div>
@@ -408,6 +479,18 @@
       <div class="res-head">
         <div class="res-label" id="res-nombre">—</div>
         <div class="res-portfolio" id="res-portfolio">—</div>
+        <div id="res-desc-container" style="display:none;margin-top:10px;">
+          <button class="p-info-btn" style="margin:0 auto;" onclick="toggleResDesc(event)">
+            <span id="res-desc-icon">＋</span>
+            <span>¿Qué hay dentro de este portafolio?</span>
+          </button>
+          <div class="p-desc-wrap" id="res-desc-wrap">
+            <div class="p-desc-box" style="margin-top:8px;">
+              <div class="p-desc-type" id="res-desc-type">—</div>
+              <div class="p-desc-text" id="res-desc-text">—</div>
+            </div>
+          </div>
+        </div>
 
       </div>
       <div class="metrics">
@@ -482,6 +565,9 @@
      Última actualización: Mayo 2025
   ══════════════════════════════════════════════════════════════════ */
 
+  // UDIS / AZ Revaluables (12M rendimiento anualizado Allianz — actualizar mensualmente)
+  const UDIS_RATE = 0.0847;   // 8.47 % — fuente: allianz.com.mx/servicios/consultas/rendimientos.html
+
   // Conservador en Pesos → columna "Moneda Nacional · Conservador · 12M"
   const ALLIANZ_MXN_RATE = 0.0672;   // 6.72 %
 
@@ -498,6 +584,18 @@
 
   /* ══════════════════════════════════════════════════════════════════ */
 
+
+  // Portfolio descriptions for results section
+  const PORT_DESCS = {
+    'p1': {tipo:'📊 Renta Variable', texto:'Invierte en las 500 empresas más grandes de Estados Unidos, distribuidas en los 11 sectores de la economía: tecnología, salud, finanzas, consumo, energía, industria, bienes raíces y más. A diferencia del portafolio tecnológico, ningún sector domina — es la economía estadounidense completa en un solo instrumento. Incluye empresas como Apple, Microsoft, JPMorgan, Johnson & Johnson y ExxonMobil. Su valor fluctúa con el mercado, pero históricamente ha sido uno de los instrumentos de mayor rendimiento sostenido a largo plazo.'},
+    'p2': {tipo:'📊 Renta Variable — Mayor potencial, mayor volatilidad', texto:'Replica el índice Nasdaq 100, concentrado en las 100 empresas tecnológicas y de innovación más grandes del mundo: Nvidia, Apple, Meta, Tesla, entre otras. Tiene mayor potencial de crecimiento que el S&P 500 pero también mayores oscilaciones en el corto plazo. Ideal para horizontes de largo plazo y tolerancia al riesgo alta.'},
+    'p3': {tipo:'📊 Renta Variable Global', texto:'Invierte en más de 2,900 empresas de 47 países — mercados desarrollados como Estados Unidos, Europa y Japón, y mercados emergentes como México, Brasil e India. La diversificación geográfica reduce la exposición a cualquier economía en particular. Es la opción de renta variable más diversificada del portafolio.'},
+    'p4': {tipo:'🪙 Activo Real — Reserva de valor', texto:'Invierte en oro físico respaldado por lingotes reales almacenados en bóvedas. El oro no paga dividendos — su función principal es proteger tu poder adquisitivo ante inflación, crisis económicas y devaluaciones monetarias. Históricamente actúa como refugio cuando otros mercados caen.'},
+    'p5': {tipo:'🔒 Renta Fija — Protección contra la inflación', texto:'Las UDIS (Unidades de Inversión) son una unidad de valor creada por Banco de México que se ajusta al ritmo de la inflación. Invertir aquí significa que tu dinero crece junto con el costo de vida — lo que ahorres hoy conserva su valor real con el tiempo. No es un instrumento de alto crecimiento; es estabilidad y protección del poder adquisitivo a largo plazo.'},
+    'p6': {tipo:'🔒 Renta Fija en Dólares Americanos', texto:'El 100% se invierte en instrumentos gubernamentales de deuda en dólares americanos con vencimientos máximos de 5 años y alta calidad crediticia (mínimo S&P mxAA). Combina la estabilidad de la renta fija con la cobertura cambiaria del dólar — si el peso se deprecia, el valor de tu inversión en pesos sube proporcionalmente.'},
+    'p7': {tipo:'🔒 Renta Fija en Pesos Mexicanos', texto:'El 100% del portafolio se invierte en instrumentos de deuda en pesos mexicanos con vencimientos máximos de 5 años y alta calidad crediticia (mínimo S&P mxAA). Incluye principalmente deuda gubernamental y hasta un 30% en instrumentos privados de alta calificación. La duración máxima no excede 2 años, lo que le da estabilidad ante cambios en tasas de interés. Rendimientos predecibles y riesgo muy bajo.'},
+  };
+
   // ── Parámetros del producto OptiMaxx Plus ─────────────────────────────────
   // Inflación: INPC México oficial que usa Allianz en su simulador
   const INFLATION_RATE    = 0.04;    // Topado al 4% (puede ser menor en años favorables)
@@ -512,6 +610,12 @@
 
   // Inyectar tasas Allianz en las tarjetas de portafolio al cargar
   (function initAllianzRates() {
+    // UDIS / AZ Revaluables (p5)
+    const p5 = document.getElementById('p5');
+    p5.dataset.calcRate = String(UDIS_RATE);
+    document.getElementById('udisRateDisplay').textContent =
+      (UDIS_RATE * 100).toFixed(2) + '% anual';
+
     // Conservador en Pesos (p7)
     const p7 = document.getElementById('p7');
     p7.dataset.calcRate = String(ALLIANZ_MXN_RATE);
@@ -715,6 +819,21 @@
     // ④ POBLAR RESULTADOS
     document.getElementById('res-nombre').textContent    = nombre;
     document.getElementById('res-portfolio').textContent = port.name;
+    // Populate description in results
+    const portEl = document.querySelector('input[name="portafolio"]:checked');
+    const portId  = portEl ? portEl.id : null;
+    const descData = portId && PORT_DESCS[portId] ? PORT_DESCS[portId] : null;
+    const resDescContainer = document.getElementById('res-desc-container');
+    if (descData) {
+      document.getElementById('res-desc-type').textContent = descData.tipo;
+      document.getElementById('res-desc-text').textContent = descData.texto;
+      resDescContainer.style.display = 'block';
+      // Reset state
+      document.getElementById('res-desc-wrap').classList.remove('open');
+      document.getElementById('res-desc-icon').textContent = '＋';
+    } else {
+      resDescContainer.style.display = 'none';
+    }
 
     document.getElementById('res-aportado').textContent  = mxn(totalAp);
     document.getElementById('res-total').textContent     = mxn(totalFV);
@@ -831,6 +950,22 @@
   }
 
   /* ── MODAL ── */
+  function toggleResDesc(e) {
+    e.stopPropagation();
+    const wrap = document.getElementById('res-desc-wrap');
+    const icon = document.getElementById('res-desc-icon');
+    const isOpen = wrap.classList.toggle('open');
+    icon.textContent = isOpen ? '－' : '＋';
+  }
+
+  function toggleDesc(e, pid) {
+    e.stopPropagation();
+    const wrap = document.getElementById('desc-' + pid);
+    const btn  = wrap.previousElementSibling;
+    const isOpen = wrap.classList.toggle('open');
+    btn.querySelector('span:first-child').textContent = isOpen ? '－' : '＋';
+  }
+
   function openPrivacy()  { document.getElementById('privModal').classList.add('show'); document.body.style.overflow = 'hidden'; }
   function closePrivacy() { document.getElementById('privModal').classList.remove('show'); document.body.style.overflow = ''; }
   function closeOutside(e){ if (e.target === document.getElementById('privModal')) closePrivacy(); }
