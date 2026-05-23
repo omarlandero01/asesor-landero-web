@@ -8,24 +8,26 @@
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
     :root{
-      --bg:#09101f;--surface:#111827;--surface2:#1a2540;
+      --bg:#0F153F;--surface:#1a2258;--surface2:#1e2a6a;
       --gold:#c9a84c;--gold-dim:rgba(201,168,76,0.12);
       --mujer:#ec4899;--mujer-dim:rgba(236,72,153,0.12);
       --hombre:#3b82f6;--hombre-dim:rgba(59,130,246,0.12);
       --text:#f1f5f9;--text-muted:#94a3b8;--text-dim:#64748b;
-      --border:rgba(255,255,255,0.07);--error:#ef4444;
+      --border:rgba(255,255,255,0.09);--error:#ef4444;
       --radius:16px;--radius-sm:10px;
     }
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
     html{scroll-behavior:smooth;}
     body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;line-height:1.6;-webkit-font-smoothing:antialiased;}
 
-    .header{position:sticky;top:0;z-index:100;background:rgba(9,16,31,0.92);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:14px 20px;}
+    .header{position:sticky;top:0;z-index:100;background:rgba(15,21,63,0.95);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:14px 20px;}
     .header-inner{max-width:660px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;}
     .logo-main{font-size:17px;font-weight:700;letter-spacing:-0.3px;}
     .logo-main span{color:var(--gold);}
     .logo-sub{font-size:10px;color:var(--text-muted);letter-spacing:2px;text-transform:uppercase;margin-top:2px;}
-    .header-badge{font-size:11px;background:var(--gold-dim);color:var(--gold);border:1px solid rgba(201,168,76,0.25);padding:4px 10px;border-radius:20px;font-weight:500;}
+    .logo-img{height:34px;width:34px;object-fit:contain;mix-blend-mode:screen;flex-shrink:0;}
+    .logo-wrap{display:flex;align-items:center;gap:10px;}
+    .header-badge{font-size:11px;background:rgba(255,255,255,0.08);color:#fff;border:1px solid rgba(255,255,255,0.15);padding:5px 12px;border-radius:20px;font-weight:600;letter-spacing:0.3px;white-space:nowrap;}
 
     main{max-width:660px;margin:0 auto;padding:28px 18px 60px;}
 
@@ -181,11 +183,14 @@
 
 <header class="header">
   <div class="header-inner">
-    <div>
-      <div class="logo-main">Asesor <span>Landero</span> Protección</div>
-      <div class="logo-sub">Seguro de Vida</div>
+    <div class="logo-wrap">
+      <img src="/VARIANTE_BLANCO.png" alt="Asesor Landero Protección" class="logo-img">
+      <div>
+        <div class="logo-main">Asesor <span>Landero</span></div>
+        <div class="logo-sub">Protección · Seguro de Vida</div>
+      </div>
     </div>
-    <div class="header-badge">🛡️ OptiMaxx Protección</div>
+    <div class="header-badge">OptiMaxx Protección</div>
   </div>
 </header>
 
