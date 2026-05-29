@@ -464,6 +464,7 @@
 
   // ── LEAD CAPTURE ──────────────────────────────────────────────────────────────
   function sendLead(paquete) {
+        if(typeof fbq!=='undefined') fbq('track','Lead');
     const nombre = document.getElementById('nombre').value.trim();
     const edad   = document.getElementById('edad').value;
     const wa     = document.getElementById('whatsapp').value.trim();
