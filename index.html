@@ -397,5 +397,27 @@ main { padding: 36px 16px 60px; }
 
 </main>
 
-</body>
+<script>
+    // Meta CAPI — Server-side event mirroring
+    function sendMetaEvent(eventName, userData, customData) {
+          var eventId = 'ev_' + Date.now() + '_' + Math.random().toString(36).slice(2, 9);
+          if (typeof fbq === 'function') fbq('track', eventName, customData || {}, { eventID: eventId });
+          fetch('/api/meta-events', {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({ eventName: eventName, eventSourceUrl: window.location.href, userData: userData || {}, customData: customData || {}, eventId: eventId })
+          }).catch(function(e) { console.warn('Meta CAPI:', e); });
+    }
+    sendMetaEvent('PageView');
+    document.addEventListener('DOMContentLoaded', function() {
+          document.querySelectorAll('a[href*="wa.me"], a[href*="whatsapp"]').forEach(function(btn) {
+                  btn.addEventListener('click', function() { sendMetaEvent('Contact', {}, { content_name: 'WhatsApp' }); });
+          });
+          document.querySelectorAll('[href*="calendly"], .tool-card').forEach(function(btn) {
+                  btn.addEventListener('click', function() { sendMetaEvent('ViewContent', {}, { content_name: btn.querySelector('.tool-title') ? btn.querySelector('.tool-title').textContent : 'Tool' }); });
+          });
+    });
+</script>
+  
+</script></body>
 </html>
