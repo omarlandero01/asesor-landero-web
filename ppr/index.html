@@ -219,8 +219,8 @@
     </div>
     <div class="header-badge">OptiMaxx Plus</div>
   </div>
-          <div class="cta-pension-inline" id="ctaPensionInline" style="background:linear-gradient(135deg,rgba(72,199,142,0.12),rgba(72,199,142,0.05));border:1.5px solid rgba(72,199,142,0.35);border-radius:12px;padding:20px 22px;text-align:center;">
-            <p id="ctaPensionText" style="color:#fff;font-size:15px;font-weight:500;margin:0 0 14px;line-height:1.5;">Estas cifras son tuyas. Agenda tu asesor�a gratuita y estructuramos tu plan exacto.</p>
+          <div class="cta-pension-inline" id="ctaPensionInline" style="background:linear-gradient(135deg,rgba(72,199,142,0.12),rgba(72,199,142,0.05));border:1.5px solid rgba(72,199,142,0.35);border-radius:12px;padding:20px 22px;text-align:center;margin-top:4px;">
+            <p id="ctaPensionText" style="color:#fff;font-size:15px;font-weight:500;margin:0 0 14px;line-height:1.5;">Estas cifras son tuyas. Agenda tu asesoría gratuita y estructuramos tu plan exacto.</p>
             <a id="ctaPensionBtn" href="#" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:9px;background:#25D366;color:#fff;font-size:15px;font-weight:700;padding:13px 26px;border-radius:10px;text-decoration:none;">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.118 1.523 5.851L.057 23.899a.5.5 0 0 0 .611.61l6.101-1.457A11.944 11.944 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.5a9.444 9.444 0 0 1-4.83-1.327l-.347-.206-3.593.859.875-3.51-.225-.361A9.445 9.445 0 0 1 2.5 12c0-5.238 4.262-9.5 9.5-9.5s9.5 4.262 9.5 9.5-4.262 9.5-9.5 9.5z"/></svg>
               Quiero este plan &mdash; Hablar con Omar
@@ -566,14 +566,9 @@
       </a>
     </div>
 
-    <div class="disclaimer">
-            <details style="cursor:pointer;">
-              <summary style="font-size:11.5px;color:rgba(255,255,255,0.4);list-style:none;display:flex;align-items:center;gap:6px;"><span style="font-size:13px;">&#9432;</span> Ver aviso legal completo &#9660;</summary>
-              
+    <div class="disclaimer"><details style="cursor:pointer;"><summary style="font-size:11.5px;color:rgba(255,255,255,0.4);list-style:none;display:flex;align-items:center;gap:6px;"><span style="font-size:13px;">&#9432;</span> Ver aviso legal completo &#9660;</summary>
       <strong>⚠️ Aviso importante:</strong> Las proyecciones mostradas son exclusivamente ilustrativas, calculadas mediante la metodología del simulador Allianz OptiMaxx Plus y basadas en rendimientos históricos aproximados en términos nominales en pesos mexicanos. Conforme a la normativa de Allianz México, ninguna proyección supera el 10% de rendimiento anual. Los rendimientos pasados no garantizan resultados futuros. El Bono de Fidelidad está sujeto a permanencia. Las Alternativas de Rendimiento tienen riesgos implícitos; Allianz México no es responsable de minusvalías derivadas de su desempeño. Esta herramienta no constituye una recomendación de inversión.
-    </div>
-            </details>
-          </div>
+    </div></details></div>
 
     <button class="btn-reset" onclick="resetForm()">← Hacer otra proyección</button>
   </div>
@@ -1028,7 +1023,7 @@
   function closeOutside(e){ if (e.target === document.getElementById('privModal')) closePrivacy(); }
 
 
-  // P0-5: Personalizar CTA inline con nombre y pensi�n al mostrar resultados
+  // P0-5: Personalizar CTA inline con nombre y pensión
   (function() {
     const observer = new MutationObserver(function(mutations) {
       mutations.forEach(function(m) {
@@ -1042,7 +1037,7 @@
           const waHref = waLinkEl ? waLinkEl.href : '#';
           const ctaTxt = document.getElementById('ctaPensionText');
           const ctaBtn = document.getElementById('ctaPensionBtn');
-          if(ctaTxt) ctaTxt.textContent = primerNombre + ', tu pensi�n proyectada es ' + pensionFmt + ' al mes. �Arrancamos tu plan?';
+          if(ctaTxt) ctaTxt.textContent = primerNombre + ', tu pensión proyectada es ' + pensionFmt + ' al mes. ¿Arrancamos tu plan?';
           if(ctaBtn) ctaBtn.href = waHref;
         }
       });
