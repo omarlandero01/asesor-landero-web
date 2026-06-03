@@ -558,11 +558,11 @@
     </div>
 
     <div class="cta">
-      <div class="cta-title">Tu retiro empieza hoy,<br>no mañana</div>
-      <div class="cta-sub">Estas cifras son ilustrativas. En una asesoría personalizada estructuramos el plan exacto que se adapta a tu realidad y metas de vida.</div>
+      <div class="cta-title" id="ctaFinalTitle">Tu retiro empieza hoy,<br>no mañana</div>
+      <div class="cta-sub" id="ctaFinalSub">Estas cifras son ilustrativas. En una asesoría personalizada estructuramos el plan exacto que se adapta a tu realidad y metas de vida.</div>
       <a class="btn-wa" id="waLink" href="#" target="_blank" rel="noopener" onclick="if(typeof fbq!=='undefined') fbq('track','Lead');">
         <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-        Agendar asesoría personalizada
+        <span id="waLinkText">Agendar asesoría personalizada</span>
       </a>
     </div>
 
@@ -927,6 +927,313 @@
     if (labels[0]) labels[0] = 'Año 1';
 
     const ctx = document.getElementById('myChart').getContext('2d');
+    Chart.register({
+      id: 'finalCallout',
+      afterDraw(chart) {
+        const ds = chart.data.datasets[0];
+        if(!ds || !ds.data.length) return;
+        const lastIdx = ds.data.length - 1;
+        const meta = chart.getDatasetMeta(0);
+        const pt = meta.data[lastIdx];
+        if(!pt) return;
+        const value = ds.data[lastIdx];
+        const lbl = value >= 1e6 ? '
+      type: 'line',
+      data: {
+        labels,
+        datasets: [
+          {
+            label:           'Valor proyectado (con bono)',
+            data:            projected,
+            borderColor:     '#c9a84c',
+            backgroundColor: 'rgba(201,168,76,0.08)',
+            fill: true, tension: 0.4, borderWidth: 2,
+            pointRadius: 2, pointBackgroundColor: '#c9a84c'
+          },
+          {
+            label:           'Total aportado',
+            data:            contrib,
+            borderColor:     '#3b82f6',
+            backgroundColor: 'rgba(59,130,246,0.04)',
+            fill: true, tension: 0.4, borderWidth: 2,
+            pointRadius: 2, pointBackgroundColor: '#3b82f6'
+          }
+        ]
+      },
+      options: {
+        responsive: true, maintainAspectRatio: true,
+        plugins: {
+          legend: {
+            position: 'bottom',
+            labels: { color: '#94a3b8', font: { family: 'Outfit', size: 11 }, padding: 16, usePointStyle: true }
+          },
+          tooltip: {
+            backgroundColor: '#1a2540', titleColor: '#f1f5f9', bodyColor: '#94a3b8',
+            borderColor: 'rgba(255,255,255,0.08)', borderWidth: 1,
+            callbacks: { label: c => ' ' + c.dataset.label + ': ' + mxn(c.raw) }
+          }
+        },
+        scales: {
+          x: {
+            ticks: { color: '#64748b', font: { family: 'Outfit', size: 11 }, maxTicksLimit: 8 },
+            grid:  { color: 'rgba(255,255,255,0.04)' }
+          },
+          y: {
+            ticks: {
+              color: '#64748b', font: { family: 'Outfit', size: 11 },
+              callback: v => v >= 1e6 ? '$' + (v/1e6).toFixed(1) + 'M'
+                           : v >= 1e3 ? '$' + (v/1e3).toFixed(0) + 'k'
+                           : '$' + v
+            },
+            grid: { color: 'rgba(255,255,255,0.04)' }
+          }
+        }
+      }
+    });
+  }
+
+
+  function toggleOtrosPort(btn) {
+    const wrap = document.getElementById('otrosPortWrap');
+    const isOpen = wrap.classList.toggle('open');
+    btn.classList.toggle('open', isOpen);
+  }
+
+  /* ── RESET ── */
+  function resetForm() {
+    document.getElementById('results').classList.remove('show');
+    document.getElementById('capNoticeSel').classList.remove('show');
+    ['nombre','edad','whatsapp','email','aportacion'].forEach(id => document.getElementById(id).value = '');
+    document.querySelectorAll('input[name="portafolio"]').forEach(r => r.checked = false);
+    document.getElementById('p1').checked = true;
+    document.getElementById('privacy').checked = false;
+    document.getElementById('inflToggle').checked = false;
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  /* ── MODAL ── */
+  function toggleResDesc(e) {
+    e.stopPropagation();
+    const wrap = document.getElementById('res-desc-wrap');
+    const icon = document.getElementById('res-desc-icon');
+    const isOpen = wrap.classList.toggle('open');
+    icon.textContent = isOpen ? '－' : '＋';
+  }
+
+  function toggleDesc(e, pid) {
+    e.stopPropagation();
+    const wrap = document.getElementById('desc-' + pid);
+    const btn  = wrap.previousElementSibling;
+    const isOpen = wrap.classList.toggle('open');
+    btn.querySelector('span:first-child').textContent = isOpen ? '－' : '＋';
+  }
+
+  function openPrivacy()  { document.getElementById('privModal').classList.add('show'); document.body.style.overflow = 'hidden'; }
+  function closePrivacy() { document.getElementById('privModal').classList.remove('show'); document.body.style.overflow = ''; }
+  function closeOutside(e){ if (e.target === document.getElementById('privModal')) closePrivacy(); }
+
+
+  // P0-5: Personalizar CTA inline con nombre y pensión
+  (function() {
+    const observer = new MutationObserver(function(mutations) {
+      mutations.forEach(function(m) {
+        if(m.target.id === 'results' && m.target.classList.contains('show')) {
+          const nombreEl = document.getElementById('res-nombre');
+          const pensionEl = document.getElementById('res-pension');
+          const waLinkEl = document.getElementById('waLink');
+          if(!nombreEl || !pensionEl) return;
+          const primerNombre = nombreEl.textContent.trim().split(' ')[0];
+          const pensionFmt = pensionEl.textContent.trim();
+          const waHref = waLinkEl ? waLinkEl.href : '#';
+          const ctaTxt = document.getElementById('ctaPensionText');
+          const ctaBtn = document.getElementById('ctaPensionBtn');
+          if(ctaTxt) ctaTxt.textContent = primerNombre + ', tu pensi\u00f3n proyectada es ' + pensionFmt + ' al mes. \u00bfArrancamos tu plan?';
+          if(ctaBtn) ctaBtn.href = waHref;
+          // Actualizar CTA final del fondo
+          const ctaFinalTitle = document.getElementById('ctaFinalTitle');
+          const ctaFinalSub   = document.getElementById('ctaFinalSub');
+          const waLinkTxt     = document.getElementById('waLinkText');
+          if(ctaFinalTitle) ctaFinalTitle.textContent = primerNombre + ', tu retiro proyectado es de ' + pensionFmt + ' al mes.';
+          if(ctaFinalSub)   ctaFinalSub.textContent   = '¿Quieres que lo estructuremos juntos?';
+          if(waLinkTxt)     waLinkTxt.textContent      = '📱 Hablar con Omar — sin costo';
+        }
+      });
+    });
+    const resultsEl = document.getElementById('results');
+    if(resultsEl) observer.observe(resultsEl, { attributes: true, attributeFilter: ['class'] });
+  })();
+</script>
+
+<script>
+    function sendMetaEvent(eventName, userData, customData) {
+          var eventId = 'ev_' + Date.now() + '_' + Math.random().toString(36).slice(2, 9);
+          if (typeof fbq === 'function') fbq('track', eventName, customData || {}, { eventID: eventId });
+          fetch('/api/meta-events', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ eventName: eventName, eventSourceUrl: window.location.href, userData: userData || {}, customData: customData || {}, eventId: eventId }) }).catch(function(e) { console.warn('Meta CAPI:', e); });
+    }
+    sendMetaEvent('ViewContent', {}, { content_name: 'Simulador PPR', content_category: 'Retiro' });
+    document.addEventListener('DOMContentLoaded', function() {
+          document.querySelectorAll('a[href*="wa.me"], a[href*="whatsapp"]').forEach(function(btn) {
+                  btn.addEventListener('click', function() { sendMetaEvent('Contact', {}, { content_name: 'WhatsApp PPR' }); });
+          });
+    });
+</script>
+  
+</script></body>
+</html>
+ + (value/1e6).toFixed(1) + 'M' : '
+      type: 'line',
+      data: {
+        labels,
+        datasets: [
+          {
+            label:           'Valor proyectado (con bono)',
+            data:            projected,
+            borderColor:     '#c9a84c',
+            backgroundColor: 'rgba(201,168,76,0.08)',
+            fill: true, tension: 0.4, borderWidth: 2,
+            pointRadius: 2, pointBackgroundColor: '#c9a84c'
+          },
+          {
+            label:           'Total aportado',
+            data:            contrib,
+            borderColor:     '#3b82f6',
+            backgroundColor: 'rgba(59,130,246,0.04)',
+            fill: true, tension: 0.4, borderWidth: 2,
+            pointRadius: 2, pointBackgroundColor: '#3b82f6'
+          }
+        ]
+      },
+      options: {
+        responsive: true, maintainAspectRatio: true,
+        plugins: {
+          legend: {
+            position: 'bottom',
+            labels: { color: '#94a3b8', font: { family: 'Outfit', size: 11 }, padding: 16, usePointStyle: true }
+          },
+          tooltip: {
+            backgroundColor: '#1a2540', titleColor: '#f1f5f9', bodyColor: '#94a3b8',
+            borderColor: 'rgba(255,255,255,0.08)', borderWidth: 1,
+            callbacks: { label: c => ' ' + c.dataset.label + ': ' + mxn(c.raw) }
+          }
+        },
+        scales: {
+          x: {
+            ticks: { color: '#64748b', font: { family: 'Outfit', size: 11 }, maxTicksLimit: 8 },
+            grid:  { color: 'rgba(255,255,255,0.04)' }
+          },
+          y: {
+            ticks: {
+              color: '#64748b', font: { family: 'Outfit', size: 11 },
+              callback: v => v >= 1e6 ? '$' + (v/1e6).toFixed(1) + 'M'
+                           : v >= 1e3 ? '$' + (v/1e3).toFixed(0) + 'k'
+                           : '$' + v
+            },
+            grid: { color: 'rgba(255,255,255,0.04)' }
+          }
+        }
+      }
+    });
+  }
+
+
+  function toggleOtrosPort(btn) {
+    const wrap = document.getElementById('otrosPortWrap');
+    const isOpen = wrap.classList.toggle('open');
+    btn.classList.toggle('open', isOpen);
+  }
+
+  /* ── RESET ── */
+  function resetForm() {
+    document.getElementById('results').classList.remove('show');
+    document.getElementById('capNoticeSel').classList.remove('show');
+    ['nombre','edad','whatsapp','email','aportacion'].forEach(id => document.getElementById(id).value = '');
+    document.querySelectorAll('input[name="portafolio"]').forEach(r => r.checked = false);
+    document.getElementById('p1').checked = true;
+    document.getElementById('privacy').checked = false;
+    document.getElementById('inflToggle').checked = false;
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  /* ── MODAL ── */
+  function toggleResDesc(e) {
+    e.stopPropagation();
+    const wrap = document.getElementById('res-desc-wrap');
+    const icon = document.getElementById('res-desc-icon');
+    const isOpen = wrap.classList.toggle('open');
+    icon.textContent = isOpen ? '－' : '＋';
+  }
+
+  function toggleDesc(e, pid) {
+    e.stopPropagation();
+    const wrap = document.getElementById('desc-' + pid);
+    const btn  = wrap.previousElementSibling;
+    const isOpen = wrap.classList.toggle('open');
+    btn.querySelector('span:first-child').textContent = isOpen ? '－' : '＋';
+  }
+
+  function openPrivacy()  { document.getElementById('privModal').classList.add('show'); document.body.style.overflow = 'hidden'; }
+  function closePrivacy() { document.getElementById('privModal').classList.remove('show'); document.body.style.overflow = ''; }
+  function closeOutside(e){ if (e.target === document.getElementById('privModal')) closePrivacy(); }
+
+
+  // P0-5: Personalizar CTA inline con nombre y pensión
+  (function() {
+    const observer = new MutationObserver(function(mutations) {
+      mutations.forEach(function(m) {
+        if(m.target.id === 'results' && m.target.classList.contains('show')) {
+          const nombreEl = document.getElementById('res-nombre');
+          const pensionEl = document.getElementById('res-pension');
+          const waLinkEl = document.getElementById('waLink');
+          if(!nombreEl || !pensionEl) return;
+          const primerNombre = nombreEl.textContent.trim().split(' ')[0];
+          const pensionFmt = pensionEl.textContent.trim();
+          const waHref = waLinkEl ? waLinkEl.href : '#';
+          const ctaTxt = document.getElementById('ctaPensionText');
+          const ctaBtn = document.getElementById('ctaPensionBtn');
+          if(ctaTxt) ctaTxt.textContent = primerNombre + ', tu pensi\u00f3n proyectada es ' + pensionFmt + ' al mes. \u00bfArrancamos tu plan?';
+          if(ctaBtn) ctaBtn.href = waHref;
+          // Actualizar CTA final del fondo
+          const ctaFinalTitle = document.getElementById('ctaFinalTitle');
+          const ctaFinalSub   = document.getElementById('ctaFinalSub');
+          const waLinkTxt     = document.getElementById('waLinkText');
+          if(ctaFinalTitle) ctaFinalTitle.textContent = primerNombre + ', tu retiro proyectado es de ' + pensionFmt + ' al mes.';
+          if(ctaFinalSub)   ctaFinalSub.textContent   = '¿Quieres que lo estructuremos juntos?';
+          if(waLinkTxt)     waLinkTxt.textContent      = '📱 Hablar con Omar — sin costo';
+        }
+      });
+    });
+    const resultsEl = document.getElementById('results');
+    if(resultsEl) observer.observe(resultsEl, { attributes: true, attributeFilter: ['class'] });
+  })();
+</script>
+
+<script>
+    function sendMetaEvent(eventName, userData, customData) {
+          var eventId = 'ev_' + Date.now() + '_' + Math.random().toString(36).slice(2, 9);
+          if (typeof fbq === 'function') fbq('track', eventName, customData || {}, { eventID: eventId });
+          fetch('/api/meta-events', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ eventName: eventName, eventSourceUrl: window.location.href, userData: userData || {}, customData: customData || {}, eventId: eventId }) }).catch(function(e) { console.warn('Meta CAPI:', e); });
+    }
+    sendMetaEvent('ViewContent', {}, { content_name: 'Simulador PPR', content_category: 'Retiro' });
+    document.addEventListener('DOMContentLoaded', function() {
+          document.querySelectorAll('a[href*="wa.me"], a[href*="whatsapp"]').forEach(function(btn) {
+                  btn.addEventListener('click', function() { sendMetaEvent('Contact', {}, { content_name: 'WhatsApp PPR' }); });
+          });
+    });
+</script>
+  
+</script></body>
+</html>
+ + value.toLocaleString('es-MX');
+        const ctx2 = chart.ctx;
+        ctx2.save();
+        ctx2.font = 'bold 12px Outfit, sans-serif';
+        ctx2.fillStyle = '#8B6914';
+        ctx2.textAlign = 'center';
+        ctx2.textBaseline = 'bottom';
+        ctx2.fillText(lbl, pt.x, pt.y - 6);
+        ctx2.restore();
+      }
+    });
     chartInst = new Chart(ctx, {
       type: 'line',
       data: {
@@ -1039,6 +1346,13 @@
           const ctaBtn = document.getElementById('ctaPensionBtn');
           if(ctaTxt) ctaTxt.textContent = primerNombre + ', tu pensi\u00f3n proyectada es ' + pensionFmt + ' al mes. \u00bfArrancamos tu plan?';
           if(ctaBtn) ctaBtn.href = waHref;
+          // Actualizar CTA final del fondo
+          const ctaFinalTitle = document.getElementById('ctaFinalTitle');
+          const ctaFinalSub   = document.getElementById('ctaFinalSub');
+          const waLinkTxt     = document.getElementById('waLinkText');
+          if(ctaFinalTitle) ctaFinalTitle.textContent = primerNombre + ', tu retiro proyectado es de ' + pensionFmt + ' al mes.';
+          if(ctaFinalSub)   ctaFinalSub.textContent   = '¿Quieres que lo estructuremos juntos?';
+          if(waLinkTxt)     waLinkTxt.textContent      = '📱 Hablar con Omar — sin costo';
         }
       });
     });
