@@ -938,7 +938,10 @@
         const c2 = chart.ctx;
         c2.save(); c2.font='bold 12px sans-serif'; c2.fillStyle='#8B6914';
         c2.textAlign='right'; c2.textBaseline='bottom';
-        c2.fillText(lbl, pt.x - 6, pt.y - 8); c2.restore();
+        const _tw = c2.measureText(lbl).width;
+        const _x = Math.min(pt.x - 4, chart.chartArea.right - _tw - 4);
+        const _y = Math.max(pt.y - 10, chart.chartArea.top + 16);
+        c2.fillText(lbl, _x + _tw, _y); c2.restore();
       }
     };
         chartInst = new Chart(ctx, {
