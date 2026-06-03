@@ -304,7 +304,7 @@
                 data-calc-rate="0.10" data-capped="true" data-hist-rate="13" checked>
               <label class="p-label" for="p1" onclick="onPort('p1')">
                 <span class="p-dot" style="background:#3b82f6"></span>
-                <div class="p-info"><div class="p-name">Crecimiento Global</div><div class="p-inst">S&P 500</div><div class="p-legend">Recomendado para horizontes de 15 años o más · El índice de referencia mundial</div></div>
+                <div class="p-info"><div class="p-name">Crecimiento Global</div><div class="p-inst">S&P 500</div><div class="p-legend">Índice mundial · Horizonte 15+ años</div></div>
                 <div class="p-right">
                   <div class="p-rate">~13% hist.</div>
                   <div class="p-cap-badge">Proyección: 10%</div>
@@ -334,7 +334,7 @@
                 data-calc-rate="0.10" data-capped="true" data-hist-rate="15">
               <label class="p-label" for="p2" onclick="onPort('p2')">
                 <span class="p-dot" style="background:#8b5cf6"></span>
-                <div class="p-info"><div class="p-name">Tecnológico</div><div class="p-inst">QQQ – Nasdaq 100</div><div class="p-legend">Mayor potencial de crecimiento · Alta volatilidad · Horizonte 15+ años</div></div>
+                <div class="p-info"><div class="p-name">Tecnológico</div><div class="p-inst">QQQ – Nasdaq 100</div><div class="p-legend">Alta tecnología · Horizonte 15+ años</div></div>
                 <div class="p-right">
                   <div class="p-rate">~15% hist.</div>
                   <div class="p-cap-badge">Proyección: 10%</div>
@@ -355,11 +355,11 @@
             <div class="p-option">
               <input type="radio" name="portafolio" id="p3"
                 value="Portafolio Diversificado Mundial"
-                data-calc-rate="0.11" data-capped="false">
+                data-calc-rate="0.10" data-capped="true">
               <label class="p-label" for="p3" onclick="onPort('p3')">
                 <span class="p-dot" style="background:#0891b2"></span>
-                <div class="p-info"><div class="p-name">Diversificado Mundial</div><div class="p-inst">MSCI ACWI</div><div class="p-legend">Diversificación global máxima · 47 países · Horizonte 10-20 años</div></div>
-                <div class="p-right"><div class="p-rate">11% anual</div><div class="p-risk">Riesgo Moderado-Alto</div></div>
+                <div class="p-info"><div class="p-name">Diversificado Mundial</div><div class="p-inst">MSCI ACWI</div><div class="p-legend">47 países · Horizonte 10-20 años</div></div>
+                <div class="p-right"><div class="p-rate">~11% hist.</div><div class="p-cap-badge">Proyección: 10%</div><div class="p-risk">Riesgo Moderado-Alto</div></div>
               </label>
               <div class="p-info-btn" onclick="toggleDesc(event,'p3')">
                 <span>＋ ¿Qué hay dentro de este portafolio?</span>
@@ -378,7 +378,7 @@
                 data-calc-rate="0.10" data-capped="false">
               <label class="p-label" for="p4" onclick="onPort('p4')">
                 <span class="p-dot" style="background:#d97706"></span>
-                <div class="p-info"><div class="p-name">Oro</div><div class="p-inst">iShares Gold Trust</div><div class="p-legend">Reserva de valor · Cobertura ante crisis · Horizonte flexible</div></div>
+                <div class="p-info"><div class="p-name">Oro</div><div class="p-inst">iShares Gold Trust</div><div class="p-legend">Reserva de valor · Horizonte flexible</div></div>
                 <div class="p-right"><div class="p-rate">10% anual</div><div class="p-risk">Riesgo Moderado</div></div>
               </label>
               <div class="p-info-btn" onclick="toggleDesc(event,'p4')">
@@ -398,7 +398,7 @@
                 data-calc-rate="0" data-capped="false">
               <label class="p-label" for="p5" onclick="onPort('p5')">
                 <span class="p-dot" style="background:#059669"></span>
-                <div class="p-info"><div class="p-name">Anti-Inflación</div><div class="p-inst">UDIS – Pesos Reevaluables</div><div class="p-legend">Protección contra inflación · Bajo riesgo · Cualquier horizonte</div></div>
+                <div class="p-info"><div class="p-name">Anti-Inflación</div><div class="p-inst">UDIS – Pesos Reevaluables</div><div class="p-legend">Protección inflación · Cualquier horizonte</div></div>
                 <div class="p-right"><div class="p-rate" id="udisRateDisplay">—% anual</div><div class="p-live-badge" style="background:rgba(16,185,129,0.12);color:#10b981;border-color:rgba(16,185,129,0.25);">Tasa Allianz vigente</div><div class="p-risk">Riesgo Bajo-Moderado</div></div>
               </label>
               <div class="p-info-btn" onclick="toggleDesc(event,'p5')">
@@ -418,7 +418,7 @@
                 data-calc-rate="0" data-capped="false">
               <label class="p-label" for="p6" onclick="onPort('p6')">
                 <span class="p-dot" style="background:#0369a1"></span>
-                <div class="p-info"><div class="p-name">Conservador Dolarizado</div><div class="p-inst">Conservador USD</div><div class="p-legend">Estabilidad en dólares · Cobertura cambiaria · Perfil conservador</div></div>
+                <div class="p-info"><div class="p-name">Conservador Dolarizado</div><div class="p-inst">Conservador USD</div><div class="p-legend">Estabilidad en dólares · Perfil conservador</div></div>
                 <div class="p-right">
                   <div class="p-rate" id="usdRateDisplay">—% USD</div>
                   <div class="p-cap-badge" id="usdRateMXN" style="background:rgba(59,130,246,0.12);color:#60a5fa;border-color:rgba(59,130,246,0.25);">~—% MXN</div>
@@ -443,7 +443,7 @@
                 data-calc-rate="0" data-capped="false">
               <label class="p-label" for="p7" onclick="onPort('p7')">
                 <span class="p-dot" style="background:#047857"></span>
-                <div class="p-info"><div class="p-name">Conservador en Pesos</div><div class="p-inst">Conservador MXN</div><div class="p-legend">Máxima estabilidad en pesos · Rendimiento predecible · Riesgo muy bajo</div></div>
+                <div class="p-info"><div class="p-name">Conservador en Pesos</div><div class="p-inst">Conservador MXN</div><div class="p-legend">Rendimiento predecible · Riesgo muy bajo</div></div>
                 <div class="p-right">
                   <div class="p-rate" id="mxnRateDisplay">—% anual</div>
                   <div class="p-live-badge">Tasa Allianz vigente</div>
