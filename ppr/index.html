@@ -927,27 +927,23 @@
     if (labels[0]) labels[0] = 'Año 1';
 
     const ctx = document.getElementById('myChart').getContext('2d');
-    Chart.register({
+    const calloutPlugin = {
       id: 'finalCallout',
       afterDraw(chart) {
         const ds = chart.data.datasets[0];
         if(!ds || !ds.data.length) return;
-        const lastIdx = ds.data.length - 1;
+        const li = ds.data.length - 1;
         const meta = chart.getDatasetMeta(0);
-        const pt = meta.data[lastIdx];
+        const pt = meta.data[li];
         if(!pt) return;
-        const value = ds.data[lastIdx];
-        const lbl = value >= 1e6 ? '$' + (value/1e6).toFixed(1) + 'M' : '$' + value.toLocaleString('es-MX');
+        const v = ds.data[li];
+        const lbl = v >= 1e6 ? '$' + (v/1e6).toFixed(1) + 'M' : '$' + v.toLocaleString('es-MX');
         const c2 = chart.ctx;
-        c2.save();
-        c2.font = 'bold 12px sans-serif';
-        c2.fillStyle = '#8B6914';
-        c2.textAlign = 'center';
-        c2.textBaseline = 'bottom';
-        c2.fillText(lbl, pt.x, pt.y - 6);
-        c2.restore();
+        c2.save(); c2.font='bold 12px sans-serif'; c2.fillStyle='#8B6914';
+        c2.textAlign='center'; c2.textBaseline='bottom';
+        c2.fillText(lbl, pt.x, pt.y - 6); c2.restore();
       }
-    });
+    };
         chartInst = new Chart(ctx, {
       type: 'line',
       data: {
@@ -999,7 +995,8 @@
             grid: { color: 'rgba(255,255,255,0.04)' }
           }
         }
-      }
+      },
+      plugins: [calloutPlugin]
     });
   }
 
