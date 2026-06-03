@@ -511,11 +511,7 @@
       <div class="bono-text">
         <div class="bono-label">Bono de Fidelidad Allianz</div>
         <div class="bono-amount" id="bonoAmount">—</div>
-        <div class="bono-desc">Capital adicional al inicio del plan · <span id="bonoPct">—</span> de tu aportación anual</div>
-      </div>
-      <div class="bono-fv">
-        <div class="bono-fv-label">Al retiro vale</div>
-        <div class="bono-fv-amount" id="bonoFV">—</div>
+        <div class="bono-desc">Capital adicional al inicio del plan · <span id="bonoPct">—</span> de tu aportación del primer año</div>
       </div>
     </div>
 
@@ -940,8 +936,8 @@
         const lbl = v >= 1e6 ? '$' + (v/1e6).toFixed(1) + 'M' : '$' + v.toLocaleString('es-MX');
         const c2 = chart.ctx;
         c2.save(); c2.font='bold 12px sans-serif'; c2.fillStyle='#8B6914';
-        c2.textAlign='center'; c2.textBaseline='bottom';
-        c2.fillText(lbl, pt.x, pt.y - 6); c2.restore();
+        c2.textAlign='right'; c2.textBaseline='bottom';
+        c2.fillText(lbl, pt.x - 6, pt.y - 8); c2.restore();
       }
     };
         chartInst = new Chart(ctx, {
