@@ -97,7 +97,7 @@
     .p-option input[type="radio"]:checked+.p-label{border-color:var(--gold);background:var(--gold-dim);}
     .p-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0;}
     .p-info{flex:1;min-width:0;}
-    .p-name{font-size:13px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+    .p-name{font-size:12px;font-weight:600;white-space:normal;line-height:1.25;overflow:hidden;}
     .p-inst{font-size:11px;color:var(--text-muted);margin-top:1px;}
     .p-right{text-align:right;flex-shrink:0;}
     .p-rate{font-size:13px;font-weight:700;color:var(--gold);}
@@ -196,7 +196,7 @@
     .p-desc-text{font-size:12px;color:var(--text-muted);line-height:1.7;}
 
     /* ── Leyendas de portafolio ───────────────── */
-    .p-legend{font-size:11px;color:var(--gold);opacity:0.85;margin-top:3px;line-height:1.4;font-style:italic;}
+    .p-legend{font-size:10px;color:var(--gold);opacity:0.85;margin-top:2px;line-height:1.2;font-style:italic;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
     .port-explore-btn{width:100%;background:none;border:1px dashed rgba(201,168,76,0.3);border-radius:8px;padding:10px 16px;color:var(--text-muted);font-size:12px;cursor:pointer;margin-top:10px;text-align:left;transition:all 0.2s;display:flex;align-items:center;justify-content:space-between;}
     .port-explore-btn:hover{border-color:var(--gold);color:var(--gold);}
     .port-explore-btn .chevron{transition:transform 0.3s;display:inline-block;}
@@ -398,7 +398,7 @@
                 data-calc-rate="0" data-capped="false">
               <label class="p-label" for="p5" onclick="onPort('p5')">
                 <span class="p-dot" style="background:#059669"></span>
-                <div class="p-info"><div class="p-name">Anti-Inflación</div><div class="p-inst">UDIS – Pesos Reevaluables</div><div class="p-legend">Protección inflación · Cualquier horizonte</div></div>
+                <div class="p-info"><div class="p-name">Anti-Inflación</div><div class="p-inst">UDIS – Pesos Reevaluables</div></div>
                 <div class="p-right"><div class="p-rate" id="udisRateDisplay">—% anual</div><div class="p-live-badge" style="background:rgba(16,185,129,0.12);color:#10b981;border-color:rgba(16,185,129,0.25);">Tasa Allianz vigente</div><div class="p-risk">Riesgo Bajo-Moderado</div></div>
               </label>
               <div class="p-info-btn" onclick="toggleDesc(event,'p5')">
@@ -418,7 +418,7 @@
                 data-calc-rate="0" data-capped="false">
               <label class="p-label" for="p6" onclick="onPort('p6')">
                 <span class="p-dot" style="background:#0369a1"></span>
-                <div class="p-info"><div class="p-name">Conservador Dolarizado</div><div class="p-inst">Conservador USD</div><div class="p-legend">Estabilidad en dólares · Perfil conservador</div></div>
+                <div class="p-info"><div class="p-name">Conservador USD</div><div class="p-inst">Renta Fija Dolarizada</div></div>
                 <div class="p-right">
                   <div class="p-rate" id="usdRateDisplay">—% USD</div>
                   <div class="p-cap-badge" id="usdRateMXN" style="background:rgba(59,130,246,0.12);color:#60a5fa;border-color:rgba(59,130,246,0.25);">~—% MXN</div>
