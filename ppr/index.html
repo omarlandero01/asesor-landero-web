@@ -194,6 +194,16 @@
     .p-desc-box{background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.15);border-radius:var(--radius-sm);padding:12px 14px;margin-top:8px;}
     .p-desc-type{font-size:10px;font-weight:700;color:var(--gold);letter-spacing:1px;text-transform:uppercase;margin-bottom:6px;}
     .p-desc-text{font-size:12px;color:var(--text-muted);line-height:1.7;}
+
+    /* ── Leyendas de portafolio ───────────────── */
+    .p-legend{font-size:11px;color:var(--gold);opacity:0.85;margin-top:3px;line-height:1.4;font-style:italic;}
+    .port-explore-btn{width:100%;background:none;border:1px dashed rgba(201,168,76,0.3);border-radius:8px;padding:10px 16px;color:var(--text-muted);font-size:12px;cursor:pointer;margin-top:10px;text-align:left;transition:all 0.2s;display:flex;align-items:center;justify-content:space-between;}
+    .port-explore-btn:hover{border-color:var(--gold);color:var(--gold);}
+    .port-explore-btn .chevron{transition:transform 0.3s;display:inline-block;}
+    .port-explore-btn.open .chevron{transform:rotate(180deg);}
+    .otros-port-wrap{max-height:0;overflow:hidden;transition:max-height 0.45s ease;}
+    .otros-port-wrap.open{max-height:3000px;}
+    .otros-port-label{font-size:10px;font-weight:700;color:var(--text-muted);letter-spacing:1px;text-transform:uppercase;margin:10px 0 6px;opacity:0.6;}
   </style>
 </head>
 <body>
@@ -291,10 +301,10 @@
             <div class="p-option">
               <input type="radio" name="portafolio" id="p1"
                 value="Portafolio Crecimiento Global"
-                data-calc-rate="0.10" data-capped="true" data-hist-rate="13">
+                data-calc-rate="0.10" data-capped="true" data-hist-rate="13" checked>
               <label class="p-label" for="p1" onclick="onPort('p1')">
                 <span class="p-dot" style="background:#3b82f6"></span>
-                <div class="p-info"><div class="p-name">Crecimiento Global</div><div class="p-inst">IVV – S&P 500</div></div>
+                <div class="p-info"><div class="p-name">Crecimiento Global</div><div class="p-inst">S&P 500</div><div class="p-legend">Recomendado para horizontes de 15 años o más · El índice de referencia mundial</div></div>
                 <div class="p-right">
                   <div class="p-rate">~13% hist.</div>
                   <div class="p-cap-badge">Proyección: 10%</div>
@@ -312,13 +322,19 @@
               </div>
             </div>
 
+            <button class="port-explore-btn" id="portExploreBtn" type="button" onclick="toggleOtrosPort(this)">
+              <span>Explorar otros escenarios de inversión</span>
+              <span class="chevron">▾</span>
+            </button>
+            <div class="otros-port-wrap" id="otrosPortWrap">
+              <div class="otros-port-label">Otros portafolios disponibles</div>
             <div class="p-option">
               <input type="radio" name="portafolio" id="p2"
                 value="Portafolio Tecnológico"
                 data-calc-rate="0.10" data-capped="true" data-hist-rate="15">
               <label class="p-label" for="p2" onclick="onPort('p2')">
                 <span class="p-dot" style="background:#8b5cf6"></span>
-                <div class="p-info"><div class="p-name">Tecnológico</div><div class="p-inst">QQQ – Nasdaq 100</div></div>
+                <div class="p-info"><div class="p-name">Tecnológico</div><div class="p-inst">QQQ – Nasdaq 100</div><div class="p-legend">Mayor potencial de crecimiento · Alta volatilidad · Horizonte 15+ años</div></div>
                 <div class="p-right">
                   <div class="p-rate">~15% hist.</div>
                   <div class="p-cap-badge">Proyección: 10%</div>
@@ -342,7 +358,7 @@
                 data-calc-rate="0.11" data-capped="false">
               <label class="p-label" for="p3" onclick="onPort('p3')">
                 <span class="p-dot" style="background:#0891b2"></span>
-                <div class="p-info"><div class="p-name">Diversificado Mundial</div><div class="p-inst">MSCI ACWI</div></div>
+                <div class="p-info"><div class="p-name">Diversificado Mundial</div><div class="p-inst">MSCI ACWI</div><div class="p-legend">Diversificación global máxima · 47 países · Horizonte 10-20 años</div></div>
                 <div class="p-right"><div class="p-rate">11% anual</div><div class="p-risk">Riesgo Moderado-Alto</div></div>
               </label>
               <div class="p-info-btn" onclick="toggleDesc(event,'p3')">
@@ -362,7 +378,7 @@
                 data-calc-rate="0.10" data-capped="false">
               <label class="p-label" for="p4" onclick="onPort('p4')">
                 <span class="p-dot" style="background:#d97706"></span>
-                <div class="p-info"><div class="p-name">Oro</div><div class="p-inst">iShares Gold Trust</div></div>
+                <div class="p-info"><div class="p-name">Oro</div><div class="p-inst">iShares Gold Trust</div><div class="p-legend">Reserva de valor · Cobertura ante crisis · Horizonte flexible</div></div>
                 <div class="p-right"><div class="p-rate">10% anual</div><div class="p-risk">Riesgo Moderado</div></div>
               </label>
               <div class="p-info-btn" onclick="toggleDesc(event,'p4')">
@@ -382,7 +398,7 @@
                 data-calc-rate="0" data-capped="false">
               <label class="p-label" for="p5" onclick="onPort('p5')">
                 <span class="p-dot" style="background:#059669"></span>
-                <div class="p-info"><div class="p-name">Anti-Inflación</div><div class="p-inst">UDIS – Pesos Reevaluables</div></div>
+                <div class="p-info"><div class="p-name">Anti-Inflación</div><div class="p-inst">UDIS – Pesos Reevaluables</div><div class="p-legend">Protección contra inflación · Bajo riesgo · Cualquier horizonte</div></div>
                 <div class="p-right"><div class="p-rate" id="udisRateDisplay">—% anual</div><div class="p-live-badge" style="background:rgba(16,185,129,0.12);color:#10b981;border-color:rgba(16,185,129,0.25);">Tasa Allianz vigente</div><div class="p-risk">Riesgo Bajo-Moderado</div></div>
               </label>
               <div class="p-info-btn" onclick="toggleDesc(event,'p5')">
@@ -402,7 +418,7 @@
                 data-calc-rate="0" data-capped="false">
               <label class="p-label" for="p6" onclick="onPort('p6')">
                 <span class="p-dot" style="background:#0369a1"></span>
-                <div class="p-info"><div class="p-name">Conservador Dolarizado</div><div class="p-inst">Conservador USD</div></div>
+                <div class="p-info"><div class="p-name">Conservador Dolarizado</div><div class="p-inst">Conservador USD</div><div class="p-legend">Estabilidad en dólares · Cobertura cambiaria · Perfil conservador</div></div>
                 <div class="p-right">
                   <div class="p-rate" id="usdRateDisplay">—% USD</div>
                   <div class="p-cap-badge" id="usdRateMXN" style="background:rgba(59,130,246,0.12);color:#60a5fa;border-color:rgba(59,130,246,0.25);">~—% MXN</div>
@@ -427,7 +443,7 @@
                 data-calc-rate="0" data-capped="false">
               <label class="p-label" for="p7" onclick="onPort('p7')">
                 <span class="p-dot" style="background:#047857"></span>
-                <div class="p-info"><div class="p-name">Conservador en Pesos</div><div class="p-inst">Conservador MXN</div></div>
+                <div class="p-info"><div class="p-name">Conservador en Pesos</div><div class="p-inst">Conservador MXN</div><div class="p-legend">Máxima estabilidad en pesos · Rendimiento predecible · Riesgo muy bajo</div></div>
                 <div class="p-right">
                   <div class="p-rate" id="mxnRateDisplay">—% anual</div>
                   <div class="p-live-badge">Tasa Allianz vigente</div>
@@ -444,6 +460,8 @@
                 </div>
               </div>
             </div>
+
+            </div><!-- /otros-port-wrap -->
 
           </div>
 
@@ -956,12 +974,20 @@
     });
   }
 
+
+  function toggleOtrosPort(btn) {
+    const wrap = document.getElementById('otrosPortWrap');
+    const isOpen = wrap.classList.toggle('open');
+    btn.classList.toggle('open', isOpen);
+  }
+
   /* ── RESET ── */
   function resetForm() {
     document.getElementById('results').classList.remove('show');
     document.getElementById('capNoticeSel').classList.remove('show');
     ['nombre','edad','whatsapp','email','aportacion'].forEach(id => document.getElementById(id).value = '');
     document.querySelectorAll('input[name="portafolio"]').forEach(r => r.checked = false);
+    document.getElementById('p1').checked = true;
     document.getElementById('privacy').checked = false;
     document.getElementById('inflToggle').checked = false;
     window.scrollTo({ top: 0, behavior: 'smooth' });
