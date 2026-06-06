@@ -670,12 +670,9 @@
       <!-- Right: photo placeholder -->
       <div style="position:relative;">
         <!-- FOTO: guarda la imagen como "/ppr-desktop/omar.jpg" en esta misma carpeta /ppr-desktop/ -->
-        <div class="hero-photo" style="height:460px; background:#e8ecf4; border-radius:16px; overflow:hidden;">
-          <img
-            src="omar.jpg"
-            alt="Omar Landero — Asesor Financiero"
-            style="width:100%; height:100%; object-fit:cover; object-position:center top;"
-            onerror="this.parentElement.innerHTML='<div class=\'img-placeholder\' style=\'height:100%; border-radius:0;\'><svg width=48 height=48 fill=none viewBox=\'0 0 24 24\' stroke=currentColor><circle cx=12 cy=8 r=4/><path d=\'M4 20c0-4 3.6-7 8-7s8 3 8 7\'/></svg><div><strong>Foto del asesor</strong><span style=\'font-size:12px; font-weight:400;\'>Guarda la imagen como<br>omar.jpg en esta carpeta</span></div></div>'"
+        <div class="hero-photo" style="height:460px; background: #e8ecf4 url('/ppr-desktop/omar.jpg') center top / cover no-repeat; border-radius:16px; overflow:hidden; position:relative;">
+          <!-- Foto Omar Landero cargada via CSS background-image -->
+        </div></div>'"
           />
         </div>
         <!-- Badge: aportación mínima -->
