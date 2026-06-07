@@ -326,7 +326,7 @@
       font-weight: 500;
     }
     .afore-callout strong { color: var(--gold); font-size: 18px; }
-    .afore-img { height: auto; display: flex; align-items: center; }
+    .afore-img { display: none; }
 
     /* ─── SOLUTION CARDS ────────────────────────────── */
     #solucion { background: var(--navy); }
@@ -688,16 +688,13 @@
 ══════════════════════════════════════════════════ -->
 <section id="afore" class="section">
   <div class="container">
-    <div class="grid-2">
-
-      <!-- Left: Tu PPR vs Tu AFORE -->
-      <div class="afore-img">
-        <img src="/ppr-desktop/pprvsafore.jpg" alt="Tu PPR vs Tu AFORE — la brecha en acumulación" style="width:100%; height:auto; display:block; mix-blend-mode:multiply;">
-      </div>
-
-      <!-- Right: gap data -->
-      <div>
-        <div class="tag">El problema real</div>
+        <!-- Ilustración: Tu PPR vs Tu AFORE -->
+    <div style="text-align:center; margin-bottom:44px;">
+      <img src="/ppr-desktop/pprvsafore.png" alt="Tu PPR vs Tu AFORE — la brecha en acumulación" style="max-width:720px; width:100%; height:auto; display:inline-block;">
+    </div>
+    <!-- Datos: la brecha del AFORE -->
+    <div style="max-width:680px; margin:0 auto;">
+      <div class="tag">El problema real</div>
         <h2 class="section-title">
           ¿De cuánto será<br>tu pensión del AFORE?
         </h2>
@@ -737,7 +734,6 @@
           </p>
         </div>
       </div>
-
     </div>
   </div>
 </section>
