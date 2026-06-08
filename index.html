@@ -96,7 +96,7 @@ a  { color: inherit; text-decoration: none; }
   flex-shrink: 0;
 }
 .navbar__logo img {
-  height: 38px;
+  height: 48px;
   width: auto;
 }
 .navbar__links {
@@ -195,6 +195,14 @@ a  { color: inherit; text-decoration: none; }
   border-radius: 20px;
   margin-bottom: 20px;
 }
+/* Section labels sobre fondo claro */
+.omar .section-label,
+.problema .section-label,
+.herramientas .section-label {
+  color: #1f3056;
+  border-color: rgba(31,48,86,0.25);
+  background: rgba(31,48,86,0.06);
+}
 
 /* ─── ① HERO ─────────────────────────────────────────── */
 .hero {
@@ -218,7 +226,7 @@ a  { color: inherit; text-decoration: none; }
   position: relative;
   z-index: 1;
   display: grid;
-  grid-template-columns: 1fr 420px;
+  grid-template-columns: 420px 1fr;
   gap: 64px;
   align-items: center;
   width: 100%;
@@ -251,6 +259,19 @@ a  { color: inherit; text-decoration: none; }
   gap: 14px;
   flex-wrap: wrap;
 }
+/* Botones específicos del hero (sobre fondo oscuro) */
+.btn-hero-primary {
+  background: #F5F0E8;
+  color: #1f3056;
+  border: none;
+}
+.btn-hero-primary:hover { opacity: 0.90; }
+.btn-hero-outline {
+  background: transparent;
+  color: #F5F0E8;
+  border: 1.5px solid rgba(245,240,232,0.45);
+}
+.btn-hero-outline:hover { background: rgba(245,240,232,0.08); opacity: 1; }
 .hero__photo-wrap {
   position: relative;
   flex-shrink: 0;
@@ -282,8 +303,9 @@ a  { color: inherit; text-decoration: none; }
 
 /* ─── ② EL PROBLEMA REAL ─────────────────────────────── */
 .problema {
-  padding: 100px 0;
-  border-top: 1px solid var(--border);
+  padding: 80px 0;
+  background: #ffffff;
+  border-top: 1px solid #e2e8f0;
 }
 .problema__grid {
   display: grid;
@@ -292,32 +314,33 @@ a  { color: inherit; text-decoration: none; }
   margin-top: 44px;
 }
 .stat-card {
-  background: var(--surface);
-  border: 1px solid var(--border);
+  background: #F5F7FA;
+  border: 1px solid #e2e8f0;
   border-radius: var(--radius);
   padding: 32px 28px;
   position: relative;
   overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
 }
 .stat-card::before {
   content: '';
   position: absolute;
   top: 0; left: 0; right: 0;
-  height: 2px;
-  background: linear-gradient(90deg, var(--accent) 0%, transparent 100%);
-  opacity: 0.35;
+  height: 3px;
+  background: linear-gradient(90deg, #1f3056 0%, transparent 100%);
+  opacity: 0.5;
 }
 .stat-card__num {
   font-size: 44px;
   font-weight: 900;
   line-height: 1;
-  color: var(--accent);
+  color: #1f3056;
   letter-spacing: -0.03em;
   margin-bottom: 14px;
 }
 .stat-card__text {
   font-size: 15px;
-  color: var(--text-muted);
+  color: #475569;
   line-height: 1.6;
   margin-bottom: 14px;
 }
@@ -325,22 +348,23 @@ a  { color: inherit; text-decoration: none; }
   font-size: 11px;
   font-weight: 600;
   letter-spacing: 0.08em;
-  color: var(--text-dim);
+  color: #94a3b8;
   text-transform: uppercase;
 }
 .problema__nota {
   margin-top: 36px;
   text-align: center;
   font-size: 15px;
-  color: var(--accent-mid);
+  color: #64748b;
   font-weight: 500;
   font-style: italic;
 }
 
 /* ─── ③ HERRAMIENTAS ─────────────────────────────────── */
 .herramientas {
-  padding: 100px 0;
-  border-top: 1px solid var(--border);
+  padding: 80px 0;
+  background: #F5F7FA;
+  border-top: 1px solid #e2e8f0;
 }
 .herramientas__grid {
   display: grid;
@@ -349,23 +373,24 @@ a  { color: inherit; text-decoration: none; }
   margin-top: 44px;
 }
 .tool-card {
-  background: var(--surface);
-  border: 1px solid var(--border);
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
   border-radius: var(--radius);
   padding: 40px 36px;
   display: flex;
   flex-direction: column;
   gap: 18px;
-  transition: border-color 0.25s, background 0.25s;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.07);
+  transition: box-shadow 0.25s, border-color 0.25s;
 }
 .tool-card:hover {
-  border-color: var(--border-accent);
-  background: var(--surface2);
+  border-color: #cbd5e1;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.10);
 }
 .tool-card__icon {
   width: 48px;
   height: 48px;
-  background: var(--accent-dim);
+  background: #EEF2FF;
   border-radius: var(--radius-sm);
   display: flex;
   align-items: center;
@@ -375,12 +400,12 @@ a  { color: inherit; text-decoration: none; }
 .tool-card__title {
   font-size: 22px;
   font-weight: 800;
-  color: var(--text);
+  color: #0f172a;
   letter-spacing: -0.01em;
 }
 .tool-card__desc {
   font-size: 15px;
-  color: var(--text-muted);
+  color: #475569;
   line-height: 1.65;
   flex: 1;
 }
@@ -389,17 +414,29 @@ a  { color: inherit; text-decoration: none; }
   font-size: 14px;
   padding: 12px 22px;
 }
+/* Botón primario en fondo claro (herramientas) */
+.tool-card .btn-primary {
+  background: #1f3056;
+  color: #F5F0E8;
+  border: none;
+}
+.tool-card .btn-outline {
+  background: transparent;
+  color: #1f3056;
+  border: 1.5px solid #1f3056;
+}
 
-/* ─── ④ POR QUÉ OMAR ─────────────────────────────────── */
+/* ─── ④ EL ASESOR / BIO ──────────────────────────────── */
 .omar {
-  padding: 100px 0;
-  border-top: 1px solid var(--border);
+  padding: 80px 0;
+  background: #F5F7FA;
+  border-top: 1px solid #e2e8f0;
 }
 .omar__inner {
   display: grid;
   grid-template-columns: 320px 1fr;
   gap: 72px;
-  align-items: start;
+  align-items: center;
 }
 .omar__photo-wrap {
   position: relative;
@@ -414,7 +451,7 @@ a  { color: inherit; text-decoration: none; }
   position: absolute;
   inset: -8px;
   border-radius: calc(var(--radius) + 8px);
-  border: 1px solid var(--border-accent);
+  border: 1px solid #cbd5e1;
   pointer-events: none;
 }
 .omar__headline {
@@ -423,28 +460,29 @@ a  { color: inherit; text-decoration: none; }
   line-height: 1.15;
   letter-spacing: -0.02em;
   margin-bottom: 20px;
-  color: var(--text);
+  color: #0f172a;
 }
 .omar__para {
   font-size: 16px;
-  color: var(--text-muted);
+  color: #475569;
   line-height: 1.75;
-  margin-bottom: 36px;
+  margin-bottom: 24px;
   max-width: 520px;
 }
 .omar__creds {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 16px;
+  gap: 14px;
 }
 .cred-item {
   display: flex;
   align-items: flex-start;
   gap: 14px;
-  background: var(--surface);
-  border: 1px solid var(--border);
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
   border-radius: var(--radius-sm);
-  padding: 18px 20px;
+  padding: 16px 18px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06);
 }
 .cred-item__icon {
   font-size: 20px;
@@ -454,12 +492,12 @@ a  { color: inherit; text-decoration: none; }
 }
 .cred-item__text {
   font-size: 14px;
-  color: var(--text-muted);
+  color: #475569;
   line-height: 1.5;
 }
 .cred-item__text strong {
   display: block;
-  color: var(--text);
+  color: #0f172a;
   font-weight: 700;
   margin-bottom: 2px;
 }
@@ -606,7 +644,7 @@ a  { color: inherit; text-decoration: none; }
 
 /* ─── ⑦ CTA FINAL ────────────────────────────────────── */
 .cta-final {
-  padding: 110px 0;
+  padding: 80px 0;
   background: var(--bg-alt);
   border-top: 1px solid var(--border);
   text-align: center;
@@ -718,7 +756,7 @@ a  { color: inherit; text-decoration: none; }
   .hero { padding: 100px 0 70px; }
   .hero__cta { flex-direction: column; }
   .hero__cta .btn { text-align: center; }
-  .problema, .herramientas, .omar, .testimonios, .blog { padding: 72px 0; }
+  .problema, .herramientas, .omar, .testimonios, .blog { padding: 60px 0; }
   .cta-final { padding: 80px 0; }
   .btn-nav { display: none; }
 }
@@ -760,6 +798,11 @@ a  { color: inherit; text-decoration: none; }
   <div class="container">
     <div class="hero__inner">
 
+      <div class="hero__photo-wrap">
+        <img class="hero__photo" src="/images/omar-hero.jpg" alt="Omar Landero — Asesor Financiero Allianz México" />
+        <div class="hero__photo-ring"></div>
+      </div>
+
       <div class="hero__text">
         <p class="eyebrow">Asesoría Financiera · México</p>
         <h1 class="hero__headline">Tu dinero puede hacer más de lo que crees.</h1>
@@ -768,14 +811,9 @@ a  { color: inherit; text-decoration: none; }
         </p>
         <p class="hero__firma">Omar Landero · Asesor Financiero · Allianz México</p>
         <div class="hero__cta">
-          <a class="btn btn-primary" href="/ppr">Simular mi retiro →</a>
-          <a class="btn btn-outline" href="https://calendar.google.com/calendar/u/0/appointments/schedules/AcZssZ1Vu4MKCXBbIo51tARMhJ4nhzVncuzU4DjJlNn6DTJvWFxg5aB-U8oslhJaKpjazlj1Sgu9kCpe" target="_blank" rel="noopener">Agendar asesoría gratuita →</a>
+          <a class="btn btn-hero-primary" href="/ppr">Simular mi retiro →</a>
+          <a class="btn btn-hero-outline" href="https://calendar.google.com/calendar/u/0/appointments/schedules/AcZssZ1Vu4MKCXBbIo51tARMhJ4nhzVncuzU4DjJlNn6DTJvWFxg5aB-U8oslhJaKpjazlj1Sgu9kCpe" target="_blank" rel="noopener">Agendar asesoría gratuita →</a>
         </div>
-      </div>
-
-      <div class="hero__photo-wrap">
-        <img class="hero__photo" src="/images/omar-hero.jpg" alt="Omar Landero — Asesor Financiero Allianz México" />
-        <div class="hero__photo-ring"></div>
       </div>
 
     </div>
@@ -794,12 +832,12 @@ a  { color: inherit; text-decoration: none; }
 
       <div>
         <span class="section-label">El asesor</span>
-        <h2 class="omar__headline">El asesor que te explica antes de venderte</h2>
+        <h2 class="omar__headline">Entiende antes de decidir.</h2>
         <p class="omar__para">
           Soy Omar Landero, asesor financiero. Mi objetivo es que entiendas tus opciones antes de tomar cualquier decisión — por eso mis asesorías son gratuitas y sin compromiso.
         </p>
         <p class="omar__para" style="margin-bottom:36px;">
-          Trabajo de la mano de <a href="https://www.allianz.com.mx/quienes-somos/allianz-en-mexico.html" target="_blank" rel="noopener" style="color:var(--accent);border-bottom:1px solid rgba(245,240,232,0.35);padding-bottom:1px;">Allianz México</a>, una de las aseguradoras más sólidas del mundo, para ofrecerte soluciones reales de protección y ahorro.
+          Trabajo de la mano de <a href="https://www.allianz.com.mx/quienes-somos/allianz-en-mexico.html" target="_blank" rel="noopener" style="color:#1f3056;font-weight:600;border-bottom:1px solid rgba(31,48,86,0.35);padding-bottom:1px;">Allianz México</a>, una de las aseguradoras más sólidas del mundo, para ofrecerte soluciones reales de protección y ahorro.
         </p>
         <div class="omar__creds">
           <div class="cred-item">
@@ -841,7 +879,7 @@ a  { color: inherit; text-decoration: none; }
 <section class="problema">
   <div class="container">
     <span class="section-label">El problema real</span>
-    <h2 style="font-size:clamp(26px,3.5vw,40px);font-weight:900;letter-spacing:-0.02em;max-width:580px;line-height:1.2;margin-bottom:0;">
+    <h2 style="font-size:clamp(26px,3.5vw,40px);font-weight:900;letter-spacing:-0.02em;max-width:580px;line-height:1.2;margin-bottom:0;color:#0f172a;">
       Lo que nadie te explica sobre tu retiro
     </h2>
 
@@ -879,7 +917,7 @@ a  { color: inherit; text-decoration: none; }
 <section class="herramientas">
   <div class="container">
     <span class="section-label">Herramientas</span>
-    <h2 style="font-size:clamp(26px,3.5vw,40px);font-weight:900;letter-spacing:-0.02em;max-width:620px;line-height:1.2;margin-bottom:0;">
+    <h2 style="font-size:clamp(26px,3.5vw,40px);font-weight:900;letter-spacing:-0.02em;max-width:620px;line-height:1.2;margin-bottom:0;color:#0f172a;">
       Herramientas para tomar decisiones con información real
     </h2>
 
