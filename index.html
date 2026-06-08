@@ -74,10 +74,10 @@ a  { color: inherit; text-decoration: none; }
   position: fixed;
   top: 0; left: 0; right: 0;
   z-index: 100;
-  background: rgba(11,20,55,0.88);
+  background: rgba(31,48,86,0.97);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
-  border-bottom: 1px solid var(--border);
+  border-bottom: 1px solid rgba(255,255,255,0.12);
 }
 .navbar__inner {
   max-width: 1180px;
@@ -96,7 +96,7 @@ a  { color: inherit; text-decoration: none; }
   flex-shrink: 0;
 }
 .navbar__logo img {
-  height: 28px;
+  height: 38px;
   width: auto;
 }
 .navbar__links {
@@ -120,15 +120,17 @@ a  { color: inherit; text-decoration: none; }
 .btn-nav {
   font-size: 13px;
   font-weight: 700;
-  background: var(--accent);
-  color: var(--bg);
+  background: #1f3056;
+  color: #F5F0E8;
+  border: 1.5px solid rgba(245,240,232,0.30);
   padding: 8px 18px;
   border-radius: var(--radius-xs);
   letter-spacing: 0.02em;
-  transition: opacity 0.2s;
+  transition: background 0.2s, opacity 0.2s;
   white-space: nowrap;
   flex-shrink: 0;
 }
+.btn-nav:hover { background: #263d6b; opacity: 1; }
 .btn-nav:hover { opacity: 0.88; }
 .navbar__hamburger {
   display: none;
@@ -162,8 +164,9 @@ a  { color: inherit; text-decoration: none; }
 }
 .btn:hover { opacity: 0.88; transform: translateY(-1px); }
 .btn-primary {
-  background: var(--accent);
-  color: var(--bg);
+  background: #1f3056;
+  color: #F5F0E8;
+  border: 1.5px solid rgba(245,240,232,0.25);
 }
 .btn-outline {
   background: transparent;
@@ -207,50 +210,74 @@ a  { color: inherit; text-decoration: none; }
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(ellipse 70% 55% at 60% 40%, rgba(245,240,232,0.04) 0%, transparent 70%),
-    radial-gradient(ellipse 50% 40% at 20% 70%, rgba(30,50,120,0.6) 0%, transparent 60%);
+    radial-gradient(ellipse 60% 80% at 70% 50%, rgba(31,48,86,0.55) 0%, transparent 65%),
+    radial-gradient(ellipse 50% 40% at 15% 70%, rgba(20,35,90,0.5) 0%, transparent 60%);
   pointer-events: none;
 }
 .hero__inner {
   position: relative;
   z-index: 1;
-  max-width: 760px;
+  display: grid;
+  grid-template-columns: 1fr 420px;
+  gap: 64px;
+  align-items: center;
+  width: 100%;
 }
+.hero__text {}
 .hero__headline {
-  font-size: clamp(34px, 5.5vw, 64px);
+  font-size: clamp(34px, 4.5vw, 58px);
   font-weight: 900;
   line-height: 1.12;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.025em;
   margin-bottom: 22px;
   color: var(--text);
 }
-.hero__headline em {
-  font-style: normal;
-  color: var(--accent);
-}
 .hero__sub {
-  font-size: clamp(16px, 2vw, 19px);
+  font-size: clamp(16px, 1.8vw, 19px);
   color: var(--text-muted);
-  max-width: 600px;
-  margin-bottom: 32px;
+  max-width: 520px;
+  margin-bottom: 28px;
   line-height: 1.7;
 }
-.hero__creds {
-  font-size: 12px;
+.hero__firma {
+  font-size: 13px;
   font-weight: 600;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.04em;
   color: var(--accent-mid);
   margin-bottom: 36px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  flex-wrap: wrap;
 }
-.hero__creds span { opacity: 0.4; }
 .hero__cta {
   display: flex;
   gap: 14px;
   flex-wrap: wrap;
+}
+.hero__photo-wrap {
+  position: relative;
+  flex-shrink: 0;
+}
+.hero__photo {
+  width: 100%;
+  aspect-ratio: 3/4;
+  object-fit: cover;
+  border-radius: var(--radius);
+  display: block;
+}
+.hero__photo-ring {
+  position: absolute;
+  inset: -8px;
+  border-radius: calc(var(--radius) + 8px);
+  border: 1px solid var(--border-accent);
+  pointer-events: none;
+}
+@media (max-width: 900px) {
+  .hero__inner {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+  .hero__photo-wrap {
+    max-width: 280px;
+    margin: 0 auto;
+  }
 }
 
 /* ─── ② EL PROBLEMA REAL ─────────────────────────────── */
@@ -438,8 +465,9 @@ a  { color: inherit; text-decoration: none; }
 }
 
 /* ─── ⑤ TESTIMONIOS ──────────────────────────────────── */
-/* Nota: reemplazar placeholders con testimonios reales cuando estén disponibles */
+/* TODO: activar quitando display:none cuando haya testimonios reales */
 .testimonios {
+  display: none;
   padding: 100px 0;
   border-top: 1px solid var(--border);
 }
@@ -502,9 +530,9 @@ a  { color: inherit; text-decoration: none; }
 }
 
 /* ─── ⑥ BLOG ─────────────────────────────────────────── */
-/* Nota: esta sección se activa cuando /blog esté construido.
-   Cambiar opacidad a 1 y activar links cuando /blog exista. */
+/* TODO: activar quitando display:none cuando /blog esté construido */
 .blog {
+  display: none;
   padding: 100px 0;
   border-top: 1px solid var(--border);
 }
@@ -702,15 +730,15 @@ a  { color: inherit; text-decoration: none; }
 <nav class="navbar">
   <div class="navbar__inner">
     <a class="navbar__logo" href="/">
-      <img src="/VARIANTE_BLANCO.png" alt="Asesor Landero" />
+      <img src="/ISOLOGO_BLANCO.png" alt="Asesor Landero" />
     </a>
     <ul class="navbar__links">
       <li><a href="/ppr">Simulador</a></li>
-      <li><a href="/ppr-desktop">Retiro</a></li>
+      <li><a href="/retiro">Retiro</a></li>
       <li><a href="/seguro">Seguro</a></li>
       <li><a href="/blog">Blog</a></li>
     </ul>
-    <a class="btn-nav" href="https://meet.hubspot.com/omar-l/meeting" target="_blank" rel="noopener">
+    <a class="btn-nav" href="https://calendar.google.com/calendar/u/0/appointments/schedules/AcZssZ1Vu4MKCXBbIo51tARMhJ4nhzVncuzU4DjJlNn6DTJvWFxg5aB-U8oslhJaKpjazlj1Sgu9kCpe" target="_blank" rel="noopener">
       Agendar asesoría
     </a>
     <div class="navbar__hamburger" onclick="toggleMenu()">
@@ -718,12 +746,12 @@ a  { color: inherit; text-decoration: none; }
     </div>
   </div>
   <!-- Mobile menu -->
-  <ul class="navbar__mobile" id="mobileMenu" style="display:none;list-style:none;padding:16px 24px 20px;background:rgba(11,20,55,0.97);border-top:1px solid rgba(255,255,255,0.08);flex-direction:column;gap:4px;">
+  <ul class="navbar__mobile" id="mobileMenu" style="display:none;list-style:none;padding:16px 24px 20px;background:rgba(31,48,86,0.98);border-top:1px solid rgba(255,255,255,0.08);flex-direction:column;gap:4px;">
     <li><a href="/ppr" style="display:block;padding:10px 12px;font-size:15px;font-weight:500;color:#94a3b8;border-radius:6px;">Simulador</a></li>
-    <li><a href="/ppr-desktop" style="display:block;padding:10px 12px;font-size:15px;font-weight:500;color:#94a3b8;border-radius:6px;">Retiro</a></li>
+    <li><a href="/retiro" style="display:block;padding:10px 12px;font-size:15px;font-weight:500;color:#94a3b8;border-radius:6px;">Retiro</a></li>
     <li><a href="/seguro" style="display:block;padding:10px 12px;font-size:15px;font-weight:500;color:#94a3b8;border-radius:6px;">Seguro</a></li>
     <li><a href="/blog" style="display:block;padding:10px 12px;font-size:15px;font-weight:500;color:#94a3b8;border-radius:6px;">Blog</a></li>
-    <li style="margin-top:8px;"><a href="https://meet.hubspot.com/omar-l/meeting" target="_blank" rel="noopener" style="display:block;padding:12px 16px;font-size:14px;font-weight:700;background:#F5F0E8;color:#0B1437;border-radius:8px;text-align:center;">Agendar asesoría</a></li>
+    <li style="margin-top:8px;"><a href="https://calendar.google.com/calendar/u/0/appointments/schedules/AcZssZ1Vu4MKCXBbIo51tARMhJ4nhzVncuzU4DjJlNn6DTJvWFxg5aB-U8oslhJaKpjazlj1Sgu9kCpe" target="_blank" rel="noopener" style="display:block;padding:12px 16px;font-size:14px;font-weight:700;background:#1f3056;color:#F5F0E8;border:1px solid rgba(245,240,232,0.25);border-radius:8px;text-align:center;">Agendar asesoría</a></li>
   </ul>
 </nav>
 
@@ -731,25 +759,85 @@ a  { color: inherit; text-decoration: none; }
 <section class="hero">
   <div class="container">
     <div class="hero__inner">
-      <p class="eyebrow">Asesoría Financiera Independiente · México</p>
-      <h1 class="hero__headline">
-        La mayoría de los mexicanos llega al retiro con lo que el <em>AFORE les dejó.</em>
-      </h1>
-      <p class="hero__sub">
-        Tú puedes hacer algo diferente. Simulamos tu retiro, cotizamos tu protección y analizamos tu situación — sin costo, sin compromiso.
-      </p>
-      <p class="hero__creds">
-        Regulado CNSF <span>·</span> Cédula V409234 <span>·</span> Maestría en Finanzas
-      </p>
-      <div class="hero__cta">
-        <a class="btn btn-primary" href="/ppr">Simular mi retiro →</a>
-        <a class="btn btn-outline" href="https://meet.hubspot.com/omar-l/meeting" target="_blank" rel="noopener">Agendar asesoría gratuita →</a>
+
+      <div class="hero__text">
+        <p class="eyebrow">Asesoría Financiera · México</p>
+        <h1 class="hero__headline">Tu dinero puede hacer más de lo que crees.</h1>
+        <p class="hero__sub">
+          Te ayudo a entender cómo — sin letra chica, sin presión.
+        </p>
+        <p class="hero__firma">Omar Landero · Asesor Financiero · Allianz México</p>
+        <div class="hero__cta">
+          <a class="btn btn-primary" href="/ppr">Simular mi retiro →</a>
+          <a class="btn btn-outline" href="https://calendar.google.com/calendar/u/0/appointments/schedules/AcZssZ1Vu4MKCXBbIo51tARMhJ4nhzVncuzU4DjJlNn6DTJvWFxg5aB-U8oslhJaKpjazlj1Sgu9kCpe" target="_blank" rel="noopener">Agendar asesoría gratuita →</a>
+        </div>
       </div>
+
+      <div class="hero__photo-wrap">
+        <img class="hero__photo" src="/images/omar-hero.jpg" alt="Omar Landero — Asesor Financiero Allianz México" />
+        <div class="hero__photo-ring"></div>
+      </div>
+
     </div>
   </div>
 </section>
 
-<!-- ─── ② EL PROBLEMA REAL ──────────────────────────────────── -->
+<!-- ─── ② PRESENTACIÓN / BIO ────────────────────────────────── -->
+<section class="omar">
+  <div class="container">
+    <div class="omar__inner">
+
+      <div class="omar__photo-wrap">
+        <img class="omar__photo" src="/images/omar-bio.jpg" alt="Omar Landero — Asesor Financiero Allianz México" />
+        <div class="omar__photo-ring"></div>
+      </div>
+
+      <div>
+        <span class="section-label">El asesor</span>
+        <h2 class="omar__headline">El asesor que te explica antes de venderte</h2>
+        <p class="omar__para">
+          Soy Omar Landero, asesor financiero. Mi objetivo es que entiendas tus opciones antes de tomar cualquier decisión — por eso mis asesorías son gratuitas y sin compromiso.
+        </p>
+        <p class="omar__para" style="margin-bottom:36px;">
+          Trabajo de la mano de <a href="https://www.allianz.com.mx/quienes-somos/allianz-en-mexico.html" target="_blank" rel="noopener" style="color:var(--accent);border-bottom:1px solid rgba(245,240,232,0.35);padding-bottom:1px;">Allianz México</a>, una de las aseguradoras más sólidas del mundo, para ofrecerte soluciones reales de protección y ahorro.
+        </p>
+        <div class="omar__creds">
+          <div class="cred-item">
+            <div class="cred-item__icon">✓</div>
+            <div class="cred-item__text">
+              <strong>Asesoría 100% gratuita</strong>
+              Sin costo ni compromiso de contratación.
+            </div>
+          </div>
+          <div class="cred-item">
+            <div class="cred-item__icon">🏛️</div>
+            <div class="cred-item__text">
+              <strong>Regulado por la CNSF</strong>
+              Cédula V409234. Autorizado para operar en México.
+            </div>
+          </div>
+          <div class="cred-item">
+            <div class="cred-item__icon">🎓</div>
+            <div class="cred-item__text">
+              <strong>Maestría en Finanzas</strong>
+              Especialidad en retiro e inversión.
+            </div>
+          </div>
+          <div class="cred-item">
+            <div class="cred-item__icon">🌐</div>
+            <div class="cred-item__text">
+              <strong>Respaldo Allianz México</strong>
+              Una de las aseguradoras más sólidas del mundo.
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ─── ③ EL PROBLEMA REAL ──────────────────────────────────── -->
 <section class="problema">
   <div class="container">
     <span class="section-label">El problema real</span>
@@ -812,58 +900,6 @@ a  { color: inherit; text-decoration: none; }
         </p>
         <a class="btn btn-outline" href="/seguro">Cotizar ahora →</a>
       </div>
-    </div>
-  </div>
-</section>
-
-<!-- ─── ④ POR QUÉ OMAR ────────────────────────────────────── -->
-<section class="omar">
-  <div class="container">
-    <div class="omar__inner">
-
-      <div class="omar__photo-wrap">
-        <img class="omar__photo" src="/ppr-desktop/omar.jpg" alt="Omar Landero — Asesor Financiero" />
-        <div class="omar__photo-ring"></div>
-      </div>
-
-      <div>
-        <span class="section-label">El asesor</span>
-        <h2 class="omar__headline">El asesor que te explica antes de venderte</h2>
-        <p class="omar__para">
-          Soy Omar Landero, asesor financiero independiente. No trabajo para ningún banco. Mi objetivo es que entiendas tus opciones antes de tomar cualquier decisión — por eso mis asesorías son gratuitas y sin compromiso.
-        </p>
-        <div class="omar__creds">
-          <div class="cred-item">
-            <div class="cred-item__icon">✓</div>
-            <div class="cred-item__text">
-              <strong>Asesoría 100% gratuita</strong>
-              Sin costo ni compromiso de contratación.
-            </div>
-          </div>
-          <div class="cred-item">
-            <div class="cred-item__icon">🏛️</div>
-            <div class="cred-item__text">
-              <strong>Regulado por la CNSF</strong>
-              Cédula V409234. Autorizado para operar en México.
-            </div>
-          </div>
-          <div class="cred-item">
-            <div class="cred-item__icon">🎓</div>
-            <div class="cred-item__text">
-              <strong>Maestría en Finanzas</strong>
-              Especialidad en retiro e inversión.
-            </div>
-          </div>
-          <div class="cred-item">
-            <div class="cred-item__icon">⚖️</div>
-            <div class="cred-item__text">
-              <strong>Independiente</strong>
-              Sin conflicto de interés con ninguna institución bancaria.
-            </div>
-          </div>
-        </div>
-      </div>
-
     </div>
   </div>
 </section>
@@ -962,7 +998,7 @@ a  { color: inherit; text-decoration: none; }
     <p class="cta-final__sub">
       Videollamada sin costo. Analizamos tu situación y diseñamos tu estrategia.
     </p>
-    <a class="btn btn-primary" href="https://meet.hubspot.com/omar-l/meeting" target="_blank" rel="noopener" style="font-size:17px;padding:18px 40px;">
+    <a class="btn btn-primary" href="https://calendar.google.com/calendar/u/0/appointments/schedules/AcZssZ1Vu4MKCXBbIo51tARMhJ4nhzVncuzU4DjJlNn6DTJvWFxg5aB-U8oslhJaKpjazlj1Sgu9kCpe" target="_blank" rel="noopener" style="font-size:17px;padding:18px 40px;">
       Agendar ahora →
     </a>
     <div class="cta-final__trust">
@@ -976,7 +1012,7 @@ a  { color: inherit; text-decoration: none; }
   <div class="container">
     <div class="footer__inner">
       <div class="footer__brand">
-        <img src="/VARIANTE_BLANCO.png" alt="Asesor Landero" />
+        <img src="/ISOLOGO_BLANCO.png" alt="Asesor Landero" />
         <span class="footer__brand-text">@asesorlandero · México</span>
       </div>
       <div class="footer__center">
