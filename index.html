@@ -96,8 +96,9 @@ a  { color: inherit; text-decoration: none; }
   flex-shrink: 0;
 }
 .navbar__logo img {
-  height: 48px;
+  height: 56px;
   width: auto;
+  max-height: none;
 }
 .navbar__links {
   display: flex;
@@ -278,17 +279,12 @@ a  { color: inherit; text-decoration: none; }
 }
 .hero__photo {
   width: 100%;
-  aspect-ratio: 3/4;
-  object-fit: cover;
-  border-radius: var(--radius);
+  object-fit: contain;
+  object-position: center bottom;
   display: block;
 }
 .hero__photo-ring {
-  position: absolute;
-  inset: -8px;
-  border-radius: calc(var(--radius) + 8px);
-  border: 1px solid var(--border-accent);
-  pointer-events: none;
+  display: none; /* sin marco sobre PNG transparente */
 }
 @media (max-width: 900px) {
   .hero__inner {
@@ -414,16 +410,12 @@ a  { color: inherit; text-decoration: none; }
   font-size: 14px;
   padding: 12px 22px;
 }
-/* Botón primario en fondo claro (herramientas) */
-.tool-card .btn-primary {
+/* Ambos botones de herramientas iguales — sólido #1f3056 */
+.tool-card .btn-primary,
+.tool-card .btn-outline {
   background: #1f3056;
   color: #F5F0E8;
   border: none;
-}
-.tool-card .btn-outline {
-  background: transparent;
-  color: #1f3056;
-  border: 1.5px solid #1f3056;
 }
 
 /* ─── ④ EL ASESOR / BIO ──────────────────────────────── */
@@ -443,16 +435,13 @@ a  { color: inherit; text-decoration: none; }
 }
 .omar__photo {
   width: 100%;
-  border-radius: var(--radius);
-  object-fit: cover;
-  aspect-ratio: 4/5;
+  max-height: 520px;
+  object-fit: contain;
+  object-position: center center;
+  display: block;
 }
 .omar__photo-ring {
-  position: absolute;
-  inset: -8px;
-  border-radius: calc(var(--radius) + 8px);
-  border: 1px solid #cbd5e1;
-  pointer-events: none;
+  display: none; /* sin marco sobre PNG transparente */
 }
 .omar__headline {
   font-size: clamp(26px, 3.5vw, 40px);
@@ -799,7 +788,7 @@ a  { color: inherit; text-decoration: none; }
     <div class="hero__inner">
 
       <div class="hero__photo-wrap">
-        <img class="hero__photo" src="/images/omar-hero.jpg" alt="Omar Landero — Asesor Financiero Allianz México" />
+        <img class="hero__photo" src="/images/omar-hero.png" alt="Omar Landero — Asesor Financiero Allianz México" />
         <div class="hero__photo-ring"></div>
       </div>
 
@@ -826,7 +815,7 @@ a  { color: inherit; text-decoration: none; }
     <div class="omar__inner">
 
       <div class="omar__photo-wrap">
-        <img class="omar__photo" src="/images/omar-bio.jpg" alt="Omar Landero — Asesor Financiero Allianz México" />
+        <img class="omar__photo" src="/images/omar-bio.png" alt="Omar Landero — Asesor Financiero Allianz México" />
         <div class="omar__photo-ring"></div>
       </div>
 
@@ -841,7 +830,12 @@ a  { color: inherit; text-decoration: none; }
         </p>
         <div class="omar__creds">
           <div class="cred-item">
-            <div class="cred-item__icon">✓</div>
+            <div class="cred-item__icon">
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="10" cy="10" r="9" fill="#1f3056"/>
+                <path d="M5.5 10.5L8.5 13.5L14.5 7.5" stroke="#F5F0E8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
             <div class="cred-item__text">
               <strong>Asesoría 100% gratuita</strong>
               Sin costo ni compromiso de contratación.
@@ -862,7 +856,9 @@ a  { color: inherit; text-decoration: none; }
             </div>
           </div>
           <div class="cred-item">
-            <div class="cred-item__icon">🌐</div>
+            <div class="cred-item__icon" style="width:auto;height:auto;background:none;padding:0;">
+              <img src="/images/logo-allianz.jpg" alt="Allianz México" style="height:32px;width:auto;object-fit:contain;display:block;border-radius:4px;">
+            </div>
             <div class="cred-item__text">
               <strong>Respaldo Allianz México</strong>
               Una de las aseguradoras más sólidas del mundo.
