@@ -1,6 +1,6 @@
 # CLAUDE.md — asesor-landero-web
 
-> Leer completo al inicio de cada sesión. Última actualización: 2026-06-08 (crop fotos completado).
+> Leer completo al inicio de cada sesión. Última actualización: 2026-06-09 (retiro v2 + logo Allianz completados).
 
 ---
 
@@ -28,9 +28,9 @@
 
 | Ruta | Propósito | Estado |
 |---|---|---|
-| `/` | Home principal | Rediseño en progreso |
+| `/` | Home principal | Funcional ✅ |
 | `/ppr` | Simulador PPR móvil (leads de Meta) | Completo y funcional ✅ |
-| `/retiro` | Landing PPR desktop | Funcional ✅ |
+| `/retiro` | Landing PPR desktop con simulador embedded | Completo v2 ✅ |
 | `/seguro` | Landing cotizador seguros | Funcional ✅ |
 | `/links` | Link in bio Instagram | Existe, optimización pendiente |
 
@@ -54,6 +54,8 @@
 
 4. **WhatsApp:** +52 9933205649
 
+5. **`/retiro` nav pill y hero buttons:** apuntan a `#simulador` (la sección del simulador embedded al final de la página). No cambiar a `/ppr-sim` ni a otra ruta.
+
 ---
 
 ## PRODUCTOS
@@ -63,13 +65,13 @@
 
 ---
 
-## ESTADO HOME — index.html (rediseño en progreso)
+## ESTADO HOME — index.html ✅
 
-### Cambios ya implementados ✅
+### Cambios implementados
 
 - Foto hero: `images/omar-hero.png` — izquierda, señala hacia el texto
 - Foto bio: `images/omar-bio.png` — sección El Asesor
-- Fotos: PNGs con fondo transparente (generados con rembg)
+- Fotos: PNGs con fondo transparente (generados con rembg + PIL getbbox crop)
 - Headline: "Tu dinero puede hacer más de lo que crees."
 - Subheadline: "Te ayudo a entender cómo — sin letra chica, sin presión."
 - Firma: "Omar Landero · Asesor Financiero · Allianz México"
@@ -78,32 +80,54 @@
 - Heading bio: "Entiende antes de decidir."
 - Esquema de fondos: `#1f3056` hero → `#F5F7FA` bio → `#ffffff` problema → `#F5F7FA` herramientas → `#1f3056` CTA final
 - Ícono "Asesoría 100% gratuita": checkmark oscuro (visible sobre fondo blanco)
-- Logo Allianz: `images/logo-allianz.jpg` mostrando correctamente
-- Texto tarjeta Allianz: "Respaldo Allianz México / Una de las aseguradoras más sólidas del mundo y Administradoras de Activos más grandes a nivel mundial."
+- Logo Allianz: `images/logo-allianz.jpg` en `height:64px` ✅
+- Texto tarjeta Allianz: "Respaldo Allianz México / Una de las aseguradoras más sólidas del mundo..."
 - Testimonios y blog: `display: none`
-- Fotos recortadas al sujeto con PIL getbbox(): `omar-hero.png` 990×961, `omar-bio.png` 727×996
 - CSS hero foto: `.hero__photo-wrap` flex align-end, `.hero__photo` height 520px, object-fit contain
-- CSS bio foto: `.omar__photo-wrap` flex align-end con `::after` sombra elíptica, `::before` con `display:none` (quitó círculo gris), `.omar__photo` height 400px object-fit contain
+- CSS bio foto: `.omar__photo-wrap` flex align-end con `::after` sombra elíptica, `.omar__photo` height 400px
 
-### TAREA PENDIENTE — Logo Allianz más grande (siguiente tarea)
+---
 
-**Problema:** El logo Allianz en la sección bio/credenciales está en `height:32px` — se ve pequeño.
+## ESTADO /retiro — retiro/index.html ✅ (v2 — 2026-06-09)
 
-**Solución:**
-Buscar en `index.html` el `img` con `src="/images/logo-allianz.jpg"` y cambiar el estilo inline de `height:32px` a `height:64px`.
+### Secciones en orden
 
-```html
-<!-- Antes -->
-<img src="/images/logo-allianz.jpg" alt="Allianz México" style="height:32px;width:auto;object-fit:contain;display:block;border-radius:4px;">
+1. **`#hero`** — grid-2 desktop, botones apuntan a `#simulador`
+2. **`#afore`** — brecha AFORE vs PPR, callout navy (ya no amarillo)
+3. **`#calculadora`** — **NUEVO** calculadora de capital necesario: `capital = pension × 12 × 20`, input pension → resultado en tiempo real con `oninput="actualizarCalc()"`
+4. **`#solucion`** — 6 sol-cards sobre fondo navy
+5. **`#fiscal`** — Art. 151 LISR (navy/gold) vs Art. 93 LISR (green)
+6. **`#portafolios`** — 19 portafolios categorías
+7. **`#simulador`** — **NUEVO** simulador desktop embedded 2 columnas: form (izq) + results con chart (der)
+8. **footer**
 
-<!-- Después -->
-<img src="/images/logo-allianz.jpg" alt="Allianz México" style="height:64px;width:auto;object-fit:contain;display:block;border-radius:4px;">
-```
+### Paleta v2 (cambios respecto a v1)
 
-**Commit tras completar:**
-```bash
-git add index.html && git commit -m "ui: logo Allianz 64px en sección bio" && git push
-```
+- `.tag` default: `background: rgba(27,42,74,.1); color: var(--navy)` (antes: gold)
+- `.tag--light`: `background: rgba(255,255,255,.15); color: rgba(255,255,255,.9)` — para uso en secciones oscuras
+- `.gold` class: `color: var(--navy)` (antes: color gold)
+- `.afore-callout`: `background: #f0f4ff; border: 1.5px solid var(--navy)` (antes: amarillo)
+- `.sol-highlight`: `color: var(--white)` (antes: gold) — sobre fondo navy
+- `.sol-icon`: `background: rgba(255,255,255,.1)` (antes: gold-dim)
+- `.btn-sim`: `background: var(--white); color: var(--navy)` (antes: gold)
+- `.nav-pill`: `background: var(--white); color: var(--navy)` (antes: gold)
+
+### Simulador desktop (#simulador) — CSS scoped
+
+- Sección usa CSS variables propias prefijadas `--sim-*` (ej. `--sim-bg`, `--sim-surf`, `--sim-gold`)
+- Grid: `.sim-grid { grid-template-columns: 460px 1fr; gap: 40px; }`
+- Form: `.sim-panel` en `--sim-surf`
+- Results: `.sim-res-panel` — muestra placeholder hasta que hay cálculo
+- Funciones JS: `simCalcular()`, `simSimular()`, `simGetBono()`, `simRenderChart()`, `simValidate()`
+- Chart: `id="simChart"`, instancia `simChartInst`
+- WA link: `id="simWaLink"` — personalizado con nombre y pensión tras calcular
+- Lead capture: usa mismo `SIM_SHEETS` URL que `/ppr`
+
+### Calculadora (#calculadora) — JS
+
+- Función: `actualizarCalc()` — oninput en `id="calcPension"`
+- Fórmula: `capital = pension × 12 × 20`
+- IDs: `calcCapital`, `calcCapital2`, `calcPensionFmt`, `calcSub`, `calcPlaceholder`, `calcResult`
 
 ---
 
@@ -111,11 +135,9 @@ git add index.html && git commit -m "ui: logo Allianz 64px en sección bio" && g
 
 | Tarea | Prioridad |
 |---|---|
-| Logo Allianz más grande en bio (`height: 64px`) — instrucciones arriba | 🔴 Alta |
-| Navbar global consistente en todas las páginas | 🟡 Media |
+| Navbar global consistente en todas las páginas (home, retiro, ppr) | 🟡 Media |
 | SEO: sitemap.xml, robots.txt, meta tags | 🟡 Media |
 | /testimonios con formulario de reseñas | 🟢 Baja |
-| Simulador desktop dentro de /retiro | 🟢 Baja |
 | /links optimización visual | 🟢 Baja |
 
 ---
@@ -125,3 +147,10 @@ git add index.html && git commit -m "ui: logo Allianz 64px en sección bio" && g
 - **Imágenes del home:** en carpeta `images/` (subcarpeta en raíz del repo)
 - **Logo blanco:** `ISOLOGO_BLANCO.png` en raíz
 - **Token GitHub:** puede estar expirado. Generar nuevo en github.com/settings/tokens → classic → scope `repo`
+- **Tasas Allianz (actualizar mensualmente):**
+  - UDIS: `UDIS_RATE = 0.0847` (8.47%)
+  - MXN conservador: `ALLIANZ_MXN_RATE = 0.0672` (6.72%)
+  - USD conservador: `ALLIANZ_USD_RATE = 0.0333` (3.33% USD)
+  - Última actualización: Mayo 2025
+- **Chart.js:** versión 4.4.0 desde CDN jsdelivr
+- **CRITICAL `.replace()` bug:** Si el string de reemplazo contiene `$`, siempre usar `.replace(str, () => replacement)` para evitar interpretación de grupos.
