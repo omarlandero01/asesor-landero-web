@@ -1,6 +1,6 @@
 # CLAUDE.md — asesor-landero-web
 
-> Leer completo al inicio de cada sesión. Última actualización: 2026-06-09 (retiro v2 + logo Allianz completados).
+> Leer completo al inicio de cada sesión. Última actualización: 2026-06-09 (GTM, sitemap, PPR v2, retiro simulador fixes).
 
 ---
 
@@ -44,11 +44,13 @@
    ```
    **NO** usar meet.hubspot.com (ese link no existe).
 
-3. **Testimonios y Blog en home:** tienen `display: none`. No activar hasta que haya contenido real.
+2. **Testimonios y Blog en home:** tienen `display: none`. No activar hasta que haya contenido real.
 
-4. **WhatsApp:** +52 9933205649
+3. **WhatsApp:** +52 9933205649
 
-5. **`/retiro` nav pill y hero buttons:** apuntan a `#simulador` (la sección del simulador embedded al final de la página). No cambiar a `/ppr-sim` ni a otra ruta.
+4. **`/retiro` nav pill y hero buttons:** apuntan a `#simulador`. No cambiar a `/ppr-sim` ni a otra ruta.
+
+5. **Meta Pixel y tracking:** gestionados EXCLUSIVAMENTE vía GTM (`GTM-TLMKJNZ4`). NO agregar píxeles, fbq, o scripts de analytics hardcodeados en las páginas. Todo tracking pasa por GTM.
 
 ---
 
@@ -125,12 +127,22 @@
 
 ---
 
+## ESTADO /ppr — ppr/index.html ✅ (v2 — 2026-06-09)
+
+- Sin redirect desktop (redirect `/ppr` → `/retiro` fue eliminado intencionalmente)
+- **Paleta:** accent blue `#4A7CF7` — dorado eliminado completamente
+- **Tasa:** fija 10% anual — selector de portafolios eliminado (simplificado)
+- **Métricas:** valores positivos en verde, chart verde, barra bottom verde
+- **WA link:** personalizado con nombre y pensión proyectada tras calcular
+
+---
+
 ## BACKLOG
 
 | Tarea | Prioridad |
 |---|---|
 | Navbar global consistente en todas las páginas (home, retiro, ppr) | 🟡 Media |
-| SEO: sitemap.xml, robots.txt, meta tags | 🟡 Media |
+| SEO: robots.txt, meta tags por página | 🟡 Media |
 | /testimonios con formulario de reseñas | 🟢 Baja |
 | /links optimización visual | 🟢 Baja |
 
@@ -141,6 +153,8 @@
 - **Imágenes del home:** en carpeta `images/` (subcarpeta en raíz del repo)
 - **Logo blanco:** `ISOLOGO_BLANCO.png` en raíz
 - **Token GitHub:** puede estar expirado. Generar nuevo en github.com/settings/tokens → classic → scope `repo`
+- **GTM:** contenedor `GTM-TLMKJNZ4` instalado en todas las páginas (`index.html`, `retiro/`, `ppr/`, `links/`). Todo el tracking (Meta Pixel, conversiones) pasa por aquí.
+- **SEO:** `sitemap.xml` en raíz, verificación Google Search Console en `googledb889b23738069ac.html`
 - **Tasas Allianz (actualizar mensualmente):**
   - UDIS: `UDIS_RATE = 0.0847` (8.47%)
   - MXN conservador: `ALLIANZ_MXN_RATE = 0.0672` (6.72%)
