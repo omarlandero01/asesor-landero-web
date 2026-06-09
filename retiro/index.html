@@ -555,9 +555,10 @@
     .sim-prefix {
       position: absolute; left: 13px; top: 50%; transform: translateY(-50%);
       color: var(--sim-accent); font-weight: 600; font-size: 13px; pointer-events: none;
-      padding-right: 8px; border-right: 1px solid rgba(255,255,255,.2);
+      padding-right: 10px; margin-right: 8px; border-right: 1px solid rgba(255,255,255,.2);
+      letter-spacing: 0.5px;
     }
-    .sim-prefix ~ input { padding-left: 46px; }
+    .sim-prefix ~ input { padding-left: 52px; }
     .sim-sfx {
       position: absolute; right: 13px; top: 50%; transform: translateY(-50%);
       color: var(--sim-dim); font-size: 11px; pointer-events: none;
@@ -618,7 +619,7 @@
       padding: 22px 22px 14px; text-align: center; border-bottom: 1px solid var(--sim-bdr);
     }
     .sim-res-lbl { font-size: 11px; color: var(--sim-accent); font-weight: 500; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 4px; }
-    .sim-res-portfolio { font-size: 16px; font-weight: 700; color: var(--sim-text); }
+    .sim-output-portfolio { font-size: 13px; font-weight: 500; color: var(--sim-muted); }
 
     /* Bono */
     .sim-bono-banner {
@@ -661,13 +662,35 @@
     .sim-chart-title { font-size: 10px; font-weight: 600; color: var(--sim-muted); text-transform: uppercase; letter-spacing: .8px; margin-bottom: 12px; }
     #simChart { max-height: 220px; }
 
+    /* Mask / reveal */
+    .sim-masked {
+      filter: blur(6px);
+      user-select: none;
+      transition: filter 0.4s ease;
+      pointer-events: none;
+    }
+    .sim-masked.revealed { filter: blur(0); pointer-events: auto; }
+
     /* CTA box */
     .sim-wa-box {
       margin: 14px 20px 20px;
       background: linear-gradient(135deg, #1a2540, #111827);
       border: 1px solid rgba(74,124,247,.2); border-radius: 12px;
       padding: 20px; text-align: center;
+      position: relative;
     }
+    .sim-cta-overlay {
+      position: absolute; inset: 0;
+      background: rgba(10,18,45,0.82);
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center; text-align: center;
+      padding: 20px; backdrop-filter: blur(2px);
+      transition: opacity 0.4s ease;
+      z-index: 2;
+    }
+    .sim-cta-overlay p { color: #E2E8F4; font-size: 13px; line-height: 1.6; }
+    .sim-cta-overlay strong { color: #fff; }
+    .sim-cta-overlay.hidden { opacity: 0; pointer-events: none; }
     .sim-wa-title { font-size: 15px; font-weight: 700; color: var(--sim-text); margin-bottom: 6px; line-height: 1.4; }
     .sim-wa-sub { font-size: 12px; color: var(--sim-muted); margin-bottom: 16px; line-height: 1.6; }
     .sim-cta-buttons { display: flex; gap: 10px; flex-wrap: wrap; }
@@ -1197,7 +1220,7 @@
             <label>WHATSAPP *</label>
             <div class="sim-input-wrap">
               <span class="sim-prefix">+52</span>
-              <input type="tel" id="sWa" placeholder="10 dígitos" maxlength="10" inputmode="tel" oninput="simUpdateCtaState()">
+              <input type="tel" id="sWa" placeholder="10 dígitos" maxlength="10" inputmode="tel" oninput="simCheckReveal()">
             </div>
             <span class="sim-err" id="serr-wa">10 dígitos</span>
           </div>
@@ -1206,7 +1229,7 @@
         <!-- Email — OBLIGATORIO -->
         <div class="sim-field">
           <label>CORREO ELECTRÓNICO *</label>
-          <input type="email" id="sEmail" placeholder="tucorreo@ejemplo.com" autocomplete="email" oninput="simUpdateCtaState()">
+          <input type="email" id="sEmail" placeholder="tucorreo@ejemplo.com" autocomplete="email" oninput="simCheckReveal()">
           <span class="sim-err" id="serr-email">Correo electrónico válido</span>
         </div>
 
@@ -1239,7 +1262,7 @@
 
         <!-- Privacy -->
         <div class="sim-check-row">
-          <input type="checkbox" id="sPrivacy" onchange="simUpdateCtaState()">
+          <input type="checkbox" id="sPrivacy" onchange="simCheckReveal()">
           <label for="sPrivacy">
             Acepto el <span class="sim-priv-link" onclick="simOpenPrivacy()">Aviso de Privacidad</span>. Mis datos serán utilizados únicamente para recibir información sobre planificación financiera y retiro de parte de Asesor Landero.
           </label>
@@ -1258,31 +1281,34 @@
         <div id="simResInner" style="display:none;">
           <div class="sim-res-head">
             <div class="sim-res-lbl" id="simResNombre"></div>
-            <div class="sim-res-portfolio">S&amp;P 500 · 10% anual proyectado</div>
+            <div class="sim-output-portfolio" id="sim-context-line">— años hoy · — años de crecimiento compuesto</div>
           </div>
           <div class="sim-bono-banner" id="simBonoBanner">
             <div class="sim-bono-icon">🎁</div>
             <div class="sim-bono-text">
               <div class="sim-bono-lbl">BONO DE FIDELIDAD ALLIANZ</div>
-              <div class="sim-bono-amt" id="simBonoAmt">—</div>
+              <div class="sim-bono-amt sim-masked" id="simBonoAmt">—</div>
               <div class="sim-bono-desc">Capital adicional al inicio del plan · <span id="simBonoPct">—</span> de tu aportación del primer año</div>
             </div>
           </div>
           <div class="sim-metrics">
-            <div class="sim-metric"><div class="sim-metric-lbl">TOTAL APORTADO</div><div class="sim-metric-val" id="simResAportado">—</div></div>
-            <div class="sim-metric hi"><div class="sim-metric-lbl">VALOR TOTAL PROYECTADO</div><div class="sim-metric-val sim-green-val" id="simResTotal">—</div></div>
-            <div class="sim-metric"><div class="sim-metric-lbl">RENDIMIENTO GENERADO</div><div class="sim-metric-val" id="simResGanancia">—</div></div>
+            <div class="sim-metric"><div class="sim-metric-lbl">TOTAL APORTADO</div><div class="sim-metric-val sim-masked" id="simResAportado">—</div></div>
+            <div class="sim-metric hi"><div class="sim-metric-lbl">VALOR TOTAL PROYECTADO</div><div class="sim-metric-val sim-green-val sim-masked" id="simResTotal">—</div></div>
+            <div class="sim-metric"><div class="sim-metric-lbl">RENDIMIENTO GENERADO</div><div class="sim-metric-val sim-masked" id="simResGanancia">—</div></div>
           </div>
           <div class="sim-pension-box">
             <div class="sim-pension-lbl">💰 PENSIÓN MENSUAL ESTIMADA AL RETIRO</div>
-            <div class="sim-pension-val" id="simResPension">—</div>
+            <div class="sim-pension-val sim-masked" id="simResPension">—</div>
           </div>
           <div class="sim-chart-wrap">
             <div class="sim-chart-title">CRECIMIENTO ACUMULADO PROYECTADO</div>
             <canvas id="simChart"></canvas>
           </div>
           <div class="sim-wa-box">
-            <div class="sim-wa-title" id="simWaTitle">Tu retiro proyectado</div>
+            <div class="sim-cta-overlay" id="sim-cta-overlay">
+              <p>Completa tu <strong>nombre</strong>, <strong>WhatsApp</strong> y <strong>correo</strong><br>para ver tu proyección exacta</p>
+            </div>
+            <div class="sim-wa-title sim-masked" id="simWaTitle">Tu retiro proyectado</div>
             <p class="sim-wa-sub">¿Quieres que lo estructuremos juntos?</p>
             <div class="sim-cta-buttons">
               <a href="#" class="sim-btn-wa" id="simWaLink" target="_blank" rel="noopener" onclick="simOnCtaClick()">
@@ -1419,6 +1445,14 @@ function simAutoCalc() {
   const aportacion = parseFloat(document.getElementById('sAportacion').value);
   const useInfl = document.getElementById('sInflToggle').checked;
 
+  // Update context line regardless of full validity
+  const ctxLine = document.getElementById('sim-context-line');
+  if (!isNaN(edad) && edad >= 18 && edad <= 64) {
+    ctxLine.textContent = edad + ' años hoy · ' + (65 - edad) + ' años de crecimiento compuesto';
+  } else {
+    ctxLine.textContent = '— años hoy · — años de crecimiento compuesto';
+  }
+
   if (isNaN(edad) || edad < 18 || edad > 64 || isNaN(aportacion) || aportacion < 2000) {
     document.getElementById('simResInner').style.display = 'none';
     document.getElementById('simPlaceholder').style.display = 'block';
@@ -1433,6 +1467,7 @@ function simAutoCalc() {
   const totalAp  = sim.totalContrib;
   const ganancia = totalFV - totalAp;
   const pension  = totalFV / 20 / 12;
+  const pensionFmt = mxnFmt(pension);
 
   const nombre = document.getElementById('sNombre').value.trim();
   const primerNombre = nombre ? nombre.split(' ')[0] : '';
@@ -1440,7 +1475,7 @@ function simAutoCalc() {
   document.getElementById('simResAportado').textContent = mxnFmt(totalAp);
   document.getElementById('simResTotal').textContent    = mxnFmt(totalFV);
   document.getElementById('simResGanancia').textContent = mxnFmt(ganancia);
-  document.getElementById('simResPension').textContent  = mxnFmt(pension);
+  document.getElementById('simResPension').textContent  = pensionFmt;
 
   const bonoBanner = document.getElementById('simBonoBanner');
   if (bono.amount > 0) {
@@ -1452,23 +1487,23 @@ function simAutoCalc() {
   }
 
   const display = primerNombre || 'Tu';
-  document.getElementById('simWaTitle').textContent = display + ', tu retiro proyectado es de ' + mxnFmt(pension) + ' al mes.';
+  document.getElementById('simWaTitle').innerHTML = display + ', tu retiro proyectado es de <span style="color:#25D366;font-weight:800;">' + pensionFmt + '</span> al mes.';
 
   simRenderChart(sim.annualSnaps);
 
   document.getElementById('simPlaceholder').style.display = 'none';
   document.getElementById('simResInner').style.display = 'block';
 
-  simUpdateCtaState();
+  simCheckReveal();
 }
 
 function simOnNombre() {
-  simUpdateCtaState();
+  simCheckReveal();
   if (document.getElementById('simResInner').style.display !== 'none') {
     const nombre = document.getElementById('sNombre').value.trim();
     const display = nombre ? nombre.split(' ')[0] : 'Tu';
-    const pension = document.getElementById('simResPension').textContent;
-    document.getElementById('simWaTitle').textContent = display + ', tu retiro proyectado es de ' + pension + ' al mes.';
+    const pensionFmt = document.getElementById('simResPension').textContent;
+    document.getElementById('simWaTitle').innerHTML = display + ', tu retiro proyectado es de <span style="color:#25D366;font-weight:800;">' + pensionFmt + '</span> al mes.';
     document.getElementById('simResNombre').textContent = nombre ? nombre.split(' ')[0] : '—';
   }
 }
@@ -1497,22 +1532,27 @@ function simBuildCalUrl() {
   return CAL_BASE + '?name=' + nombre + '&email=' + email;
 }
 
-function simUpdateCtaState() {
+function simCheckReveal() {
   const nombre  = document.getElementById('sNombre').value.trim();
   const wa      = document.getElementById('sWa').value.trim();
   const email   = document.getElementById('sEmail').value.trim();
   const privacy = document.getElementById('sPrivacy').checked;
   const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-  const enabled = !!(nombre && wa.length === 10 && emailOk && privacy);
+  const complete = !!(nombre && wa.length === 10 && emailOk && privacy);
+
+  document.querySelectorAll('.sim-masked').forEach(el => el.classList.toggle('revealed', complete));
+
+  const overlay = document.getElementById('sim-cta-overlay');
+  if (overlay) overlay.classList.toggle('hidden', complete);
 
   const waBtn  = document.getElementById('simWaLink');
   const calBtn = document.getElementById('simCalLink');
-  waBtn.style.opacity       = enabled ? '1'    : '0.45';
-  waBtn.style.pointerEvents = enabled ? 'auto' : 'none';
-  calBtn.style.opacity       = enabled ? '1'    : '0.45';
-  calBtn.style.pointerEvents = enabled ? 'auto' : 'none';
+  waBtn.style.opacity       = complete ? '1'    : '0.45';
+  waBtn.style.pointerEvents = complete ? 'auto' : 'none';
+  calBtn.style.opacity       = complete ? '1'    : '0.45';
+  calBtn.style.pointerEvents = complete ? 'auto' : 'none';
 
-  if (enabled) {
+  if (complete) {
     waBtn.href  = simBuildWaUrl();
     calBtn.href = simBuildCalUrl();
   }
@@ -1606,7 +1646,7 @@ function simRenderChart(snaps) {
 }
 
 // Init
-simUpdateCtaState();
+simCheckReveal();
 
 function simOpenPrivacy()  { const m = document.getElementById('simPrivModal'); m.style.display = 'flex'; document.body.style.overflow = 'hidden'; }
 function simClosePrivacy() { const m = document.getElementById('simPrivModal'); m.style.display = 'none'; document.body.style.overflow = ''; }
