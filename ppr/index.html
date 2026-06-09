@@ -232,7 +232,7 @@
   <div class="hero">
     <div class="hero-eyebrow">Simulador OptiMaxx Plus</div>
     <h1>¿Cuánto tendrás<br><span>a los 65 años?</span></h1>
-    <p>Visualiza el potencial de tu Plan Personal de Retiro según diferentes estrategias de inversión. Incluye Bono de Fidelidad Allianz. Proyecciones con fines ilustrativos.</p>
+    <p>Visualiza el potencial de tu Plan Personal de Retiro. Proyección al 10% anual, referenciado al promedio histórico del S&P 500. Con fines ilustrativos.</p>
   </div>
 
   <div class="card" id="formCard">
@@ -289,7 +289,6 @@
 
         <!-- INFLATION TOGGLE -->
         <div class="form-group">
-          <label>Opciones de proyección</label>
           <label class="infl-toggle" for="inflToggle" style="text-transform:none;letter-spacing:0;font-size:13px;font-weight:400;">
             <input type="checkbox" id="inflToggle">
             <div class="infl-toggle-text">
@@ -300,183 +299,6 @@
           </label>
         </div>
 
-        <!-- PORTFOLIOS -->
-        <div class="form-group">
-          <label>Portafolio de interés <span class="req">*</span></label>
-          <div class="portfolio-grid">
-
-            <div class="p-option">
-              <input type="radio" name="portafolio" id="p1"
-                value="Portafolio Crecimiento Global"
-                data-calc-rate="0.10" data-capped="true" data-hist-rate="13" checked>
-              <label class="p-label" for="p1" onclick="onPort('p1')">
-                <span class="p-dot" style="background:#3b82f6"></span>
-                <div class="p-info"><div class="p-name">Crecimiento Global</div><div class="p-inst">S&P 500</div><div class="p-legend">Índice mundial · Horizonte 15+ años</div></div>
-                <div class="p-right">
-                  <div class="p-rate">13% prom. anual</div>
-                  <div class="p-cap-badge">Proyección: 10%</div>
-                  <div class="p-risk">Horizonte: Largo plazo</div>
-                </div>
-              </label>
-              <div class="p-info-btn" onclick="toggleDesc(event,'p1')">
-                <span>＋ ¿Qué hay dentro de este portafolio?</span>
-              </div>
-              <div class="p-desc-wrap" id="desc-p1">
-                <div class="p-desc-box">
-                  <div class="p-desc-type">📊 Renta Variable</div>
-                  <div class="p-desc-text">Invierte en las 500 empresas más grandes de Estados Unidos, distribuidas en los 11 sectores de la economía: tecnología, salud, finanzas, consumo, energía, industria, bienes raíces y más. A diferencia del portafolio tecnológico, ningún sector domina — es la economía estadounidense completa en un solo instrumento. Incluye empresas como Apple, Microsoft, JPMorgan, Johnson & Johnson y ExxonMobil. Su valor fluctúa con el mercado, pero históricamente ha sido uno de los instrumentos de mayor rendimiento sostenido a largo plazo.</div>
-                </div>
-              </div>
-            </div>
-
-            <button class="port-explore-btn" id="portExploreBtn" type="button" onclick="toggleOtrosPort(this)">
-              <span>Explorar otros escenarios de inversión</span>
-              <span class="chevron">▾</span>
-            </button>
-            <div class="otros-port-wrap" id="otrosPortWrap">
-              <div class="otros-port-label">Otros portafolios disponibles</div>
-            <div class="p-option">
-              <input type="radio" name="portafolio" id="p2"
-                value="Portafolio Tecnológico"
-                data-calc-rate="0.10" data-capped="true" data-hist-rate="15">
-              <label class="p-label" for="p2" onclick="onPort('p2')">
-                <span class="p-dot" style="background:#8b5cf6"></span>
-                <div class="p-info"><div class="p-name">Tecnológico</div><div class="p-inst">QQQ – Nasdaq 100</div><div class="p-legend">Alta tecnología · Horizonte 15+ años</div></div>
-                <div class="p-right">
-                  <div class="p-rate">15% prom. anual</div>
-                  <div class="p-cap-badge">Proyección: 10%</div>
-                  <div class="p-risk">Horizonte: Largo plazo</div>
-                </div>
-              </label>
-              <div class="p-info-btn" onclick="toggleDesc(event,'p2')">
-                <span>＋ ¿Qué hay dentro de este portafolio?</span>
-              </div>
-              <div class="p-desc-wrap" id="desc-p2">
-                <div class="p-desc-box">
-                  <div class="p-desc-type">📊 Renta Variable — Mayor potencial, mayor volatilidad</div>
-                  <div class="p-desc-text">Replica el índice Nasdaq 100, concentrado en las 100 empresas tecnológicas y de innovación más grandes del mundo: Nvidia, Apple, Meta, Tesla, entre otras. Tiene mayor potencial de crecimiento que el S&P 500 pero también mayores oscilaciones en el corto plazo. Ideal para horizontes de largo plazo y tolerancia al riesgo alta.</div>
-                </div>
-              </div>
-            </div>
-
-            <div class="p-option">
-              <input type="radio" name="portafolio" id="p3"
-                value="Portafolio Diversificado Mundial"
-                data-calc-rate="0.10" data-capped="true">
-              <label class="p-label" for="p3" onclick="onPort('p3')">
-                <span class="p-dot" style="background:#0891b2"></span>
-                <div class="p-info"><div class="p-name">Diversificado Mundial</div><div class="p-inst">MSCI ACWI</div><div class="p-legend">47 países · Horizonte 10-20 años</div></div>
-                <div class="p-right"><div class="p-rate">11% prom. anual</div><div class="p-cap-badge">Proyección: 10%</div><div class="p-risk">Horizonte: Mediano-Largo plazo</div></div>
-              </label>
-              <div class="p-info-btn" onclick="toggleDesc(event,'p3')">
-                <span>＋ ¿Qué hay dentro de este portafolio?</span>
-              </div>
-              <div class="p-desc-wrap" id="desc-p3">
-                <div class="p-desc-box">
-                  <div class="p-desc-type">📊 Renta Variable Global</div>
-                  <div class="p-desc-text">Invierte en más de 2,900 empresas de 47 países — mercados desarrollados como Estados Unidos, Europa y Japón, y mercados emergentes como México, Brasil e India. La diversificación geográfica reduce la exposición a cualquier economía en particular. Es la opción de renta variable más diversificada del portafolio.</div>
-                </div>
-              </div>
-            </div>
-
-            <div class="p-option">
-              <input type="radio" name="portafolio" id="p4"
-                value="Portafolio Oro"
-                data-calc-rate="0.10" data-capped="false">
-              <label class="p-label" for="p4" onclick="onPort('p4')">
-                <span class="p-dot" style="background:#d97706"></span>
-                <div class="p-info"><div class="p-name">Oro</div><div class="p-inst">iShares Gold Trust</div><div class="p-legend">Reserva de valor · Horizonte flexible</div></div>
-                <div class="p-right"><div class="p-rate">10% anual</div><div class="p-risk">Horizonte: Flexible</div></div>
-              </label>
-              <div class="p-info-btn" onclick="toggleDesc(event,'p4')">
-                <span>＋ ¿Qué hay dentro de este portafolio?</span>
-              </div>
-              <div class="p-desc-wrap" id="desc-p4">
-                <div class="p-desc-box">
-                  <div class="p-desc-type">🪙 Activo Real — Reserva de valor</div>
-                  <div class="p-desc-text">Invierte en oro físico respaldado por lingotes reales almacenados en bóvedas. El oro no paga dividendos — su función principal es proteger tu poder adquisitivo ante inflación, crisis económicas y devaluaciones monetarias. Históricamente actúa como refugio cuando otros mercados caen.</div>
-                </div>
-              </div>
-            </div>
-
-            <div class="p-option">
-              <input type="radio" name="portafolio" id="p5"
-                value="Portafolio Anti-Inflación"
-                data-calc-rate="0" data-capped="false">
-              <label class="p-label" for="p5" onclick="onPort('p5')">
-                <span class="p-dot" style="background:#059669"></span>
-                <div class="p-info"><div class="p-inst">UDIS – Pesos Reevaluables</div></div>
-                <div class="p-right"><div class="p-rate" id="udisRateDisplay">—% anual</div><div class="p-live-badge" style="background:rgba(16,185,129,0.12);color:#10b981;border-color:rgba(16,185,129,0.25);">Tasa Allianz vigente</div><div class="p-risk">Horizonte: Mediano plazo</div></div>
-              </label>
-              <div class="p-info-btn" onclick="toggleDesc(event,'p5')">
-                <span>＋ ¿Qué hay dentro de este portafolio?</span>
-              </div>
-              <div class="p-desc-wrap" id="desc-p5">
-                <div class="p-desc-box">
-                  <div class="p-desc-type">🔒 Renta Fija — Protección contra la inflación</div>
-                  <div class="p-desc-text">Las UDIS (Unidades de Inversión) son una unidad de valor creada por Banco de México que se ajusta al ritmo de la inflación. Invertir aquí significa que tu dinero crece junto con el costo de vida — lo que ahorres hoy conserva su valor real con el tiempo. No es un instrumento de alto crecimiento; es estabilidad y protección del poder adquisitivo a largo plazo.</div>
-                </div>
-              </div>
-            </div>
-
-            <div class="p-option">
-              <input type="radio" name="portafolio" id="p6"
-                value="Portafolio Conservador Dolarizado"
-                data-calc-rate="0" data-capped="false">
-              <label class="p-label" for="p6" onclick="onPort('p6')">
-                <span class="p-dot" style="background:#0369a1"></span>
-                <div class="p-info"><div class="p-name">Renta Fija USD</div></div>
-                <div class="p-right">
-                  <div class="p-rate" id="usdRateDisplay">—% USD</div>
-                  <div class="p-cap-badge" id="usdRateMXN" style="background:rgba(59,130,246,0.12);color:#60a5fa;border-color:rgba(59,130,246,0.25);">~—% MXN</div>
-                  <div class="p-live-badge">Tasa Allianz vigente</div>
-                  <div class="p-risk">Horizonte: Corto-Mediano plazo</div>
-                </div>
-              </label>
-              <div class="p-info-btn" onclick="toggleDesc(event,'p6')">
-                <span>＋ ¿Qué hay dentro de este portafolio?</span>
-              </div>
-              <div class="p-desc-wrap" id="desc-p6">
-                <div class="p-desc-box">
-                  <div class="p-desc-type">🔒 Renta Fija en Dólares Americanos</div>
-                  <div class="p-desc-text">El 100% se invierte en instrumentos gubernamentales de deuda en dólares americanos con vencimientos máximos de 5 años y alta calidad crediticia (mínimo S&P mxAA). Combina la estabilidad de la renta fija con la cobertura cambiaria del dólar — si el peso se deprecia, el valor de tu inversión en pesos sube proporcionalmente.</div>
-                </div>
-              </div>
-            </div>
-
-            <div class="p-option">
-              <input type="radio" name="portafolio" id="p7"
-                value="Portafolio Conservador en Pesos"
-                data-calc-rate="0" data-capped="false">
-              <label class="p-label" for="p7" onclick="onPort('p7')">
-                <span class="p-dot" style="background:#047857"></span>
-                <div class="p-info"><div class="p-name">Conservador MXN</div><div class="p-legend">Rendimiento predecible · Riesgo muy bajo</div></div>
-                <div class="p-right">
-                  <div class="p-rate" id="mxnRateDisplay">—% anual</div>
-                  <div class="p-live-badge">Tasa Allianz vigente</div>
-                  <div class="p-risk">Horizonte: Corto-Mediano plazo</div>
-                </div>
-              </label>
-              <div class="p-info-btn" onclick="toggleDesc(event,'p7')">
-                <span>＋ ¿Qué hay dentro de este portafolio?</span>
-              </div>
-              <div class="p-desc-wrap" id="desc-p7">
-                <div class="p-desc-box">
-                  <div class="p-desc-type">🔒 Renta Fija en Pesos Mexicanos</div>
-                  <div class="p-desc-text">El 100% del portafolio se invierte en instrumentos de deuda en pesos mexicanos con vencimientos máximos de 5 años y alta calidad crediticia (mínimo S&P mxAA). Incluye principalmente deuda gubernamental y hasta un 30% en instrumentos privados de alta calificación. La duración máxima no excede 2 años, lo que le da estabilidad ante cambios en tasas de interés. Rendimientos predecibles y riesgo muy bajo.</div>
-                </div>
-              </div>
-            </div>
-
-            </div><!-- /otros-port-wrap -->
-
-          </div>
-
-          <div class="cap-notice-selection" id="capNoticeSel">
-            <strong>ℹ️ Nota regulatoria:</strong> Este instrumento ha registrado un rendimiento histórico aproximado del <strong id="capHistRateSel">—</strong>% anual. De conformidad con la normativa de <strong>Allianz México</strong>, las proyecciones del plan OptiMaxx Plus se presentan con un tope máximo del <strong>10% anual</strong>. El rendimiento pasado no garantiza resultados futuros.
-          </div>
-          <span class="err" id="err-portafolio">Selecciona un portafolio</span>
-        </div>
 
         <div class="priv-wrap">
           <input type="checkbox" id="privacy">
@@ -503,8 +325,8 @@
       ✅ <strong>Proyección con inflación activada:</strong> La aportación mensual se incrementa 4% cada año, siguiendo la metodología del simulador oficial Allianz OptiMaxx Plus.
     </div>
 
-    <div class="cap-notice-results" id="capNoticeRes">
-      <strong>ℹ️ Nota regulatoria – Proyección limitada al 10%:</strong> El portafolio seleccionado ha registrado un rendimiento histórico aproximado del <strong id="capHistRateRes">—</strong>% anual. Conforme a la normativa de Allianz México, esta proyección se presenta con un tope máximo del <strong>10% anual</strong>. Los rendimientos históricos no garantizan resultados futuros.
+    <div class="cap-notice-results show" id="capNoticeRes">
+      ℹ️ Proyección elaborada al 10% anual, referenciado al promedio histórico del S&P 500. Los rendimientos históricos no garantizan resultados futuros.
     </div>
           <div class="bono-banner" id="bonoBanner">
       <div class="bono-icon">🎁</div>
@@ -519,19 +341,6 @@
       <div class="res-head">
         <div class="res-label" id="res-nombre">—</div>
         <div class="res-portfolio" id="res-portfolio">—</div>
-        <div id="res-desc-container" style="display:none;margin-top:10px;">
-          <button class="p-info-btn" style="margin:0 auto;" onclick="toggleResDesc(event)">
-            <span id="res-desc-icon">＋</span>
-            <span>¿Qué hay dentro de este portafolio?</span>
-          </button>
-          <div class="p-desc-wrap" id="res-desc-wrap">
-            <div class="p-desc-box" style="margin-top:8px;">
-              <div class="p-desc-type" id="res-desc-type">—</div>
-              <div class="p-desc-text" id="res-desc-text">—</div>
-            </div>
-          </div>
-        </div>
-
       </div>
       <div class="metrics">
         <div class="metric"><div class="metric-lbl">Total aportado</div><div class="metric-val" id="res-aportado">—</div></div>
@@ -625,16 +434,6 @@
   /* ══════════════════════════════════════════════════════════════════ */
 
 
-  // Portfolio descriptions for results section
-  const PORT_DESCS = {
-    'p1': {tipo:'📊 Renta Variable', texto:'Invierte en las 500 empresas más grandes de Estados Unidos, distribuidas en los 11 sectores de la economía: tecnología, salud, finanzas, consumo, energía, industria, bienes raíces y más. A diferencia del portafolio tecnológico, ningún sector domina — es la economía estadounidense completa en un solo instrumento. Incluye empresas como Apple, Microsoft, JPMorgan, Johnson & Johnson y ExxonMobil. Su valor fluctúa con el mercado, pero históricamente ha sido uno de los instrumentos de mayor rendimiento sostenido a largo plazo.'},
-    'p2': {tipo:'📊 Renta Variable — Mayor potencial, mayor volatilidad', texto:'Replica el índice Nasdaq 100, concentrado en las 100 empresas tecnológicas y de innovación más grandes del mundo: Nvidia, Apple, Meta, Tesla, entre otras. Tiene mayor potencial de crecimiento que el S&P 500 pero también mayores oscilaciones en el corto plazo. Ideal para horizontes de largo plazo y tolerancia al riesgo alta.'},
-    'p3': {tipo:'📊 Renta Variable Global', texto:'Invierte en más de 2,900 empresas de 47 países — mercados desarrollados como Estados Unidos, Europa y Japón, y mercados emergentes como México, Brasil e India. La diversificación geográfica reduce la exposición a cualquier economía en particular. Es la opción de renta variable más diversificada del portafolio.'},
-    'p4': {tipo:'🪙 Activo Real — Reserva de valor', texto:'Invierte en oro físico respaldado por lingotes reales almacenados en bóvedas. El oro no paga dividendos — su función principal es proteger tu poder adquisitivo ante inflación, crisis económicas y devaluaciones monetarias. Históricamente actúa como refugio cuando otros mercados caen.'},
-    'p5': {tipo:'🔒 Renta Fija — Protección contra la inflación', texto:'Las UDIS (Unidades de Inversión) son una unidad de valor creada por Banco de México que se ajusta al ritmo de la inflación. Invertir aquí significa que tu dinero crece junto con el costo de vida — lo que ahorres hoy conserva su valor real con el tiempo. No es un instrumento de alto crecimiento; es estabilidad y protección del poder adquisitivo a largo plazo.'},
-    'p6': {tipo:'🔒 Renta Fija en Dólares Americanos', texto:'El 100% se invierte en instrumentos gubernamentales de deuda en dólares americanos con vencimientos máximos de 5 años y alta calidad crediticia (mínimo S&P mxAA). Combina la estabilidad de la renta fija con la cobertura cambiaria del dólar — si el peso se deprecia, el valor de tu inversión en pesos sube proporcionalmente.'},
-    'p7': {tipo:'🔒 Renta Fija en Pesos Mexicanos', texto:'El 100% del portafolio se invierte en instrumentos de deuda en pesos mexicanos con vencimientos máximos de 5 años y alta calidad crediticia (mínimo S&P mxAA). Incluye principalmente deuda gubernamental y hasta un 30% en instrumentos privados de alta calificación. La duración máxima no excede 2 años, lo que le da estabilidad ante cambios en tasas de interés. Rendimientos predecibles y riesgo muy bajo.'},
-  };
 
   // ── Parámetros del producto OptiMaxx Plus ─────────────────────────────────
   // Inflación: INPC México oficial que usa Allianz en su simulador
@@ -648,52 +447,6 @@
   let chartInst = null;
   const mxn = v => new Intl.NumberFormat('es-MX',{style:'currency',currency:'MXN',maximumFractionDigits:0}).format(v);
 
-  // Inyectar tasas Allianz en las tarjetas de portafolio al cargar
-  (function initAllianzRates() {
-    // UDIS / AZ Revaluables (p5)
-    const p5 = document.getElementById('p5');
-    p5.dataset.calcRate = String(UDIS_RATE);
-    document.getElementById('udisRateDisplay').textContent =
-      (UDIS_RATE * 100).toFixed(2) + '% anual';
-
-    // Conservador en Pesos (p7)
-    const p7 = document.getElementById('p7');
-    p7.dataset.calcRate = String(ALLIANZ_MXN_RATE);
-    document.getElementById('mxnRateDisplay').textContent =
-      (ALLIANZ_MXN_RATE * 100).toFixed(2) + '% anual';
-
-    // Conservador Dolarizado (p6)
-    const p6 = document.getElementById('p6');
-    p6.dataset.calcRate = String(ALLIANZ_DOLARIZADO_MXN);
-    document.getElementById('usdRateDisplay').textContent =
-      (ALLIANZ_USD_RATE * 100).toFixed(2) + '% USD';
-    document.getElementById('usdRateMXN').textContent =
-      '~' + (ALLIANZ_DOLARIZADO_MXN * 100).toFixed(2) + '% MXN';
-  })();
-
-  /* ── PORTFOLIO SELECTION ── */
-  function onPort(id) {
-    const el  = document.getElementById(id);
-    const cap = el.dataset.capped === 'true';
-    const notice = document.getElementById('capNoticeSel');
-    if (cap) {
-      document.getElementById('capHistRateSel').textContent = el.dataset.histRate;
-      notice.classList.add('show');
-    } else {
-      notice.classList.remove('show');
-    }
-  }
-
-  function getPort() {
-    const el = document.querySelector('input[name="portafolio"]:checked');
-    if (!el) return null;
-    return {
-      name:     el.value,
-      calcRate: parseFloat(el.dataset.calcRate),
-      capped:   el.dataset.capped === 'true',
-      histRate: el.dataset.histRate || null
-    };
-  }
 
   /* ── BONO DE FIDELIDAD ── */
   function getBono(monthly, years) {
@@ -792,8 +545,6 @@
     const a = parseFloat(document.getElementById('aportacion').value);
     const aOk = !isNaN(a) && a >= 2000;
     setErr('aportacion', !aOk); if (!aOk) ok = false;
-    const p = getPort();
-    setErr('portafolio', !p); if (!p) ok = false;
     const pr = document.getElementById('privacy').checked;
     setErr('privacy', !pr); if (!pr) ok = false;
     return ok;
@@ -826,9 +577,9 @@
     const wa          = document.getElementById('whatsapp').value.trim();
     const email       = document.getElementById('email').value.trim();
     const aportacion  = parseFloat(document.getElementById('aportacion').value);
-    const port        = getPort();
     const useInflation = document.getElementById('inflToggle').checked;
     const years       = 65 - edad;
+    const CALC_RATE   = 0.10; // 10% anual — promedio histórico S&P 500
 
     // ① ENVIAR LEAD PRIMERO
     sendLead({
@@ -837,7 +588,7 @@
       whatsapp:   '+52' + wa,
       email,
       aportacion,
-      portafolio: port.name,
+      portafolio: 'S&P 500 · Crecimiento Global',
       inflacion:  useInflation ? 'Sí' : 'No'
     });
 
@@ -847,52 +598,29 @@
 
     // ③ CALCULAR
     const bono = getBono(aportacion, years);
-    const sim  = simular(aportacion, port.calcRate, years, bono.amount, useInflation);
+    const sim  = simular(aportacion, CALC_RATE, years, bono.amount, useInflation);
 
     const totalFV    = sim.finalBalance;
     const totalAp    = sim.totalContrib;
     const ganancia   = totalFV - totalAp;
-    // Bono al retiro: diferencia entre sim con bono y sim sin bono
-    const simSinBono = simular(aportacion, port.calcRate, years, 0, useInflation);
+    const simSinBono = simular(aportacion, CALC_RATE, years, 0, useInflation);
     const bonoFV     = totalFV - simSinBono.finalBalance;
 
     // ④ POBLAR RESULTADOS
     document.getElementById('res-nombre').textContent    = nombre;
-    document.getElementById('res-portfolio').textContent = port.name;
-    // Populate description in results
-    const portEl = document.querySelector('input[name="portafolio"]:checked');
-    const portId  = portEl ? portEl.id : null;
-    const descData = portId && PORT_DESCS[portId] ? PORT_DESCS[portId] : null;
-    const resDescContainer = document.getElementById('res-desc-container');
-    if (descData) {
-      document.getElementById('res-desc-type').textContent = descData.tipo;
-      document.getElementById('res-desc-text').textContent = descData.texto;
-      resDescContainer.style.display = 'block';
-      // Reset state
-      document.getElementById('res-desc-wrap').classList.remove('open');
-      document.getElementById('res-desc-icon').textContent = '＋';
-    } else {
-      resDescContainer.style.display = 'none';
-    }
+    document.getElementById('res-portfolio').textContent = 'S&P 500 · Crecimiento Global';
 
     document.getElementById('res-aportado').textContent  = mxn(totalAp);
     document.getElementById('res-total').textContent     = mxn(totalFV);
     document.getElementById('res-ganancia').textContent  = mxn(ganancia);
     const pension = totalFV / 20 / 12;
-    document.getElementById('res-pension').textContent     = mxn(pension);
+    document.getElementById('res-pension').textContent   = mxn(pension);
 
     document.getElementById('bonoAmount').textContent = mxn(bono.amount);
     document.getElementById('bonoPct').textContent    = (bono.pct * 100).toFixed(0) + '%';
     const _bonoFVEl = document.getElementById('bonoFV'); if (_bonoFVEl) _bonoFVEl.textContent = mxn(bonoFV);
     document.getElementById('bonoBanner').style.display = bono.amount > 0 ? 'flex' : 'none';
 
-    const capRes = document.getElementById('capNoticeRes');
-    if (port.capped) {
-      document.getElementById('capHistRateRes').textContent = port.histRate;
-      capRes.classList.add('show');
-    } else {
-      capRes.classList.remove('show');
-    }
     document.getElementById('inflNoticeRes').classList.toggle('show', useInflation);
 
     const msg = encodeURIComponent(
@@ -907,7 +635,9 @@
     // ⑥ MOSTRAR RESULTADOS
     document.getElementById('results').classList.add('show');
     const _ctaInline = document.getElementById('ctaPensionInline'); if (_ctaInline) _ctaInline.style.display = '';
-    document.getElementById('results').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    setTimeout(() => {
+      document.getElementById('results').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 150);
 
     btn.disabled = false;
     btn.classList.remove('loading');
@@ -1001,41 +731,16 @@
   }
 
 
-  function toggleOtrosPort(btn) {
-    const wrap = document.getElementById('otrosPortWrap');
-    const isOpen = wrap.classList.toggle('open');
-    btn.classList.toggle('open', isOpen);
-  }
-
   /* ── RESET ── */
   function resetForm() {
     document.getElementById('results').classList.remove('show');
-    document.getElementById('capNoticeSel').classList.remove('show');
     ['nombre','edad','whatsapp','email','aportacion'].forEach(id => document.getElementById(id).value = '');
-    document.querySelectorAll('input[name="portafolio"]').forEach(r => r.checked = false);
-    document.getElementById('p1').checked = true;
     document.getElementById('privacy').checked = false;
     document.getElementById('inflToggle').checked = false;
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
   /* ── MODAL ── */
-  function toggleResDesc(e) {
-    e.stopPropagation();
-    const wrap = document.getElementById('res-desc-wrap');
-    const icon = document.getElementById('res-desc-icon');
-    const isOpen = wrap.classList.toggle('open');
-    icon.textContent = isOpen ? '－' : '＋';
-  }
-
-  function toggleDesc(e, pid) {
-    e.stopPropagation();
-    const wrap = document.getElementById('desc-' + pid);
-    const btn  = wrap.previousElementSibling;
-    const isOpen = wrap.classList.toggle('open');
-    btn.querySelector('span:first-child').textContent = isOpen ? '－' : '＋';
-  }
-
   function openPrivacy()  { document.getElementById('privModal').classList.add('show'); document.body.style.overflow = 'hidden'; }
   function closePrivacy() { document.getElementById('privModal').classList.remove('show'); document.body.style.overflow = ''; }
   function closeOutside(e){ if (e.target === document.getElementById('privModal')) closePrivacy(); }
