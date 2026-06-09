@@ -38,13 +38,7 @@
 
 ## REGLAS CRÍTICAS — NO MODIFICAR NUNCA
 
-1. **`/ppr` redirect desktop:** el archivo `ppr/index.html` tiene en el `<head>`:
-   ```js
-   if (window.innerWidth >= 1024) { window.location.replace('/retiro'); }
-   ```
-   Esto es **INTENCIONAL**. No remover, no modificar.
-
-2. **CTAs "Agendar asesoría"** en el home (`index.html`): deben apuntar a:
+1. **CTAs "Agendar asesoría"** en el home (`index.html`): deben apuntar a:
    ```
    https://calendar.google.com/calendar/u/0/appointments/schedules/AcZssZ1Vu4MKCXBbIo51tARMhJ4nhzVncuzU4DjJlNn6DTJvWFxg5aB-U8oslhJaKpjazlj1Sgu9kCpe
    ```
