@@ -552,13 +552,26 @@
     .sim-hint { font-size: 11px; color: var(--sim-dim); margin-top: -4px; }
 
     .sim-input-wrap { position: relative; }
-    .sim-prefix {
-      position: absolute; left: 13px; top: 50%; transform: translateY(-50%);
-      color: var(--sim-accent); font-weight: 600; font-size: 13px; pointer-events: none;
-      padding-right: 10px; margin-right: 8px; border-right: 1px solid rgba(255,255,255,.2);
-      letter-spacing: 0.5px;
+    /* WhatsApp flex wrapper */
+    .sim-phone-wrap {
+      display: flex; align-items: center;
+      background: var(--sim-bg); border: 1px solid var(--sim-bdr);
+      border-radius: 10px; overflow: hidden;
+      transition: border-color .2s;
     }
-    .sim-prefix ~ input { padding-left: 52px; }
+    .sim-phone-wrap:focus-within { border-color: var(--sim-accent); box-shadow: 0 0 0 3px rgba(74,124,247,0.15); }
+    .sim-prefix {
+      color: var(--sim-accent); font-weight: 600; font-size: 13px; pointer-events: none;
+      padding: 11px 10px 11px 14px; flex-shrink: 0;
+      border-right: 1px solid rgba(255,255,255,.2); letter-spacing: 0.5px;
+      white-space: nowrap;
+    }
+    .sim-phone-wrap input {
+      flex: 1; background: transparent !important; border: none !important;
+      outline: none; padding: 11px 14px; color: var(--sim-text);
+      font-family: 'Outfit', sans-serif; font-size: 14px;
+    }
+    .sim-phone-wrap input::placeholder { color: var(--sim-dim); }
     .sim-sfx {
       position: absolute; right: 13px; top: 50%; transform: translateY(-50%);
       color: var(--sim-dim); font-size: 11px; pointer-events: none;
@@ -712,6 +725,17 @@
     .sim-btn-cal svg { width: 18px; height: 18px; flex-shrink: 0; }
     @media (max-width: 480px) { .sim-cta-buttons { flex-direction: column; } }
     .sim-cta-note { font-size: 10px; color: var(--sim-dim); margin-top: 14px; line-height: 1.6; }
+    /* Privacy row (columna derecha) */
+    .sim-privacy-row { padding: 0 20px 0; margin-bottom: 4px; }
+    .sim-privacy-label {
+      display: flex; align-items: flex-start; gap: 10px; cursor: pointer;
+      font-size: 11px; color: rgba(255,255,255,.5); line-height: 1.5;
+    }
+    .sim-privacy-label input[type="checkbox"] {
+      margin-top: 2px; flex-shrink: 0; accent-color: var(--sim-accent);
+      width: 15px; height: 15px; cursor: pointer;
+    }
+    .sim-privacy-label a { color: var(--sim-accent); text-decoration: underline; }
 
     /* ─── FOOTER ────────────────────────────────────── */
     footer {
@@ -1218,7 +1242,7 @@
           </div>
           <div class="sim-field">
             <label>WHATSAPP *</label>
-            <div class="sim-input-wrap">
+            <div class="sim-phone-wrap">
               <span class="sim-prefix">+52</span>
               <input type="tel" id="sWa" placeholder="10 dígitos" maxlength="10" inputmode="tel" oninput="simCheckReveal()">
             </div>
@@ -1260,14 +1284,6 @@
           <p>Proyección usando <strong>S&amp;P 500 como referencia</strong>. En tu asesoría analizamos cuál de los <strong>19 portafolios disponibles</strong> — NASDAQ, Oro, Renta Fija, UDIs y más — se adapta mejor a tu perfil y horizonte.</p>
         </div>
 
-        <!-- Privacy -->
-        <div class="sim-check-row">
-          <input type="checkbox" id="sPrivacy" onchange="simCheckReveal()">
-          <label for="sPrivacy">
-            Acepto el <span class="sim-priv-link" onclick="simOpenPrivacy()">Aviso de Privacidad</span>. Mis datos serán utilizados únicamente para recibir información sobre planificación financiera y retiro de parte de Asesor Landero.
-          </label>
-        </div>
-
       </div>
 
       <!-- ═══ RIGHT: RESULTS ═══ -->
@@ -1304,9 +1320,15 @@
             <div class="sim-chart-title">CRECIMIENTO ACUMULADO PROYECTADO</div>
             <canvas id="simChart"></canvas>
           </div>
+          <div class="sim-privacy-row">
+            <label class="sim-privacy-label">
+              <input type="checkbox" id="sPrivacy" onchange="simCheckReveal()">
+              <span>Acepto el <span class="sim-priv-link" onclick="simOpenPrivacy()">Aviso de Privacidad</span>. Mis datos serán utilizados únicamente para recibir información sobre planificación financiera y retiro de parte de Asesor Landero.</span>
+            </label>
+          </div>
           <div class="sim-wa-box">
             <div class="sim-cta-overlay" id="sim-cta-overlay">
-              <p>Completa tu <strong>nombre</strong>, <strong>WhatsApp</strong> y <strong>correo</strong><br>para ver tu proyección exacta</p>
+              <p>Completa el formulario<br>y acepta el aviso de privacidad<br>para ver tu proyección exacta</p>
             </div>
             <div class="sim-wa-title sim-masked" id="simWaTitle">Tu retiro proyectado</div>
             <p class="sim-wa-sub">¿Quieres que lo estructuremos juntos?</p>
