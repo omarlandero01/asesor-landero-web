@@ -4,6 +4,10 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Plan Personal de Retiro — Asesor Landero</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/6.6.6/css/flag-icons.min.css">
   <style>
     /* ─── TOKENS ───────────────────────────────────── */
     :root {
@@ -23,7 +27,7 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
     body {
-      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      font-family: 'Outfit', 'Segoe UI', system-ui, -apple-system, sans-serif;
       background: var(--white);
       color: var(--navy);
       font-size: 16px;
@@ -38,8 +42,8 @@
     .section--alt { background: var(--light); }
     .tag {
       display: inline-block;
-      background: rgba(201,168,76,.15);
-      color: var(--gold);
+      background: rgba(27,42,74,.1);
+      color: var(--navy);
       font-size: 12px;
       font-weight: 700;
       letter-spacing: .08em;
@@ -47,6 +51,10 @@
       padding: 4px 12px;
       border-radius: 20px;
       margin-bottom: 14px;
+    }
+    .tag--light {
+      background: rgba(255,255,255,.15);
+      color: rgba(255,255,255,.9);
     }
     .section-title {
       font-size: 36px;
@@ -61,7 +69,7 @@
       max-width: 580px;
       margin-bottom: 40px;
     }
-    .gold { color: var(--gold); }
+    .gold { color: var(--navy); }
     .grid-2 {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -70,24 +78,6 @@
     }
     .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
     .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
-
-    /* ─── IMAGE PLACEHOLDER ─────────────────────────── */
-    .img-placeholder {
-      background: linear-gradient(135deg, var(--border) 0%, #e8ecf4 100%);
-      border: 2px dashed var(--border);
-      border-radius: 16px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      color: var(--gray);
-      font-size: 14px;
-      font-weight: 600;
-      text-align: center;
-      padding: 24px;
-    }
-    .img-placeholder svg { opacity: .4; }
 
     /* ─── NAV ───────────────────────────────────────── */
     nav {
@@ -109,7 +99,7 @@
     }
     .nav-logo span { color: var(--gold); }
     .nav-pill {
-      background: var(--gold);
+      background: var(--white);
       color: var(--navy);
       font-size: 13px;
       font-weight: 700;
@@ -117,8 +107,10 @@
       border-radius: 24px;
       cursor: pointer;
       transition: background .2s;
+      text-decoration: none;
+      display: inline-block;
     }
-    .nav-pill:hover { background: var(--gold2); }
+    .nav-pill:hover { background: #e8ecf4; }
 
     /* ─── HERO ──────────────────────────────────────── */
     #hero {
@@ -176,7 +168,7 @@
     .hero-bullets li::before {
       content: '';
       width: 8px; height: 8px;
-      background: var(--gold);
+      background: var(--white);
       border-radius: 50%;
       flex-shrink: 0;
     }
@@ -184,7 +176,7 @@
       display: inline-flex;
       align-items: center;
       gap: 10px;
-      background: var(--gold);
+      background: var(--white);
       color: var(--navy);
       font-size: 16px;
       font-weight: 800;
@@ -195,7 +187,7 @@
       transition: background .2s, transform .15s;
       text-decoration: none;
     }
-    .btn-sim:hover { background: var(--gold2); transform: translateY(-1px); }
+    .btn-sim:hover { background: #e8ecf4; transform: translateY(-1px); }
     .btn-outline {
       display: inline-flex;
       align-items: center;
@@ -210,48 +202,15 @@
       cursor: pointer;
       transition: border-color .2s, color .2s;
       margin-left: 12px;
+      text-decoration: none;
     }
-    .btn-outline:hover { border-color: var(--gold); color: var(--gold); }
+    .btn-outline:hover { border-color: rgba(255,255,255,.6); color: var(--white); }
 
     /* Hero right panel */
     .hero-photo {
       height: 460px;
       border-radius: 20px;
       position: relative;
-    }
-    .hero-badge {
-      position: absolute;
-      bottom: 28px;
-      left: 24px;
-      background: rgba(255,255,255,.97);
-      border-radius: 12px;
-      padding: 14px 18px;
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      box-shadow: 0 8px 32px rgba(0,0,0,.2);
-    }
-    .hero-badge-icon {
-      width: 44px; height: 44px;
-      background: var(--gold);
-      border-radius: 10px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 22px;
-    }
-    .hero-badge-text { line-height: 1.3; text-align: center; }
-    .hero-badge-text strong {
-      display: block;
-      font-size: 22px;
-      font-weight: 900;
-      color: var(--navy);
-    }
-    .hero-badge-text small {
-      font-size: 11px;
-      color: var(--gray);
-      text-transform: uppercase;
-      letter-spacing: .05em;
     }
     .hero-reg {
       position: absolute;
@@ -266,7 +225,7 @@
       text-align: center;
       box-shadow: 0 4px 16px rgba(0,0,0,.15);
     }
-    .hero-reg span { display: block; color: var(--gold); font-size: 10px; margin-top: 2px; }
+    .hero-reg span { display: block; color: var(--gray); font-size: 9px; margin-top: 2px; }
 
     /* ─── AFORE GAP ─────────────────────────────────── */
     #afore .section-title { color: var(--navy); }
@@ -293,29 +252,9 @@
     }
     .afore-stat__val.ok { color: var(--green); }
     .afore-stat__label { font-size: 13px; color: var(--gray); font-weight: 500; }
-    .afore-bar {
-      background: var(--border);
-      border-radius: 8px;
-      height: 16px;
-      overflow: hidden;
-      margin-bottom: 8px;
-    }
-    .afore-bar__fill {
-      height: 100%;
-      border-radius: 8px;
-    }
-    .bar-green { background: var(--green); width: 35%; }
-    .bar-red   { background: var(--red);   width: 65%; }
-    .bar-label {
-      display: flex;
-      justify-content: space-between;
-      font-size: 12px;
-      color: var(--gray);
-      margin-bottom: 20px;
-    }
     .afore-callout {
-      background: linear-gradient(135deg, #fef9ec, #fff5d6);
-      border: 1.5px solid var(--gold);
+      background: #f0f4ff;
+      border: 1.5px solid var(--navy);
       border-radius: 14px;
       padding: 20px 24px;
       margin-top: 16px;
@@ -325,8 +264,139 @@
       color: var(--navy);
       font-weight: 500;
     }
-    .afore-callout strong { color: var(--gold); font-size: 18px; }
-    .afore-img { display: none; }
+    .afore-callout strong { color: var(--navy2); font-size: 18px; }
+
+    /* ─── CALCULADORA ────────────────────────────────── */
+    #calculadora {
+      background: var(--navy);
+      padding: 80px 0;
+      color: var(--white);
+    }
+    .calc-wrap {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 64px;
+      align-items: center;
+    }
+    .calc-input-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .calc-label {
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,.55);
+    }
+    .calc-input-wrap {
+      position: relative;
+    }
+    .calc-prefix {
+      position: absolute;
+      left: 18px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 22px;
+      font-weight: 700;
+      color: rgba(255,255,255,.4);
+      pointer-events: none;
+    }
+    .calc-suffix {
+      position: absolute;
+      right: 18px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 13px;
+      color: rgba(255,255,255,.35);
+      pointer-events: none;
+    }
+    .calc-input {
+      width: 100%;
+      background: rgba(255,255,255,.08);
+      border: 1.5px solid rgba(255,255,255,.18);
+      border-radius: 14px;
+      color: var(--white);
+      font-family: 'Outfit', sans-serif;
+      font-size: 28px;
+      font-weight: 700;
+      padding: 18px 18px 18px 42px;
+      transition: border-color .2s;
+      -webkit-appearance: none;
+      appearance: none;
+    }
+    .calc-input:focus {
+      outline: none;
+      border-color: rgba(255,255,255,.45);
+    }
+    .calc-input::placeholder { color: rgba(255,255,255,.2); }
+    .calc-result-box {
+      background: rgba(255,255,255,.06);
+      border: 1.5px solid rgba(255,255,255,.12);
+      border-radius: 20px;
+      padding: 36px 32px;
+    }
+    .calc-result-label {
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,.45);
+      margin-bottom: 10px;
+    }
+    .calc-result-value {
+      font-size: 48px;
+      font-weight: 900;
+      color: var(--white);
+      line-height: 1.1;
+      margin-bottom: 6px;
+      letter-spacing: -.02em;
+    }
+    .calc-result-sub {
+      font-size: 14px;
+      color: rgba(255,255,255,.5);
+      line-height: 1.6;
+      margin-bottom: 28px;
+    }
+    .calc-breakdown {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      padding-top: 24px;
+      border-top: 1px solid rgba(255,255,255,.1);
+    }
+    .calc-breakdown-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 14px;
+    }
+    .calc-breakdown-row span { color: rgba(255,255,255,.5); }
+    .calc-breakdown-row strong { color: var(--white); font-weight: 700; }
+    .calc-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--white);
+      color: var(--navy);
+      font-size: 15px;
+      font-weight: 700;
+      padding: 14px 28px;
+      border-radius: 50px;
+      text-decoration: none;
+      transition: background .2s, transform .15s;
+      margin-top: 28px;
+    }
+    .calc-cta:hover { background: #e8ecf4; transform: translateY(-1px); }
+    .calc-placeholder {
+      text-align: center;
+      padding: 60px 32px;
+      color: rgba(255,255,255,.3);
+      font-size: 15px;
+      line-height: 1.7;
+    }
+    .calc-placeholder .calc-icon { font-size: 52px; margin-bottom: 16px; }
 
     /* ─── SOLUTION CARDS ────────────────────────────── */
     #solucion { background: var(--navy); }
@@ -342,7 +412,7 @@
     .sol-card:hover { background: rgba(255,255,255,.1); }
     .sol-icon {
       width: 52px; height: 52px;
-      background: rgba(201,168,76,.2);
+      background: rgba(255,255,255,.1);
       border-radius: 12px;
       display: flex;
       align-items: center;
@@ -363,150 +433,16 @@
     }
     .sol-card .sol-highlight {
       margin-top: 14px;
-      font-size: 22px;
-      font-weight: 900;
-      color: var(--gold);
+      font-size: 18px;
+      font-weight: 800;
+      color: var(--white);
     }
 
     /* ─── FISCAL BENEFITS ───────────────────────────── */
     #fiscal .tag { background: rgba(27,42,74,.08); color: var(--navy); }
-    .fiscal-wrap {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 24px;
-      margin-bottom: 40px;
-    }
-    .fiscal-card {
-      border-radius: 18px;
-      overflow: hidden;
-      border: 1.5px solid var(--border);
-    }
-    .fiscal-card__head {
-      padding: 20px 24px;
-      display: flex;
-      align-items: center;
-      gap: 14px;
-    }
-    .fc-151 .fiscal-card__head { background: var(--navy); color: var(--white); }
-    .fc-93  .fiscal-card__head { background: var(--gold);  color: var(--navy);  }
-    .fiscal-card__head h3 {
-      font-size: 20px;
-      font-weight: 900;
-      line-height: 1.2;
-    }
-    .fiscal-card__head p {
-      font-size: 12px;
-      opacity: .75;
-      margin-top: 2px;
-    }
-    .fiscal-art-badge {
-      background: rgba(255,255,255,.2);
-      border-radius: 10px;
-      padding: 8px 12px;
-      text-align: center;
-      flex-shrink: 0;
-    }
-    .fiscal-art-badge strong {
-      display: block;
-      font-size: 22px;
-      font-weight: 900;
-    }
-    .fiscal-art-badge small { font-size: 9px; letter-spacing: .05em; text-transform: uppercase; }
-    .fc-93 .fiscal-art-badge { background: rgba(27,42,74,.15); }
-    .fiscal-card__body { padding: 20px 24px; background: var(--white); }
-    .fiscal-row {
-      display: flex;
-      align-items: flex-start;
-      gap: 12px;
-      padding: 10px 0;
-      border-bottom: 1px solid var(--border);
-    }
-    .fiscal-row:last-child { border-bottom: none; }
-    .fiscal-row__icon {
-      width: 28px; height: 28px;
-      border-radius: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 14px;
-      flex-shrink: 0;
-      margin-top: 2px;
-    }
-    .ico-navy { background: rgba(27,42,74,.08); }
-    .ico-gold  { background: rgba(201,168,76,.15); }
-    .fiscal-row__text strong {
-      display: block;
-      font-size: 13px;
-      font-weight: 700;
-      color: var(--navy);
-      margin-bottom: 2px;
-    }
-    .fiscal-row__text span { font-size: 13px; color: var(--gray); }
-    .fiscal-row__text .num {
-      display: inline-block;
-      background: var(--light);
-      border-radius: 6px;
-      padding: 2px 8px;
-      font-size: 12px;
-      font-weight: 700;
-      color: var(--navy);
-      margin-top: 4px;
-    }
-
-    /* Diferimiento box */
-    .diferimiento {
-      background: linear-gradient(135deg, var(--navy) 0%, #2d3f6b 100%);
-      border-radius: 18px;
-      padding: 32px 36px;
-      color: var(--white);
-      display: grid;
-      grid-template-columns: 1fr auto;
-      gap: 40px;
-      align-items: center;
-    }
-    .diferimiento h3 {
-      font-size: 22px;
-      font-weight: 800;
-      margin-bottom: 10px;
-    }
-    .diferimiento h3 span { color: var(--gold); }
-    .diferimiento p {
-      font-size: 14px;
-      color: rgba(255,255,255,.7);
-      line-height: 1.7;
-    }
-    .dif-visual {
-      text-align: center;
-      flex-shrink: 0;
-    }
-    .dif-circle {
-      width: 120px; height: 120px;
-      border-radius: 50%;
-      background: conic-gradient(var(--gold) 0% 35%, rgba(255,255,255,.1) 35% 100%);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 13px;
-      font-weight: 700;
-      color: var(--white);
-      text-align: center;
-      line-height: 1.3;
-      position: relative;
-      margin: 0 auto 10px;
-    }
-    .dif-circle::after {
-      content: '';
-      position: absolute;
-      inset: 12px;
-      background: var(--navy2);
-      border-radius: 50%;
-      z-index: 0;
-    }
-    .dif-circle span { position: relative; z-index: 1; }
-    .dif-label { font-size: 11px; color: rgba(255,255,255,.5); text-transform: uppercase; letter-spacing: .06em; }
 
     /* ─── PORTFOLIOS ────────────────────────────────── */
-    #portafolios { background: var(--light); }
+    #portafolios { background: var(--light); padding: 80px 0; }
     .port-category {
       background: var(--white);
       border: 1.5px solid var(--border);
@@ -521,7 +457,8 @@
       border-bottom: 1px solid var(--border);
     }
     .port-cat-head h4 { font-size: 14px; font-weight: 800; color: var(--navy); }
-    .port-cat-flag { font-size: 20px; display:inline-flex; align-items:center; } .port-cat-flag.fi { width:27px; height:20px; border-radius:3px; background-size:cover; }
+    .port-cat-flag { font-size: 20px; display:inline-flex; align-items:center; }
+    .port-cat-flag.fi { width:27px; height:20px; border-radius:3px; background-size:cover; }
     .port-cat-badge {
       margin-left: auto;
       background: var(--light);
@@ -543,76 +480,316 @@
     .port-dot {
       width: 8px; height: 8px;
       border-radius: 50%;
-      background: var(--gold);
+      background: var(--navy);
       flex-shrink: 0;
     }
-    .port-dot.alt { background: var(--navy); }
+    .port-dot.alt { background: var(--navy2); }
     .port-dot.gray { background: var(--border); }
     .port-name { font-size: 13px; font-weight: 600; color: var(--navy); flex: 1; }
-    .port-ticker {
+
+    /* ─── SIMULADOR ─────────────────────────────────── */
+    #simulador {
+      --sim-bg:     #0F153F;
+      --sim-surf:   #1a2258;
+      --sim-surf2:  #1e2a6a;
+      --sim-gold:   #c9a84c;
+      --sim-gold-l: #e0c06d;
+      --sim-gold-d: rgba(201,168,76,0.12);
+      --sim-text:   #f1f5f9;
+      --sim-muted:  #94a3b8;
+      --sim-dim:    #64748b;
+      --sim-bdr:    rgba(255,255,255,0.09);
+      --sim-err:    #ef4444;
+      --sim-info:   #0ea5e9;
+      --sim-r:      16px;
+      --sim-rsm:    10px;
+      background: var(--sim-bg);
+      padding: 80px 0;
+      color: var(--sim-text);
+    }
+    #simulador .sim-eyebrow {
       font-size: 11px;
       font-weight: 700;
-      color: var(--gray);
-      background: var(--light);
-      border-radius: 6px;
-      padding: 2px 8px;
-      white-space: nowrap;
-      flex-shrink: 0;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--sim-gold);
+      margin-bottom: 12px;
     }
-    .port-total {
-      text-align: center;
-      padding: 28px;
-      background: var(--navy);
-      border-radius: 14px;
-      color: var(--white);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-    }
-    .port-total strong { font-size: 52px; font-weight: 900; color: var(--gold); line-height: 1; }
-    .port-total span { font-size: 13px; color: rgba(255,255,255,.6); max-width: 120px; text-align: center; line-height: 1.4; }
-
-    /* ─── FINAL CTA ─────────────────────────────────── */
-    #cta-final {
-      background: linear-gradient(160deg, var(--navy) 0%, #243660 100%);
-      text-align: center;
-      padding: 80px 40px;
-      color: var(--white);
-    }
-    #cta-final h2 {
-      font-size: 42px;
+    #simulador h2 {
+      font-size: 38px;
       font-weight: 900;
-      margin-bottom: 16px;
+      color: var(--sim-text);
+      line-height: 1.15;
+      margin-bottom: 14px;
       letter-spacing: -.02em;
     }
-    #cta-final h2 span { color: var(--gold); }
-    #cta-final p {
-      font-size: 18px;
-      color: rgba(255,255,255,.65);
-      margin-bottom: 40px;
+    #simulador .sim-sub {
+      font-size: 17px;
+      color: var(--sim-muted);
+      max-width: 600px;
+      margin: 0 auto 52px;
+      line-height: 1.6;
     }
-    .cta-group { display: flex; justify-content: center; gap: 16px; flex-wrap: wrap; }
-    .btn-sim-lg {
-      display: inline-flex;
+    /* Simulator grid */
+    .sim-grid {
+      display: grid;
+      grid-template-columns: 460px 1fr;
+      gap: 40px;
+      align-items: start;
+    }
+    /* Form panel */
+    .sim-panel {
+      background: var(--sim-surf);
+      border: 1px solid var(--sim-bdr);
+      border-radius: var(--sim-r);
+      padding: 28px;
+    }
+    .sim-panel-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--sim-text);
+      margin-bottom: 22px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .sim-form-grid { display: flex; flex-direction: column; gap: 16px; }
+    .sim-form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .sim-fg { display: flex; flex-direction: column; gap: 6px; }
+    .sim-label {
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--sim-muted);
+      letter-spacing: .8px;
+      text-transform: uppercase;
+    }
+    .sim-req { color: var(--sim-gold); font-size: 12px; }
+    .sim-opt { color: var(--sim-dim); font-size: 10px; font-weight: 400; text-transform: none; letter-spacing: 0; }
+    .sim-input-wrap { position: relative; }
+    .sim-prefix {
+      position: absolute; left: 13px; top: 50%; transform: translateY(-50%);
+      color: var(--sim-gold); font-weight: 600; font-size: 13px; pointer-events: none;
+    }
+    .sim-prefix ~ input { padding-left: 32px; }
+    .sim-sfx {
+      position: absolute; right: 13px; top: 50%; transform: translateY(-50%);
+      color: var(--sim-dim); font-size: 11px; pointer-events: none;
+    }
+    #simulador input[type="text"],
+    #simulador input[type="number"],
+    #simulador input[type="tel"],
+    #simulador input[type="email"] {
+      background: var(--sim-bg);
+      border: 1px solid var(--sim-bdr);
+      border-radius: var(--sim-rsm);
+      color: var(--sim-text);
+      font-family: 'Outfit', sans-serif;
+      font-size: 14px;
+      padding: 11px 14px;
+      width: 100%;
+      transition: border-color .2s;
+      -webkit-appearance: none;
+      appearance: none;
+    }
+    #simulador input::placeholder { color: var(--sim-dim); }
+    #simulador input:focus { outline: none; border-color: var(--sim-gold); }
+    #simulador input.field-error { border-color: var(--sim-err); }
+    .sim-err { font-size: 11px; color: var(--sim-err); display: none; }
+    .sim-err.show { display: block; }
+    .sim-min-note { font-size: 11px; color: var(--sim-dim); margin-top: -6px; }
+
+    /* Inflation toggle */
+    .sim-infl-toggle {
+      display: flex; align-items: center; gap: 12px;
+      padding: 12px 14px;
+      background: var(--sim-bg); border: 1px solid var(--sim-bdr);
+      border-radius: var(--sim-rsm); cursor: pointer; transition: border-color .2s;
+    }
+    .sim-infl-toggle:has(input:checked) { border-color: rgba(201,168,76,.4); background: var(--sim-gold-d); }
+    .sim-infl-toggle input[type="checkbox"] {
+      width: 16px; height: 16px; min-width: 16px; accent-color: var(--sim-gold);
+      cursor: pointer; padding: 0; border: none; background: none;
+    }
+    .sim-itxt { flex: 1; }
+    .sim-itxt-lbl { font-size: 12px; font-weight: 600; color: var(--sim-text); }
+    .sim-itxt-desc { font-size: 11px; color: var(--sim-muted); margin-top: 1px; }
+    .sim-itag {
+      font-size: 10px; background: rgba(201,168,76,.15); color: var(--sim-gold);
+      border: 1px solid rgba(201,168,76,.25); padding: 2px 6px; border-radius: 4px;
+      font-weight: 600; white-space: nowrap;
+    }
+
+    /* Portfolio selector */
+    .sim-port-grid { display: flex; flex-direction: column; gap: 7px; }
+    .sim-p-opt { position: relative; }
+    .sim-p-opt input[type="radio"] { position: absolute; opacity: 0; width: 0; height: 0; }
+    .sim-p-label {
+      display: flex; align-items: center; gap: 10px;
+      padding: 10px 12px;
+      background: var(--sim-bg); border: 1px solid var(--sim-bdr);
+      border-radius: var(--sim-rsm); cursor: pointer; transition: all .2s; user-select: none;
+    }
+    .sim-p-opt input[type="radio"]:checked + .sim-p-label { border-color: var(--sim-gold); background: var(--sim-gold-d); }
+    .sim-p-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+    .sim-p-info { flex: 1; min-width: 0; }
+    .sim-p-name { font-size: 11px; font-weight: 600; }
+    .sim-p-inst { font-size: 10px; color: var(--sim-muted); margin-top: 1px; }
+    .sim-p-right { text-align: right; flex-shrink: 0; }
+    .sim-p-rate { font-size: 11px; font-weight: 700; color: var(--sim-gold); }
+    .sim-p-risk { font-size: 10px; color: var(--sim-dim); margin-top: 1px; }
+    .sim-p-cap {
+      font-size: 9px; background: rgba(14,165,233,.12); color: var(--sim-info);
+      border: 1px solid rgba(14,165,233,.25); padding: 1px 5px; border-radius: 4px;
+      margin-top: 2px; display: inline-block; font-weight: 600;
+    }
+    .sim-p-live {
+      font-size: 9px; background: rgba(16,185,129,.12); color: #10b981;
+      border: 1px solid rgba(16,185,129,.25); padding: 1px 5px; border-radius: 4px;
+      margin-top: 2px; display: inline-block; font-weight: 600;
+    }
+    .sim-otros-btn {
+      width: 100%; background: none; border: 1px dashed rgba(201,168,76,.3);
+      border-radius: 8px; padding: 8px 14px; color: var(--sim-muted); font-size: 11px;
+      cursor: pointer; text-align: left; transition: all .2s; display: flex;
+      align-items: center; justify-content: space-between; font-family: 'Outfit', sans-serif;
+    }
+    .sim-otros-btn:hover { border-color: var(--sim-gold); color: var(--sim-gold); }
+    .sim-otros-btn .chv { transition: transform .3s; display: inline-block; }
+    .sim-otros-btn.open .chv { transform: rotate(180deg); }
+    .sim-otros-wrap { max-height: 0; overflow: hidden; transition: max-height .45s ease; }
+    .sim-otros-wrap.open { max-height: 2000px; }
+    .sim-otros-lbl {
+      font-size: 10px; font-weight: 700; color: var(--sim-muted); letter-spacing: 1px;
+      text-transform: uppercase; margin: 8px 0 5px; opacity: .6;
+    }
+
+    /* Privacy */
+    .sim-priv {
+      display: flex; align-items: flex-start; gap: 10px;
+      padding: 12px 14px;
+      background: var(--sim-bg); border: 1px solid var(--sim-bdr);
+      border-radius: var(--sim-rsm);
+    }
+    .sim-priv input[type="checkbox"] {
+      width: 15px; height: 15px; min-width: 15px; margin-top: 2px;
+      accent-color: var(--sim-gold); cursor: pointer;
+    }
+    .sim-priv-txt { font-size: 11px; color: var(--sim-muted); line-height: 1.6; }
+    .sim-priv-link { color: var(--sim-gold); text-decoration: underline; cursor: pointer; }
+
+    /* Submit button */
+    .sim-btn-submit {
+      width: 100%; padding: 14px 24px;
+      background: var(--white);
+      color: var(--navy);
+      font-family: 'Outfit', sans-serif; font-size: 15px; font-weight: 700;
+      border: none; border-radius: var(--sim-rsm); cursor: pointer;
+      transition: all .2s; position: relative; overflow: hidden;
+    }
+    .sim-btn-submit:hover { background: #e8ecf4; transform: translateY(-1px); }
+    .sim-btn-submit:disabled { opacity: .6; cursor: not-allowed; transform: none; }
+    .sim-btn-submit.loading::after {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,.2), transparent);
+      animation: sim-shimmer 1.1s infinite;
+    }
+    @keyframes sim-shimmer { from { transform: translateX(-100%); } to { transform: translateX(100%); } }
+
+    /* Results panel */
+    .sim-res-panel {
+      background: var(--sim-surf);
+      border: 1px solid var(--sim-bdr);
+      border-radius: var(--sim-r);
+      overflow: hidden;
+    }
+    .sim-placeholder {
+      padding: 80px 32px;
+      text-align: center;
+      color: var(--sim-muted);
+    }
+    .sim-placeholder .sim-ph-icon { font-size: 52px; margin-bottom: 16px; }
+    .sim-placeholder p { font-size: 15px; line-height: 1.7; }
+    .sim-res-head {
+      padding: 24px 24px 16px;
+      text-align: center;
+      border-bottom: 1px solid var(--sim-bdr);
+    }
+    .sim-res-lbl { font-size: 11px; color: var(--sim-gold); font-weight: 500; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 4px; }
+    .sim-res-portfolio { font-size: 18px; font-weight: 700; color: var(--sim-text); }
+    .sim-metrics {
+      display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px;
+      padding: 20px 20px 0;
+    }
+    .sim-metric {
+      background: var(--sim-bg);
+      border: 1px solid var(--sim-bdr);
+      border-radius: var(--sim-rsm);
+      padding: 14px 12px;
+      text-align: center;
+    }
+    .sim-metric.hi { background: var(--sim-gold-d); border-color: rgba(201,168,76,.28); }
+    .sim-metric-lbl { font-size: 9px; color: var(--sim-dim); text-transform: uppercase; letter-spacing: .8px; margin-bottom: 6px; font-weight: 500; }
+    .sim-metric-val { font-size: 13px; font-weight: 700; color: var(--sim-text); line-height: 1.2; }
+    .sim-metric.hi .sim-metric-val { color: var(--sim-gold); font-size: 14px; }
+    .sim-pension-box {
+      margin: 16px 20px 0;
+      background: linear-gradient(135deg, rgba(16,185,129,.12), rgba(16,185,129,.05));
+      border: 1px solid rgba(16,185,129,.25);
+      border-radius: 10px;
+      padding: 14px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .sim-pension-lbl { font-size: 10px; color: #6ee7b7; font-weight: 600; letter-spacing: .8px; text-transform: uppercase; }
+    .sim-pension-val { font-size: 22px; font-weight: 800; color: #34d399; white-space: nowrap; }
+    .sim-chart-wrap {
+      padding: 20px 20px 10px;
+    }
+    .sim-chart-title { font-size: 11px; font-weight: 600; color: var(--sim-muted); text-transform: uppercase; letter-spacing: .8px; margin-bottom: 14px; }
+    #simChart { max-height: 220px; }
+    .sim-wa-box {
+      margin: 16px 20px 20px;
+      background: linear-gradient(135deg, #1a2540, #111827);
+      border: 1px solid rgba(201,168,76,.18);
+      border-radius: 12px;
+      padding: 20px;
+      text-align: center;
+    }
+    .sim-wa-title { font-size: 15px; font-weight: 700; color: var(--sim-text); margin-bottom: 6px; }
+    .sim-wa-sub { font-size: 12px; color: var(--sim-muted); margin-bottom: 16px; line-height: 1.6; }
+    .sim-btn-wa {
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      background: #25D366; color: #fff; font-family: 'Outfit', sans-serif;
+      font-size: 14px; font-weight: 700; padding: 13px 24px;
+      border-radius: var(--sim-rsm); text-decoration: none; width: 100%; transition: all .2s;
+    }
+    .sim-btn-wa:hover { background: #1ebe5c; transform: translateY(-1px); }
+    .sim-btn-wa svg { width: 18px; height: 18px; fill: currentColor; flex-shrink: 0; }
+    .sim-cap-notice {
+      display: none;
+      background: rgba(14,165,233,.07); border: 1px solid rgba(14,165,233,.2);
+      border-radius: var(--sim-rsm); padding: 10px 14px; margin-top: 4px;
+      font-size: 11px; color: #7dd3fc; line-height: 1.5;
+    }
+    .sim-cap-notice.show { display: block; }
+    .sim-bono-banner {
+      background: linear-gradient(135deg, rgba(201,168,76,.15), rgba(201,168,76,.06));
+      border: 1px solid rgba(201,168,76,.3);
+      border-radius: var(--sim-rsm);
+      padding: 12px 16px;
+      display: none;
       align-items: center;
       gap: 12px;
-      background: var(--gold);
-      color: var(--navy);
-      font-size: 18px;
-      font-weight: 800;
-      padding: 18px 40px;
-      border-radius: 50px;
-      text-decoration: none;
-      transition: background .2s, transform .15s;
+      margin: 16px 20px 0;
     }
-    .btn-sim-lg:hover { background: var(--gold2); transform: translateY(-2px); }
-    .cta-note {
-      margin-top: 20px;
-      font-size: 13px;
-      color: rgba(255,255,255,.4);
-    }
+    .sim-bono-banner.show { display: flex; }
+    .sim-bono-icon { font-size: 20px; flex-shrink: 0; }
+    .sim-bono-text { flex: 1; }
+    .sim-bono-lbl { font-size: 10px; color: var(--sim-gold); font-weight: 600; letter-spacing: .8px; text-transform: uppercase; }
+    .sim-bono-amt { font-size: 17px; font-weight: 800; color: var(--sim-gold); line-height: 1.2; }
+    .sim-bono-desc { font-size: 10px; color: var(--sim-muted); margin-top: 1px; }
 
     /* ─── FOOTER ────────────────────────────────────── */
     footer {
@@ -624,7 +801,6 @@
     }
     footer a { color: rgba(255,255,255,.5); text-decoration: underline; }
   </style>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/6.6.6/css/flag-icons.min.css">
 </head>
 <body>
 
@@ -633,7 +809,7 @@
 ══════════════════════════════════════════════════ -->
 <nav>
   <div class="nav-logo">Asesor <span>Landero</span></div>
-  <a href="/ppr-sim" class="nav-pill">🧮 Simular mi retiro →</a>
+  <a href="#simulador" class="nav-pill">🧮 Simular mi retiro →</a>
 </nav>
 
 <!-- ══════════════════════════════════════════════════
@@ -657,9 +833,9 @@
           <li>19 portafolios: S&amp;P 500, NASDAQ, ACWI, Oro y más</li>
           <li>Deducible de impuestos — Art. 151 LISR</li>
           <li>Retiro libre de ISR al cumplir requisitos — Art. 93 LISR</li>
-              </ul>
+        </ul>
         <div style="display:flex; align-items:center; gap:16px; flex-wrap:wrap;">
-          <a href="/ppr-sim" class="btn-sim">
+          <a href="#simulador" class="btn-sim">
             🧮 Simula tu retiro ahora
           </a>
           <a href="#fiscal" class="btn-outline">Ver beneficios fiscales</a>
@@ -669,9 +845,7 @@
       <!-- Right -->
       <div style="position:relative;">
         <div class="hero-photo" style="height:460px; background: #e8ecf4 url('/retiro/omar.jpg') center top / cover no-repeat; border-radius:16px; overflow:hidden; position:relative;">
-          <!-- Foto Omar Landero cargada via CSS background-image -->
         </div>
-
         <div class="hero-reg" style="text-align:center;">
           Regulado por la<br>
           <strong style="font-size:13px;">Comisión Nacional de<br>Seguros y Fianzas</strong>
@@ -689,11 +863,9 @@
 <section id="afore" class="section">
   <div class="container">
     <div class="grid-2" style="align-items:center; gap:60px;">
-      <!-- Izquierda: ilustraci�n Tu PPR vs Tu AFORE -->
       <div>
-        <img src="/retiro/pprvsafore.png" alt="Tu PPR vs Tu AFORE  la brecha en acumulaci�n" style="width:100%; height:auto; display:block;">
+        <img src="/retiro/pprvsafore.png" alt="Tu PPR vs Tu AFORE — la brecha en acumulación" style="width:100%; height:auto; display:block;">
       </div>
-      <!-- Derecha: datos de la brecha del AFORE -->
       <div>
         <div class="tag">El problema real</div>
         <h2 class="section-title">
@@ -704,7 +876,6 @@
           el AFORE solo reemplazará entre el 30 y 40% de tu último salario.
         </p>
 
-        <!-- Bar visual -->
         <p style="font-size:13px; font-weight:700; color:var(--gray); text-transform:uppercase; letter-spacing:.06em; margin-bottom:8px;">Ejemplo: sueldo mensual de $40,000 MXN</p>
         <div style="margin-bottom:6px;">
           <div style="display:flex; justify-content:space-between; font-size:13px; margin-bottom:4px;">
@@ -740,12 +911,89 @@
 </section>
 
 <!-- ══════════════════════════════════════════════════
+     CALCULADORA DE CAPITAL NECESARIO
+══════════════════════════════════════════════════ -->
+<section id="calculadora">
+  <div class="container">
+    <div style="text-align:center; margin-bottom:52px;">
+      <div class="tag tag--light">Calculadora</div>
+      <h2 class="section-title" style="color:#fff; max-width:600px; margin:0 auto 16px;">
+        ¿Cuánto necesitas ahorrar<br>para la pensión que quieres?
+      </h2>
+      <p class="section-sub" style="color:rgba(255,255,255,.6); margin:0 auto; text-align:center;">
+        Descubre el capital objetivo que debes acumular para alcanzar tu meta de retiro.
+      </p>
+    </div>
+
+    <div class="calc-wrap">
+      <!-- INPUT -->
+      <div>
+        <div class="calc-input-group" style="margin-bottom:32px;">
+          <label class="calc-label" for="calcPension">Pensión mensual que deseas</label>
+          <div class="calc-input-wrap">
+            <span class="calc-prefix">$</span>
+            <input
+              class="calc-input"
+              type="number"
+              id="calcPension"
+              placeholder="20,000"
+              min="1000"
+              step="1000"
+              inputmode="numeric"
+              oninput="actualizarCalc()"
+            >
+            <span class="calc-suffix">MXN/mes</span>
+          </div>
+        </div>
+
+        <div style="background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.1); border-radius:14px; padding:20px 24px; font-size:14px; color:rgba(255,255,255,.55); line-height:1.7;">
+          <strong style="color:rgba(255,255,255,.8); display:block; margin-bottom:8px;">¿Cómo se calcula?</strong>
+          La fórmula estima que necesitas <strong style="color:rgba(255,255,255,.8);">20 años de pensión</strong> (de 65 a 85 años), por lo que el capital requerido es:<br><br>
+          <code style="background:rgba(255,255,255,.1); padding:6px 10px; border-radius:6px; font-size:13px; color:rgba(255,255,255,.9);">Capital = Pensión × 12 meses × 20 años</code>
+        </div>
+
+        <a href="#simulador" class="calc-cta">🧮 Simular cómo alcanzarlo →</a>
+      </div>
+
+      <!-- RESULT -->
+      <div>
+        <div id="calcResultBox" class="calc-result-box">
+          <div id="calcPlaceholder" class="calc-placeholder">
+            <div class="calc-icon">🎯</div>
+            <p>Escribe la pensión mensual que deseas<br>y verás el capital que necesitas acumular.</p>
+          </div>
+          <div id="calcResult" style="display:none;">
+            <div class="calc-result-label">Capital necesario al retiro</div>
+            <div class="calc-result-value" id="calcCapital">—</div>
+            <div class="calc-result-sub" id="calcSub">Para tener esa pensión durante 20 años.</div>
+            <div class="calc-breakdown">
+              <div class="calc-breakdown-row">
+                <span>Pensión mensual deseada</span>
+                <strong id="calcPensionFmt">—</strong>
+              </div>
+              <div class="calc-breakdown-row">
+                <span>Meses totales (20 años)</span>
+                <strong>240 meses</strong>
+              </div>
+              <div class="calc-breakdown-row">
+                <span>Capital objetivo</span>
+                <strong id="calcCapital2">—</strong>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════
      SOLUTION
 ══════════════════════════════════════════════════ -->
 <section id="solucion" class="section">
   <div class="container">
     <div style="text-align:center; margin-bottom:52px;">
-      <div class="tag" style="background:rgba(201,168,76,.25); color:var(--gold);">La solución</div>
+      <div class="tag tag--light">La solución</div>
       <h2 class="section-title" style="color:var(--white); max-width:600px; margin:0 auto 16px;">
         Optimax Plus · Allianz México
       </h2>
@@ -758,7 +1006,7 @@
       <div class="sol-card">
         <div class="sol-icon">🏛️</div>
         <h3>Regulado por la CNSF</h3>
-        <p>Allianz está regulada por la Comisión Nacional de Seguros y Fianzas (CNSF). Tus aportaciones se integran a las reservas técnicas de la compañía — inembargables por ley y supervisadas por el regulador — lo que dota a tu fondo de la máxima solidez financiera.</p>
+        <p>Allianz está regulada por la Comisión Nacional de Seguros y Fianzas (CNSF). Tus aportaciones se integran a las reservas técnicas de la compañía — inembargables por ley y supervisadas por el regulador.</p>
         <div class="sol-highlight">100% regulado</div>
       </div>
       <div class="sol-card">
@@ -809,7 +1057,7 @@
 
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:28px;align-items:start;">
 
-      <!-- ART. 151 ────────────────────────────────────── -->
+      <!-- ART. 151 -->
       <div style="border-radius:18px;overflow:hidden;border:1.5px solid #DDE3EE;background:#fff;box-shadow:0 6px 28px rgba(27,42,74,0.10);">
         <div style="background:#1B2A4A;padding:22px 24px;display:flex;align-items:center;gap:16px;">
           <div style="background:#C9A84C;color:#1B2A4A;border-radius:12px;padding:10px 14px;text-align:center;min-width:58px;flex-shrink:0;">
@@ -823,65 +1071,65 @@
         </div>
         <div>
           <div style="display:flex;gap:14px;padding:16px 20px;border-bottom:1px solid #EEF0F6;align-items:flex-start;">
-        <div style="width:30px;height:30px;border-radius:50%;background:#d1fae5;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:15px;">✓</div>
-        <div>
-          <div style="font-weight:700;font-size:14px;color:#1B2A4A;margin-bottom:4px;">¿Qué puedes deducir?</div>
-          <div style="font-size:13px;color:#6B7A99;line-height:1.55;">El total de tus aportaciones anuales al PPR</div>
-        </div>
-      </div>
+            <div style="width:30px;height:30px;border-radius:50%;background:#d1fae5;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:15px;">✓</div>
+            <div>
+              <div style="font-weight:700;font-size:14px;color:#1B2A4A;margin-bottom:4px;">¿Qué puedes deducir?</div>
+              <div style="font-size:13px;color:#6B7A99;line-height:1.55;">El total de tus aportaciones anuales al PPR</div>
+            </div>
+          </div>
           <div style="display:flex;gap:14px;padding:16px 20px;border-bottom:1px solid #EEF0F6;align-items:flex-start;">
-        <div style="width:30px;height:30px;border-radius:50%;background:#EEF0F6;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:15px;">📋</div>
-        <div>
-          <div style="font-weight:700;font-size:14px;color:#1B2A4A;margin-bottom:4px;">Límite de deducción</div>
-          <div style="font-size:13px;color:#6B7A99;line-height:1.55;">El menor de: <strong style="color:#1B2A4A;">5 UMAs anuales = $213,973 MXN (2026)</strong><br>o <strong style="color:#1B2A4A;">10% de tu ingreso acumulable anual</strong></div>
-        </div>
-      </div>
+            <div style="width:30px;height:30px;border-radius:50%;background:#EEF0F6;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:15px;">📋</div>
+            <div>
+              <div style="font-weight:700;font-size:14px;color:#1B2A4A;margin-bottom:4px;">Límite de deducción</div>
+              <div style="font-size:13px;color:#6B7A99;line-height:1.55;">El menor de: <strong style="color:#1B2A4A;">5 UMAs anuales = $213,973 MXN (2026)</strong><br>o <strong style="color:#1B2A4A;">10% de tu ingreso acumulable anual</strong></div>
+            </div>
+          </div>
           <div style="display:flex;gap:14px;padding:16px 20px;border-bottom:1px solid #EEF0F6;align-items:flex-start;">
-        <div style="width:30px;height:30px;border-radius:50%;background:#EEF0F6;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:15px;">🔄</div>
-        <div>
-          <div style="font-weight:700;font-size:14px;color:#1B2A4A;margin-bottom:4px;">Diferimiento fiscal</div>
-          <div style="font-size:13px;color:#6B7A99;line-height:1.55;">Sí aplica — los rendimientos crecen sin pagar impuestos durante toda la acumulación</div>
-        </div>
-      </div>
+            <div style="width:30px;height:30px;border-radius:50%;background:#EEF0F6;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:15px;">🔄</div>
+            <div>
+              <div style="font-weight:700;font-size:14px;color:#1B2A4A;margin-bottom:4px;">Diferimiento fiscal</div>
+              <div style="font-size:13px;color:#6B7A99;line-height:1.55;">Sí aplica — los rendimientos crecen sin pagar impuestos durante toda la acumulación</div>
+            </div>
+          </div>
           <div style="display:flex;gap:14px;padding:16px 20px;border-bottom:1px solid #EEF0F6;align-items:flex-start;">
-        <div style="width:30px;height:30px;border-radius:50%;background:#EEF0F6;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:15px;">📅</div>
-        <div>
-          <div style="font-weight:700;font-size:14px;color:#1B2A4A;margin-bottom:4px;">Fecha límite de deducción</div>
-          <div style="font-size:13px;color:#6B7A99;line-height:1.55;">En tu declaración anual de ISR — <strong style="color:#1B2A4A;">31 de diciembre</strong> de cada ejercicio</div>
-        </div>
-      </div>
+            <div style="width:30px;height:30px;border-radius:50%;background:#EEF0F6;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:15px;">📅</div>
+            <div>
+              <div style="font-weight:700;font-size:14px;color:#1B2A4A;margin-bottom:4px;">Fecha límite de deducción</div>
+              <div style="font-size:13px;color:#6B7A99;line-height:1.55;">En tu declaración anual de ISR — <strong style="color:#1B2A4A;">31 de diciembre</strong> de cada ejercicio</div>
+            </div>
+          </div>
           <div style="display:flex;gap:14px;padding:16px 20px;border-bottom:1px solid #EEF0F6;align-items:flex-start;">
-        <div style="width:30px;height:30px;border-radius:50%;background:#EEF0F6;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:15px;">📅</div>
-        <div>
-          <div style="font-weight:700;font-size:14px;color:#1B2A4A;margin-bottom:4px;">Requisito de permanencia</div>
-          <div style="font-size:13px;color:#6B7A99;line-height:1.55;">65 años cumplidos al momento del retiro.</div>
-        </div>
-      </div>
-      <div style="display:flex;gap:14px;padding:16px 20px;border-bottom:1px solid #EEF0F6;align-items:flex-start;background:#fffbeb;">
-        <div style="width:30px;height:30px;border-radius:50%;background:#fef3c7;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:15px;">⚠️</div>
-        <div>
-          <div style="font-weight:700;font-size:14px;color:#92400e;margin-bottom:4px;">Retiro sin cumplir permanencia</div>
-          <div style="font-size:13px;color:#78350f;line-height:1.55;">Retención provisional del <strong>20%</strong> sobre el monto retirado</div>
-        </div>
-      </div>
+            <div style="width:30px;height:30px;border-radius:50%;background:#EEF0F6;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:15px;">📅</div>
+            <div>
+              <div style="font-weight:700;font-size:14px;color:#1B2A4A;margin-bottom:4px;">Requisito de permanencia</div>
+              <div style="font-size:13px;color:#6B7A99;line-height:1.55;">65 años cumplidos al momento del retiro.</div>
+            </div>
+          </div>
+          <div style="display:flex;gap:14px;padding:16px 20px;border-bottom:1px solid #EEF0F6;align-items:flex-start;background:#fffbeb;">
+            <div style="width:30px;height:30px;border-radius:50%;background:#fef3c7;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:15px;">⚠️</div>
+            <div>
+              <div style="font-weight:700;font-size:14px;color:#92400e;margin-bottom:4px;">Retiro sin cumplir permanencia</div>
+              <div style="font-size:13px;color:#78350f;line-height:1.55;">Retención provisional del <strong>20%</strong> sobre el monto retirado</div>
+            </div>
+          </div>
           <div style="display:flex;gap:14px;padding:16px 20px;border-bottom:1px solid #EEF0F6;align-items:flex-start;background:#f0fdf4;">
-        <div style="width:30px;height:30px;border-radius:50%;background:#bbf7d0;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:15px;">🏆</div>
-        <div>
-          <div style="font-weight:700;font-size:14px;color:#14532d;margin-bottom:4px;">Retiro cumpliendo permanencia (65 años)</div>
-          <div style="font-size:13px;color:#166534;line-height:1.55;">Exento hasta <strong>$3,851,518</strong> en exhibición única · <strong>$641,920/año</strong> en retiros periódicos<br><span style="color:#6B7A99;font-size:12px;">Solo 20% sobre el excedente</span></div>
-        </div>
-      </div>
+            <div style="width:30px;height:30px;border-radius:50%;background:#bbf7d0;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:15px;">🏆</div>
+            <div>
+              <div style="font-weight:700;font-size:14px;color:#14532d;margin-bottom:4px;">Retiro cumpliendo permanencia (65 años)</div>
+              <div style="font-size:13px;color:#166534;line-height:1.55;">Exento hasta <strong>$3,851,518</strong> en exhibición única · <strong>$641,920/año</strong> en retiros periódicos<br><span style="color:#6B7A99;font-size:12px;">Solo 20% sobre el excedente</span></div>
+            </div>
+          </div>
           <div style="display:flex;gap:14px;padding:16px 20px;align-items:flex-start;">
-        <div style="width:30px;height:30px;border-radius:50%;background:#EEF0F6;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:15px;">🔒</div>
-        <div>
-          <div style="font-weight:700;font-size:14px;color:#1B2A4A;margin-bottom:4px;">Retención por fallecimiento</div>
-          <div style="font-size:13px;color:#6B7A99;line-height:1.55;"><strong style="color:#1B2A4A;">20%</strong> sobre el total del retiro pagado a los beneficiarios</div>
-        </div>
-      </div>
+            <div style="width:30px;height:30px;border-radius:50%;background:#EEF0F6;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:15px;">🔒</div>
+            <div>
+              <div style="font-weight:700;font-size:14px;color:#1B2A4A;margin-bottom:4px;">Retención por fallecimiento</div>
+              <div style="font-size:13px;color:#6B7A99;line-height:1.55;"><strong style="color:#1B2A4A;">20%</strong> sobre el total del retiro pagado a los beneficiarios</div>
+            </div>
+          </div>
         </div>
       </div>
 
-      <!-- ART. 93 ─────────────────────────────────────── -->
+      <!-- ART. 93 -->
       <div style="border-radius:18px;overflow:hidden;border:1.5px solid #DDE3EE;background:#fff;box-shadow:0 6px 28px rgba(27,42,74,0.10);">
         <div style="background:#14532d;padding:22px 24px;display:flex;align-items:center;gap:16px;">
           <div style="background:#22c55e;color:#14532d;border-radius:12px;padding:10px 14px;text-align:center;min-width:58px;flex-shrink:0;">
@@ -895,47 +1143,47 @@
         </div>
         <div>
           <div style="display:flex;gap:14px;padding:16px 20px;border-bottom:1px solid #EEF0F6;align-items:flex-start;">
-        <div style="width:30px;height:30px;border-radius:50%;background:#fee2e2;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:15px;">✗</div>
-        <div>
-          <div style="font-weight:700;font-size:14px;color:#1B2A4A;margin-bottom:4px;">Deducción de aportaciones</div>
-          <div style="font-size:13px;color:#6B7A99;line-height:1.55;">No aplica — las aportaciones <strong>no</strong> son deducibles bajo este artículo</div>
-        </div>
-      </div>
+            <div style="width:30px;height:30px;border-radius:50%;background:#fee2e2;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:15px;">✗</div>
+            <div>
+              <div style="font-weight:700;font-size:14px;color:#1B2A4A;margin-bottom:4px;">Deducción de aportaciones</div>
+              <div style="font-size:13px;color:#6B7A99;line-height:1.55;">No aplica — las aportaciones <strong>no</strong> son deducibles bajo este artículo</div>
+            </div>
+          </div>
           <div style="display:flex;gap:14px;padding:16px 20px;border-bottom:1px solid #EEF0F6;align-items:flex-start;">
-        <div style="width:30px;height:30px;border-radius:50%;background:#EEF0F6;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:15px;">🔄</div>
-        <div>
-          <div style="font-weight:700;font-size:14px;color:#1B2A4A;margin-bottom:4px;">Diferimiento fiscal</div>
-          <div style="font-size:13px;color:#6B7A99;line-height:1.55;">Sí aplica — los rendimientos acumulan libres de impuestos durante toda la vigencia del plan</div>
-        </div>
-      </div>
+            <div style="width:30px;height:30px;border-radius:50%;background:#EEF0F6;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:15px;">🔄</div>
+            <div>
+              <div style="font-weight:700;font-size:14px;color:#1B2A4A;margin-bottom:4px;">Diferimiento fiscal</div>
+              <div style="font-size:13px;color:#6B7A99;line-height:1.55;">Sí aplica — los rendimientos acumulan libres de impuestos durante toda la vigencia del plan</div>
+            </div>
+          </div>
           <div style="display:flex;gap:14px;padding:16px 20px;border-bottom:1px solid #EEF0F6;align-items:flex-start;background:#fffbeb;">
-        <div style="width:30px;height:30px;border-radius:50%;background:#fef3c7;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:15px;">⚠️</div>
-        <div>
-          <div style="font-weight:700;font-size:14px;color:#92400e;margin-bottom:4px;">Retiro sin cumplir permanencia</div>
-          <div style="font-size:13px;color:#78350f;line-height:1.55;">Retención provisional del <strong>20%</strong> sobre el interés real generado</div>
-        </div>
-      </div>
+            <div style="width:30px;height:30px;border-radius:50%;background:#fef3c7;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:15px;">⚠️</div>
+            <div>
+              <div style="font-weight:700;font-size:14px;color:#92400e;margin-bottom:4px;">Retiro sin cumplir permanencia</div>
+              <div style="font-size:13px;color:#78350f;line-height:1.55;">Retención provisional del <strong>20%</strong> sobre el interés real generado</div>
+            </div>
+          </div>
           <div style="display:flex;gap:14px;padding:16px 20px;border-bottom:1px solid #EEF0F6;align-items:flex-start;background:#f0fdf4;">
-        <div style="width:30px;height:30px;border-radius:50%;background:#bbf7d0;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:15px;">✅</div>
-        <div>
-          <div style="font-weight:700;font-size:14px;color:#14532d;margin-bottom:4px;">Retiro cumpliendo permanencia</div>
-          <div style="font-size:13px;color:#166534;line-height:1.55;"><strong style="color:#14532d;">100% exento</strong> — ni capital ni rendimientos pagan impuestos</div>
-        </div>
-      </div>
+            <div style="width:30px;height:30px;border-radius:50%;background:#bbf7d0;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:15px;">✅</div>
+            <div>
+              <div style="font-weight:700;font-size:14px;color:#14532d;margin-bottom:4px;">Retiro cumpliendo permanencia</div>
+              <div style="font-size:13px;color:#166534;line-height:1.55;"><strong style="color:#14532d;">100% exento</strong> — ni capital ni rendimientos pagan impuestos</div>
+            </div>
+          </div>
           <div style="display:flex;gap:14px;padding:16px 20px;border-bottom:1px solid #EEF0F6;align-items:flex-start;">
-        <div style="width:30px;height:30px;border-radius:50%;background:#EEF0F6;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:15px;">📅</div>
-        <div>
-          <div style="font-weight:700;font-size:14px;color:#1B2A4A;margin-bottom:4px;">Requisitos de permanencia</div>
-          <div style="font-size:13px;color:#6B7A99;line-height:1.55;"><strong style="color:#1B2A4A;">60 años cumplidos</strong> + mínimo <strong style="color:#1B2A4A;">5 años</strong> con el plan activo</div>
-        </div>
-      </div>
+            <div style="width:30px;height:30px;border-radius:50%;background:#EEF0F6;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:15px;">📅</div>
+            <div>
+              <div style="font-weight:700;font-size:14px;color:#1B2A4A;margin-bottom:4px;">Requisitos de permanencia</div>
+              <div style="font-size:13px;color:#6B7A99;line-height:1.55;"><strong style="color:#1B2A4A;">60 años cumplidos</strong> + mínimo <strong style="color:#1B2A4A;">5 años</strong> con el plan activo</div>
+            </div>
+          </div>
           <div style="display:flex;gap:14px;padding:16px 20px;align-items:flex-start;background:#f0fdf4;">
-        <div style="width:30px;height:30px;border-radius:50%;background:#bbf7d0;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:15px;">💚</div>
-        <div>
-          <div style="font-weight:700;font-size:14px;color:#14532d;margin-bottom:4px;">Retención por fallecimiento</div>
-          <div style="font-size:13px;color:#166534;line-height:1.55;"><strong style="color:#14532d;">100% exento</strong> — los beneficiarios reciben la totalidad sin ninguna retención</div>
-        </div>
-      </div>
+            <div style="width:30px;height:30px;border-radius:50%;background:#bbf7d0;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:15px;">💚</div>
+            <div>
+              <div style="font-weight:700;font-size:14px;color:#14532d;margin-bottom:4px;">Retención por fallecimiento</div>
+              <div style="font-size:13px;color:#166534;line-height:1.55;"><strong style="color:#14532d;">100% exento</strong> — los beneficiarios reciben la totalidad sin ninguna retención</div>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -943,8 +1191,11 @@
   </div>
 </section>
 
+<!-- ══════════════════════════════════════════════════
+     PORTAFOLIOS
+══════════════════════════════════════════════════ -->
 <section id="portafolios">
-  <div class="container">
+  <div class="container" style="padding-top:80px;padding-bottom:80px;">
     <div style="text-align:center;margin-bottom:40px;">
       <div class="tag">DONDE SE INVIERTE TU DINERO</div>
       <h2 class="section-title">19 portafolios. Tú decides<br>el nivel de riesgo.</h2>
@@ -1011,23 +1262,227 @@
 </section>
 
 <!-- ══════════════════════════════════════════════════
-     FINAL CTA
+     SIMULADOR DESKTOP
 ══════════════════════════════════════════════════ -->
-<section id="cta-final">
+<section id="simulador">
   <div class="container">
-    <h2>
-      ¿Cuánto acumularás<br>en <span>30 años?</span>
-    </h2>
-    <p>
-      Ingresa tu edad y el monto que puedes apartar mensualmente.<br>
-      El simulador proyecta tu retiro con 7 escenarios de inversión.
-    </p>
-    <div class="cta-group">
-      <a href="/ppr-sim" class="btn-sim-lg">
-        🧮 Abrir simulador de retiro
-      </a>
+    <div style="text-align:center;">
+      <div class="sim-eyebrow">Simulador OptiMaxx Plus</div>
+      <h2>¿Cuánto tendrás a los<br>65 años?</h2>
+      <p class="sim-sub">Visualiza el potencial de tu Plan Personal de Retiro según diferentes estrategias de inversión. Incluye Bono de Fidelidad Allianz. Proyecciones con fines ilustrativos.</p>
     </div>
 
+    <div class="sim-grid">
+
+      <!-- ═══ LEFT: FORM ═══ -->
+      <div class="sim-panel">
+        <div class="sim-panel-title">📋 Tus datos</div>
+        <div class="sim-form-grid">
+
+          <div class="sim-fg">
+            <label class="sim-label">Nombre completo <span class="sim-req">*</span></label>
+            <input type="text" id="sNombre" placeholder="Tu nombre completo" autocomplete="name">
+            <span class="sim-err" id="serr-nombre">Ingresa tu nombre</span>
+          </div>
+
+          <div class="sim-form-row">
+            <div class="sim-fg">
+              <label class="sim-label">Edad actual <span class="sim-req">*</span></label>
+              <div class="sim-input-wrap">
+                <input type="number" id="sEdad" placeholder="35" min="18" max="64" inputmode="numeric">
+                <span class="sim-sfx">años</span>
+              </div>
+              <span class="sim-err" id="serr-edad">Entre 18 y 64</span>
+            </div>
+            <div class="sim-fg">
+              <label class="sim-label">WhatsApp <span class="sim-req">*</span></label>
+              <div class="sim-input-wrap">
+                <span class="sim-prefix">+52</span>
+                <input type="tel" id="sWa" placeholder="10 dígitos" maxlength="10" inputmode="tel">
+              </div>
+              <span class="sim-err" id="serr-wa">10 dígitos</span>
+            </div>
+          </div>
+
+          <div class="sim-fg">
+            <label class="sim-label">Correo electrónico <span class="sim-opt">(opcional)</span></label>
+            <input type="email" id="sEmail" placeholder="tucorreo@ejemplo.com" autocomplete="email">
+          </div>
+
+          <div class="sim-fg">
+            <label class="sim-label">Aportación mensual <span class="sim-req">*</span></label>
+            <div class="sim-input-wrap">
+              <span class="sim-prefix">$</span>
+              <input type="number" id="sAportacion" placeholder="2,000" min="2000" step="500" inputmode="numeric">
+              <span class="sim-sfx">MXN</span>
+            </div>
+            <div class="sim-min-note">📌 Mínimo: $2,000 MXN mensuales</div>
+            <span class="sim-err" id="serr-aportacion">Mínimo $2,000 MXN</span>
+          </div>
+
+          <div class="sim-fg">
+            <label class="sim-label">Opciones de proyección</label>
+            <label class="sim-infl-toggle" for="sInflToggle" style="font-size:12px;font-weight:400;text-transform:none;letter-spacing:0;color:inherit;">
+              <input type="checkbox" id="sInflToggle">
+              <div class="sim-itxt">
+                <div class="sim-itxt-lbl">Incremento conforme a inflación</div>
+                <div class="sim-itxt-desc">La aportación crece 4% cada año (metodología Allianz).</div>
+              </div>
+              <span class="sim-itag">+4% anual</span>
+            </label>
+          </div>
+
+          <div class="sim-fg">
+            <label class="sim-label">Portafolio <span class="sim-req">*</span></label>
+            <div class="sim-port-grid">
+
+              <div class="sim-p-opt">
+                <input type="radio" name="sportafolio" id="sp1" value="Portafolio Crecimiento Global" data-rate="0.10" data-capped="true" data-hist="13" checked>
+                <label class="sim-p-label" for="sp1" onclick="simOnPort('sp1')">
+                  <span class="sim-p-dot" style="background:#3b82f6"></span>
+                  <div class="sim-p-info"><div class="sim-p-name">Crecimiento Global</div><div class="sim-p-inst">S&P 500</div></div>
+                  <div class="sim-p-right"><div class="sim-p-rate">13% prom.</div><div class="sim-p-cap">Proy: 10%</div></div>
+                </label>
+              </div>
+
+              <button class="sim-otros-btn" id="simOtrosBtn" type="button" onclick="simToggleOtros(this)">
+                <span>Explorar otros portafolios</span>
+                <span class="chv">▾</span>
+              </button>
+              <div class="sim-otros-wrap" id="simOtrosWrap">
+                <div class="sim-otros-lbl">Otros portafolios disponibles</div>
+
+                <div class="sim-p-opt">
+                  <input type="radio" name="sportafolio" id="sp2" value="Portafolio Tecnológico" data-rate="0.10" data-capped="true" data-hist="15">
+                  <label class="sim-p-label" for="sp2" onclick="simOnPort('sp2')">
+                    <span class="sim-p-dot" style="background:#8b5cf6"></span>
+                    <div class="sim-p-info"><div class="sim-p-name">Tecnológico</div><div class="sim-p-inst">QQQ – Nasdaq 100</div></div>
+                    <div class="sim-p-right"><div class="sim-p-rate">15% prom.</div><div class="sim-p-cap">Proy: 10%</div></div>
+                  </label>
+                </div>
+
+                <div class="sim-p-opt">
+                  <input type="radio" name="sportafolio" id="sp3" value="Portafolio Diversificado Mundial" data-rate="0.10" data-capped="true">
+                  <label class="sim-p-label" for="sp3" onclick="simOnPort('sp3')">
+                    <span class="sim-p-dot" style="background:#0891b2"></span>
+                    <div class="sim-p-info"><div class="sim-p-name">Diversificado Mundial</div><div class="sim-p-inst">MSCI ACWI</div></div>
+                    <div class="sim-p-right"><div class="sim-p-rate">11% prom.</div><div class="sim-p-cap">Proy: 10%</div></div>
+                  </label>
+                </div>
+
+                <div class="sim-p-opt">
+                  <input type="radio" name="sportafolio" id="sp4" value="Portafolio Oro" data-rate="0.10" data-capped="false">
+                  <label class="sim-p-label" for="sp4" onclick="simOnPort('sp4')">
+                    <span class="sim-p-dot" style="background:#d97706"></span>
+                    <div class="sim-p-info"><div class="sim-p-name">Oro</div><div class="sim-p-inst">iShares Gold Trust</div></div>
+                    <div class="sim-p-right"><div class="sim-p-rate">10% anual</div></div>
+                  </label>
+                </div>
+
+                <div class="sim-p-opt">
+                  <input type="radio" name="sportafolio" id="sp5" value="Portafolio Anti-Inflación" data-rate="0" data-capped="false">
+                  <label class="sim-p-label" for="sp5" onclick="simOnPort('sp5')">
+                    <span class="sim-p-dot" style="background:#059669"></span>
+                    <div class="sim-p-info"><div class="sim-p-name">Anti-Inflación</div><div class="sim-p-inst">UDIS</div></div>
+                    <div class="sim-p-right"><div class="sim-p-rate" id="sudisRate">—%</div><div class="sim-p-live">Allianz vigente</div></div>
+                  </label>
+                </div>
+
+                <div class="sim-p-opt">
+                  <input type="radio" name="sportafolio" id="sp6" value="Portafolio Conservador Dolarizado" data-rate="0" data-capped="false">
+                  <label class="sim-p-label" for="sp6" onclick="simOnPort('sp6')">
+                    <span class="sim-p-dot" style="background:#0369a1"></span>
+                    <div class="sim-p-info"><div class="sim-p-name">Renta Fija USD</div></div>
+                    <div class="sim-p-right"><div class="sim-p-rate" id="susdRate">—% USD</div><div class="sim-p-live">Allianz vigente</div></div>
+                  </label>
+                </div>
+
+                <div class="sim-p-opt">
+                  <input type="radio" name="sportafolio" id="sp7" value="Portafolio Conservador en Pesos" data-rate="0" data-capped="false">
+                  <label class="sim-p-label" for="sp7" onclick="simOnPort('sp7')">
+                    <span class="sim-p-dot" style="background:#047857"></span>
+                    <div class="sim-p-info"><div class="sim-p-name">Conservador MXN</div></div>
+                    <div class="sim-p-right"><div class="sim-p-rate" id="smxnRate">—% anual</div><div class="sim-p-live">Allianz vigente</div></div>
+                  </label>
+                </div>
+
+              </div><!-- /otros-wrap -->
+
+              <div class="sim-cap-notice" id="simCapNotice">
+                <strong>ℹ️ Nota:</strong> Rendimiento histórico ~<strong id="simCapHist">—</strong>%. Conforme a normativa Allianz México, proyección topada al <strong>10% anual</strong>.
+              </div>
+              <span class="sim-err" id="serr-port">Selecciona un portafolio</span>
+
+            </div>
+          </div>
+
+          <div class="sim-fg">
+            <div class="sim-priv">
+              <input type="checkbox" id="sPrivacy">
+              <div class="sim-priv-txt">
+                Acepto el <span class="sim-priv-link" onclick="simOpenPrivacy()">Aviso de Privacidad</span>. Mis datos serán usados únicamente para recibir información de planificación financiera de Asesor Landero.
+              </div>
+            </div>
+            <span class="sim-err" id="serr-privacy">Acepta el aviso de privacidad</span>
+          </div>
+
+          <button class="sim-btn-submit" id="simBtnCalc" onclick="simCalcular()">
+            Ver mi proyección al retiro →
+          </button>
+
+        </div>
+      </div>
+
+      <!-- ═══ RIGHT: RESULTS ═══ -->
+      <div class="sim-res-panel" id="simResPanel">
+        <!-- Placeholder -->
+        <div class="sim-placeholder" id="simPlaceholder">
+          <div class="sim-ph-icon">📊</div>
+          <p>Completa el formulario y haz clic en<br><strong style="color:#c9a84c;">Ver mi proyección</strong><br>para visualizar tu retiro.</p>
+        </div>
+        <!-- Results (hidden until calculation) -->
+        <div id="simResInner" style="display:none;">
+          <div class="sim-res-head">
+            <div class="sim-res-lbl" id="simResNombre">—</div>
+            <div class="sim-res-portfolio" id="simResPortfolio">—</div>
+          </div>
+          <div class="sim-bono-banner" id="simBonoBanner">
+            <div class="sim-bono-icon">🎁</div>
+            <div class="sim-bono-text">
+              <div class="sim-bono-lbl">Bono de Fidelidad Allianz</div>
+              <div class="sim-bono-amt" id="simBonoAmt">—</div>
+              <div class="sim-bono-desc">Capital adicional · <span id="simBonoPct">—</span> de tu aportación del primer año</div>
+            </div>
+          </div>
+          <div class="sim-metrics">
+            <div class="sim-metric"><div class="sim-metric-lbl">Total aportado</div><div class="sim-metric-val" id="simResAportado">—</div></div>
+            <div class="sim-metric hi"><div class="sim-metric-lbl">Valor proyectado</div><div class="sim-metric-val" id="simResTotal">—</div></div>
+            <div class="sim-metric"><div class="sim-metric-lbl">Rendimiento</div><div class="sim-metric-val" id="simResGanancia">—</div></div>
+          </div>
+          <div class="sim-pension-box">
+            <div class="sim-pension-lbl">💰 Pensión mensual estimada</div>
+            <div class="sim-pension-val" id="simResPension">—</div>
+          </div>
+          <div class="sim-chart-wrap">
+            <div class="sim-chart-title">Crecimiento acumulado proyectado</div>
+            <canvas id="simChart"></canvas>
+          </div>
+          <div class="sim-wa-box">
+            <div class="sim-wa-title" id="simWaTitle">Tu retiro empieza hoy, no mañana</div>
+            <div class="sim-wa-sub">Estas cifras son ilustrativas. En una asesoría personalizamos el plan exacto.</div>
+            <a class="sim-btn-wa" id="simWaLink" href="#" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+              <span id="simWaLinkText">Hablar con Omar — sin costo</span>
+            </a>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /sim-grid -->
+
+    <p style="font-size:11px;color:rgba(255,255,255,.3);text-align:center;margin-top:32px;line-height:1.7;">
+      ⚠️ Proyecciones exclusivamente ilustrativas. Calculadas con la metodología del simulador oficial Allianz OptiMaxx Plus. Conforme a normativa Allianz México, ninguna proyección supera el 10% anual. Los rendimientos pasados no garantizan resultados futuros. No constituye asesoría de inversión.
+    </p>
   </div>
 </section>
 
@@ -1044,6 +1499,313 @@
     Consulta la política integral del producto antes de contratar.
   </p>
 </footer>
+
+<!-- Privacy Modal -->
+<div id="simPrivModal" style="position:fixed;inset:0;background:rgba(0,0,0,.75);backdrop-filter:blur(4px);z-index:1000;display:none;align-items:center;justify-content:center;" onclick="simCloseOutside(event)">
+  <div style="background:#1a2258;border:1px solid rgba(255,255,255,.09);border-radius:20px;padding:28px 28px 32px;width:100%;max-width:480px;max-height:80vh;overflow-y:auto;margin:20px;">
+    <div style="font-size:17px;font-weight:700;color:#f1f5f9;margin-bottom:14px;">Aviso de Privacidad</div>
+    <div style="font-size:13px;color:#94a3b8;line-height:1.8;">
+      <p style="margin-bottom:12px;">En cumplimiento con la <strong style="color:#f1f5f9;">LFPDPPP</strong>, le informamos:</p>
+      <p style="margin-bottom:12px;"><strong style="color:#f1f5f9;">Responsable:</strong> Asesor Landero, agente independiente de seguros y asesor financiero, Tabasco, México.</p>
+      <p style="margin-bottom:12px;"><strong style="color:#f1f5f9;">Datos:</strong> Nombre, edad, WhatsApp, correo y datos de planificación financiera.</p>
+      <p style="margin-bottom:12px;"><strong style="color:#f1f5f9;">Finalidad:</strong> Contactarle para proporcionar información sobre planes de retiro y protección patrimonial. No se comparten con terceros.</p>
+      <p><strong style="color:#f1f5f9;">Derechos ARCO:</strong> Contáctenos por WhatsApp para acceder, rectificar, cancelar u oponerse al tratamiento de sus datos.</p>
+    </div>
+    <button onclick="simClosePrivacy()" style="width:100%;margin-top:20px;padding:12px;background:rgba(201,168,76,.15);color:#c9a84c;border:1px solid rgba(201,168,76,.3);border-radius:10px;font-family:'Outfit',sans-serif;font-size:14px;font-weight:600;cursor:pointer;">Entendido</button>
+  </div>
+</div>
+
+<script>
+/* ══════════════════════════════════════════════════
+   CALCULADORA DE CAPITAL
+══════════════════════════════════════════════════ */
+const mxnFmt = v => new Intl.NumberFormat('es-MX', { style: 'currency', currency: 'MXN', maximumFractionDigits: 0 }).format(v);
+
+function actualizarCalc() {
+  const pension = parseFloat(document.getElementById('calcPension').value);
+  const placeholder = document.getElementById('calcPlaceholder');
+  const result = document.getElementById('calcResult');
+
+  if (!pension || pension < 1000) {
+    placeholder.style.display = 'block';
+    result.style.display = 'none';
+    return;
+  }
+
+  const capital = pension * 12 * 20;
+  placeholder.style.display = 'none';
+  result.style.display = 'block';
+  document.getElementById('calcCapital').textContent = mxnFmt(capital);
+  document.getElementById('calcCapital2').textContent = mxnFmt(capital);
+  document.getElementById('calcPensionFmt').textContent = mxnFmt(pension) + '/mes';
+  document.getElementById('calcSub').textContent = 'Para tener ' + mxnFmt(pension) + ' al mes durante 20 años.';
+}
+
+/* ══════════════════════════════════════════════════
+   SIMULADOR — CONFIGURACIÓN
+══════════════════════════════════════════════════ */
+const SIM_WA     = '529933205649';
+const SIM_SHEETS = 'https://script.google.com/macros/s/AKfycbxeXclcuGh2_wigM5ZI5r93nNyHbXbYsqBXhzR-3-CyZq4FxaoqC5jGr5apoFjtV5mOwg/exec';
+
+const UDIS_RATE          = 0.0847;
+const ALLIANZ_MXN_RATE   = 0.0672;
+const ALLIANZ_USD_RATE   = 0.0333;
+const PESO_DEPRECIATION  = 0.05;
+const ALLIANZ_DOLAR_MXN  = (1 + ALLIANZ_USD_RATE) * (1 + PESO_DEPRECIATION) - 1;
+const INFLATION_RATE     = 0.04;
+const CARGO_GESTION      = 0.001;
+const CARGO_ADMIN        = 0.00196;
+
+let simChartInst = null;
+
+// Inyectar tasas Allianz en las opciones de portafolio
+(function() {
+  const sp5 = document.getElementById('sp5');
+  if (sp5) {
+    sp5.dataset.rate = String(UDIS_RATE);
+    document.getElementById('sudisRate').textContent = (UDIS_RATE * 100).toFixed(2) + '%';
+  }
+  const sp7 = document.getElementById('sp7');
+  if (sp7) {
+    sp7.dataset.rate = String(ALLIANZ_MXN_RATE);
+    document.getElementById('smxnRate').textContent = (ALLIANZ_MXN_RATE * 100).toFixed(2) + '%';
+  }
+  const sp6 = document.getElementById('sp6');
+  if (sp6) {
+    sp6.dataset.rate = String(ALLIANZ_DOLAR_MXN);
+    document.getElementById('susdRate').textContent = (ALLIANZ_USD_RATE * 100).toFixed(2) + '% USD';
+  }
+})();
+
+function simOnPort(id) {
+  const el = document.getElementById(id);
+  const cap = el.dataset.capped === 'true';
+  const notice = document.getElementById('simCapNotice');
+  if (cap) {
+    document.getElementById('simCapHist').textContent = el.dataset.hist || '—';
+    notice.classList.add('show');
+  } else {
+    notice.classList.remove('show');
+  }
+}
+
+function simGetPort() {
+  const el = document.querySelector('input[name="sportafolio"]:checked');
+  if (!el) return null;
+  return { name: el.value, calcRate: parseFloat(el.dataset.rate), capped: el.dataset.capped === 'true', histRate: el.dataset.hist || null };
+}
+
+function simGetBono(monthly, years) {
+  const annual = monthly * 12;
+  let bracket;
+  if      (years >= 15) bracket = 2;
+  else if (years >= 10) bracket = 1;
+  else if (years >= 5)  bracket = 0;
+  else return { pct: 0, amount: 0 };
+  const table = [
+    [90000, [0.35, 0.60, 1.00]],
+    [60000, [0.25, 0.50, 0.75]],
+    [36000, [0.15, 0.40, 0.65]],
+    [12000, [0.05, 0.30, 0.55]],
+  ];
+  for (const [thresh, rates] of table) {
+    if (annual >= thresh) return { pct: rates[bracket], amount: annual * rates[bracket] };
+  }
+  return { pct: 0, amount: 0 };
+}
+
+function simSimular(monthlyBase, annualRate, years, bonoAmt, useInflation) {
+  const monthlyRate = annualRate / 12;
+  let balance = 0, totalContrib = 0;
+  const annualSnaps = [];
+  const bonoMonthly = bonoAmt / 12;
+  for (let month = 1; month <= years * 12; month++) {
+    const yearNum = Math.ceil(month / 12);
+    const payment = useInflation ? monthlyBase * Math.pow(1 + INFLATION_RATE, yearNum - 1) : monthlyBase;
+    const bonoThisMonth = month <= 12 ? bonoMonthly : 0;
+    balance = (balance + bonoThisMonth) * (1 + monthlyRate) + payment;
+    balance -= balance * CARGO_GESTION;
+    if (month % 3 === 0) balance -= balance * CARGO_ADMIN;
+    totalContrib += payment;
+    if (month % 12 === 0) annualSnaps.push({ year: yearNum, balance: Math.round(balance), totalContrib: Math.round(totalContrib) });
+  }
+  return { finalBalance: balance, totalContrib, annualSnaps };
+}
+
+function simSetErr(id, show) {
+  document.getElementById('serr-' + id).classList.toggle('show', show);
+  const el = document.getElementById('s' + id.charAt(0).toUpperCase() + id.slice(1));
+  if (el) el.classList.toggle('field-error', show);
+}
+
+function simValidate() {
+  let ok = true;
+  const n = document.getElementById('sNombre').value.trim();
+  simSetErr('nombre', !n); if (!n) ok = false;
+  const e = parseInt(document.getElementById('sEdad').value);
+  const eOk = !isNaN(e) && e >= 18 && e <= 64;
+  simSetErr('edad', !eOk); if (!eOk) ok = false;
+  const w = document.getElementById('sWa').value.trim();
+  const wOk = /^\d{10}$/.test(w);
+  simSetErr('wa', !wOk); if (!wOk) ok = false;
+  const a = parseFloat(document.getElementById('sAportacion').value);
+  const aOk = !isNaN(a) && a >= 2000;
+  simSetErr('aportacion', !aOk); if (!aOk) ok = false;
+  const p = simGetPort();
+  if (!p) { document.getElementById('serr-port').classList.add('show'); ok = false; }
+  else document.getElementById('serr-port').classList.remove('show');
+  const pr = document.getElementById('sPrivacy').checked;
+  simSetErr('privacy', !pr); if (!pr) ok = false;
+  return ok;
+}
+
+function simSendLead(data) {
+  fetch(SIM_SHEETS, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) }).catch(() => {});
+}
+
+async function simCalcular() {
+  if (!simValidate()) return;
+
+  const btn = document.getElementById('simBtnCalc');
+  btn.disabled = true;
+  btn.classList.add('loading');
+  btn.textContent = 'Guardando tu información...';
+
+  const nombre     = document.getElementById('sNombre').value.trim();
+  const edad       = parseInt(document.getElementById('sEdad').value);
+  const wa         = document.getElementById('sWa').value.trim();
+  const email      = document.getElementById('sEmail').value.trim();
+  const aportacion = parseFloat(document.getElementById('sAportacion').value);
+  const port       = simGetPort();
+  const useInfl    = document.getElementById('sInflToggle').checked;
+  const years      = 65 - edad;
+
+  simSendLead({ nombre, edad, whatsapp: '+52' + wa, email, aportacion, portafolio: port.name, inflacion: useInfl ? 'Sí' : 'No', fuente: 'retiro-desktop' });
+
+  await new Promise(r => setTimeout(r, 1000));
+  btn.textContent = 'Calculando proyección...';
+
+  const bono = simGetBono(aportacion, years);
+  const sim  = simSimular(aportacion, port.calcRate, years, bono.amount, useInfl);
+  const simSinBono = simSimular(aportacion, port.calcRate, years, 0, useInfl);
+
+  const totalFV  = sim.finalBalance;
+  const totalAp  = sim.totalContrib;
+  const ganancia = totalFV - totalAp;
+  const pension  = totalFV / 20 / 12;
+
+  // Populate results
+  document.getElementById('simResNombre').textContent    = nombre;
+  document.getElementById('simResPortfolio').textContent = port.name;
+  document.getElementById('simResAportado').textContent  = mxnFmt(totalAp);
+  document.getElementById('simResTotal').textContent     = mxnFmt(totalFV);
+  document.getElementById('simResGanancia').textContent  = mxnFmt(ganancia);
+  document.getElementById('simResPension').textContent   = mxnFmt(pension);
+
+  // Bono
+  const bonoBanner = document.getElementById('simBonoBanner');
+  if (bono.amount > 0) {
+    document.getElementById('simBonoAmt').textContent = mxnFmt(bono.amount);
+    document.getElementById('simBonoPct').textContent = (bono.pct * 100).toFixed(0) + '%';
+    bonoBanner.classList.add('show');
+  } else {
+    bonoBanner.classList.remove('show');
+  }
+
+  // WA link
+  const primerNombre = nombre.split(' ')[0];
+  const msg = encodeURIComponent('Hola Omar, acabo de calcular mi proyección de retiro. Soy ' + nombre + ', tengo ' + edad + ' años y me gustaría agendar una asesoría personalizada.');
+  document.getElementById('simWaLink').href = 'https://wa.me/' + SIM_WA + '?text=' + msg;
+  document.getElementById('simWaTitle').textContent = primerNombre + ', tu pensión proyectada es ' + mxnFmt(pension) + ' al mes.';
+
+  // Chart
+  simRenderChart(sim.annualSnaps);
+
+  // Show results
+  document.getElementById('simPlaceholder').style.display = 'none';
+  document.getElementById('simResInner').style.display = 'block';
+
+  btn.disabled = false;
+  btn.classList.remove('loading');
+  btn.textContent = 'Recalcular →';
+}
+
+function simRenderChart(snaps) {
+  if (simChartInst) simChartInst.destroy();
+  const labels    = snaps.map(s => 'Año ' + s.year);
+  const contrib   = snaps.map(s => s.totalContrib);
+  const projected = snaps.map(s => s.balance);
+
+  const ctx = document.getElementById('simChart').getContext('2d');
+  const calloutPlugin = {
+    id: 'simFinalCallout',
+    afterDraw(chart) {
+      const ds = chart.data.datasets[0];
+      if (!ds || !ds.data.length) return;
+      const li = ds.data.length - 1;
+      const meta = chart.getDatasetMeta(0);
+      const pt = meta.data[li];
+      if (!pt) return;
+      const v = ds.data[li];
+      const lbl = v >= 1e6 ? '$' + (v / 1e6).toFixed(1) + 'M' : '$' + v.toLocaleString('es-MX');
+      const c2 = chart.ctx;
+      c2.save();
+      c2.font = 'bold 11px sans-serif';
+      c2.fillStyle = '#c9a84c';
+      c2.textAlign = 'right';
+      c2.textBaseline = 'bottom';
+      const tw = c2.measureText(lbl).width;
+      const x = Math.min(pt.x - 4, chart.chartArea.right - tw - 4);
+      const y = Math.max(pt.y - 10, chart.chartArea.top + 14);
+      c2.fillText(lbl, x + tw, y);
+      c2.restore();
+    }
+  };
+
+  simChartInst = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels,
+      datasets: [
+        { label: 'Valor proyectado', data: projected, borderColor: '#c9a84c', backgroundColor: 'rgba(201,168,76,0.08)', fill: true, tension: 0.4, borderWidth: 2, pointRadius: 2, pointBackgroundColor: '#c9a84c' },
+        { label: 'Total aportado',   data: contrib,   borderColor: '#3b82f6', backgroundColor: 'rgba(59,130,246,0.04)', fill: true, tension: 0.4, borderWidth: 2, pointRadius: 2, pointBackgroundColor: '#3b82f6' }
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: true,
+      plugins: {
+        legend: { position: 'bottom', labels: { color: '#94a3b8', font: { family: 'Outfit', size: 10 }, padding: 14, usePointStyle: true } },
+        tooltip: {
+          backgroundColor: '#1a2540', titleColor: '#f1f5f9', bodyColor: '#94a3b8',
+          borderColor: 'rgba(255,255,255,.08)', borderWidth: 1,
+          callbacks: { label: c => ' ' + c.dataset.label + ': ' + mxnFmt(c.raw) }
+        }
+      },
+      scales: {
+        x: { ticks: { color: '#64748b', font: { family: 'Outfit', size: 10 }, maxTicksLimit: 8 }, grid: { color: 'rgba(255,255,255,0.04)' } },
+        y: {
+          ticks: {
+            color: '#64748b', font: { family: 'Outfit', size: 10 },
+            callback: v => v >= 1e6 ? '$' + (v / 1e6).toFixed(1) + 'M' : v >= 1e3 ? '$' + (v / 1e3).toFixed(0) + 'k' : '$' + v
+          },
+          grid: { color: 'rgba(255,255,255,0.04)' }
+        }
+      }
+    },
+    plugins: [calloutPlugin]
+  });
+}
+
+function simToggleOtros(btn) {
+  const wrap = document.getElementById('simOtrosWrap');
+  const isOpen = wrap.classList.toggle('open');
+  btn.classList.toggle('open', isOpen);
+}
+
+function simOpenPrivacy()  { const m = document.getElementById('simPrivModal'); m.style.display = 'flex'; document.body.style.overflow = 'hidden'; }
+function simClosePrivacy() { const m = document.getElementById('simPrivModal'); m.style.display = 'none'; document.body.style.overflow = ''; }
+function simCloseOutside(e){ if (e.target === document.getElementById('simPrivModal')) simClosePrivacy(); }
+</script>
 
 </body>
 </html>
