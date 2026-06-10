@@ -15,11 +15,13 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"><style>
     :root {
-      --navy:       #0F153F;
-      --navy-card:  #1a2258;
-      --navy-hover: #1e2a6a;
+      --navy:       #1B2A4A;
+      --navy-card:  #243655;
+      --navy-hover: #2d4270;
       --gold:       #C9A96E;
       --gold-light: #E8C98A;
+      --blue:       #4A7CF7;
+      --green:      #25D366;
       --white:      #F4F1EB;
       --white-soft: rgba(244,241,235,0.7);
       --divider:    rgba(201,169,110,0.2);
@@ -38,7 +40,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding: 52px 20px 72px;
+      padding: 44px 20px 44px;
       position: relative;
       overflow-x: hidden;
     }
@@ -78,8 +80,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
     .avatar-wrapper {
       position: relative;
-      width: 96px;
-      height: 96px;
+      width: 110px;
+      height: 110px;
     }
 
     .avatar-wrapper::before {
@@ -94,8 +96,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     .avatar {
       position: relative;
       z-index: 1;
-      width: 96px;
-      height: 96px;
+      width: 110px;
+      height: 110px;
       border-radius: 50%;
       object-fit: cover;
       object-position: 60% top;
@@ -113,10 +115,10 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     }
 
     .tagline {
-      font-size: 0.72rem;
-      font-weight: 400;
+      font-size: 0.76rem;
+      font-weight: 500;
       color: var(--gold);
-      letter-spacing: 0.18em;
+      letter-spacing: 0.14em;
       text-transform: uppercase;
       margin-top: 4px;
     }
@@ -237,6 +239,45 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       letter-spacing: 0.12em;
     }
 
+    /* ── CREDENTIAL BADGE ── */
+    .credential {
+      font-size: 0.64rem;
+      font-weight: 400;
+      color: rgba(201,169,110,0.6);
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+      margin-top: 10px;
+    }
+
+    /* ── PRIMARY CARD (Simulador) ── */
+    .link-card--primary {
+      background: var(--blue);
+      border-color: rgba(74,124,247,0.35);
+    }
+    .link-card--primary:hover {
+      background: #3a6ce8;
+      border-color: rgba(74,124,247,0.55);
+    }
+    .link-card--primary::before {
+      background: linear-gradient(135deg, rgba(255,255,255,0.08) 0%, transparent 60%);
+    }
+    .link-card--primary .icon-wrap {
+      background: rgba(255,255,255,0.15);
+      border-color: rgba(255,255,255,0.2);
+    }
+    .link-card--primary .icon-wrap svg { stroke: #fff; }
+    .link-card--primary .link-label { color: rgba(255,255,255,0.75); }
+    .link-card--primary .link-title  { color: #fff; }
+    .link-card--primary .link-arrow  { color: rgba(255,255,255,0.55); }
+
+    /* ── WHATSAPP CARD ── */
+    .link-card--wa .icon-wrap {
+      background: rgba(37,211,102,0.1);
+      border-color: rgba(37,211,102,0.25);
+    }
+    .link-card--wa .icon-wrap svg { stroke: var(--green); }
+    .link-card--wa .link-label    { color: var(--green); }
+
     .footer-handle span {
       color: var(--gold);
     }
@@ -261,12 +302,13 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <div class="name">Asesor Landero</div>
         <div class="tagline">Estrategia Financiera &amp; Protección Patrimonial</div>
         <div class="divider-line" style="margin: 10px auto 0;"></div>
+        <div class="credential">Asesor Financiero · Regulado CNSF · Cédula V409234</div>
       </div>
     </header>
 
     <nav class="links-list">
 
-      <a class="link-card" href="https://asesorlandero.com.mx/ppr" target="_blank">
+      <a class="link-card link-card--primary" href="https://asesorlandero.com.mx/ppr" target="_blank">
         <div class="icon-wrap">
           <svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
         </div>
@@ -299,7 +341,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <span class="link-arrow">›</span>
       </a>
 
-      <a class="link-card" href="https://wa.me/529933205649" target="_blank">
+      <a class="link-card link-card--wa" href="https://wa.me/529933205649" target="_blank">
         <div class="icon-wrap">
           <svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
         </div>
