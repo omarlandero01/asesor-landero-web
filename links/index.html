@@ -18,13 +18,14 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       --navy:       #1B2A4A;
       --navy-card:  #243655;
       --navy-hover: #2d4270;
-      --gold:       #C9A96E;
-      --gold-light: #E8C98A;
       --blue:       #4A7CF7;
+      --blue-dim:   rgba(74,124,247,0.15);
+      --blue-border:rgba(74,124,247,0.25);
       --green:      #25D366;
-      --white:      #F4F1EB;
-      --white-soft: rgba(244,241,235,0.7);
-      --divider:    rgba(201,169,110,0.2);
+      --white:      #ffffff;
+      --white-soft: rgba(255,255,255,0.65);
+      --white-muted:rgba(255,255,255,0.4);
+      --divider:    rgba(74,124,247,0.2);
       --shadow:     rgba(0,0,0,0.35);
     }
 
@@ -51,8 +52,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       position: fixed;
       inset: 0;
       background:
-        radial-gradient(ellipse 80% 50% at 50% -10%, rgba(201,169,110,0.08) 0%, transparent 60%),
-        radial-gradient(ellipse 60% 40% at 50% 110%, rgba(13,27,46,0.9) 0%, transparent 70%);
+        radial-gradient(ellipse 80% 50% at 50% -10%, rgba(74,124,247,0.07) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 40% at 50% 110%, rgba(15,25,55,0.8) 0%, transparent 70%);
       pointer-events: none;
       z-index: 0;
     }
@@ -89,7 +90,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       position: absolute;
       inset: -3px;
       border-radius: 50%;
-      background: linear-gradient(135deg, var(--gold), var(--gold-light), var(--gold));
+      background: linear-gradient(135deg, var(--blue), #7BA5FF, var(--blue));
       z-index: 0;
     }
 
@@ -101,33 +102,35 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       border-radius: 50%;
       object-fit: cover;
       object-position: 60% top;
-      border: 3px solid var(--navy);
+      border: 3px solid #1B2A4A;
       display: block;
     }
 
     .name {
       font-family: 'Outfit', sans-serif;
       font-size: 1.6rem;
-      font-weight: 600;
-      color: var(--white);
-      letter-spacing: -0.3px;
+      font-weight: 700;
+      color: #ffffff;
+      letter-spacing: -0.4px;
       line-height: 1.2;
     }
 
     .tagline {
-      font-size: 0.76rem;
-      font-weight: 500;
-      color: var(--gold);
-      letter-spacing: 0.14em;
+      font-size: 0.72rem;
+      font-weight: 400;
+      color: var(--white-soft);
+      letter-spacing: 0.07em;
       text-transform: uppercase;
       margin-top: 4px;
+      line-height: 1.5;
     }
 
     .divider-line {
-      width: 48px;
+      width: 40px;
       height: 1px;
-      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+      background: linear-gradient(90deg, transparent, var(--blue), transparent);
       margin-top: 4px;
+      opacity: 0.5;
     }
 
     /* ── LINKS ── */
@@ -156,14 +159,14 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       content: '';
       position: absolute;
       inset: 0;
-      background: linear-gradient(135deg, rgba(201,169,110,0.05) 0%, transparent 60%);
+      background: linear-gradient(135deg, rgba(74,124,247,0.06) 0%, transparent 60%);
       opacity: 0;
       transition: opacity 0.25s ease;
     }
 
     .link-card:hover {
       background: var(--navy-hover);
-      border-color: rgba(201,169,110,0.45);
+      border-color: rgba(74,124,247,0.45);
       transform: translateY(-2px);
       box-shadow: 0 8px 28px var(--shadow);
     }
@@ -176,8 +179,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       width: 42px;
       height: 42px;
       border-radius: 10px;
-      background: rgba(201,169,110,0.1);
-      border: 1px solid rgba(201,169,110,0.2);
+      background: var(--blue-dim);
+      border: 1px solid var(--blue-border);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -187,7 +190,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     .icon-wrap svg {
       width: 20px;
       height: 20px;
-      stroke: var(--gold);
+      stroke: var(--blue);
       fill: none;
       stroke-width: 1.6;
       stroke-linecap: round;
@@ -199,24 +202,24 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     }
 
     .link-label {
-      font-size: 0.65rem;
-      font-weight: 500;
-      color: var(--gold);
-      letter-spacing: 0.14em;
+      font-size: 0.63rem;
+      font-weight: 600;
+      color: var(--blue);
+      letter-spacing: 0.1em;
       text-transform: uppercase;
       margin-bottom: 3px;
     }
 
     .link-title {
-      font-size: 0.95rem;
+      font-size: 0.96rem;
       font-weight: 500;
-      color: var(--white);
+      color: #ffffff;
       line-height: 1.3;
     }
 
     .link-arrow {
-      color: var(--gold);
-      opacity: 0.5;
+      color: var(--white-muted);
+      opacity: 1;
       font-size: 1rem;
       transition: opacity 0.2s, transform 0.2s;
       flex-shrink: 0;
@@ -243,7 +246,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     .credential {
       font-size: 0.64rem;
       font-weight: 400;
-      color: rgba(201,169,110,0.6);
+      color: var(--white-muted);
       letter-spacing: 0.09em;
       text-transform: uppercase;
       margin-top: 10px;
@@ -279,7 +282,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     .link-card--wa .link-label    { color: var(--green); }
 
     .footer-handle span {
-      color: var(--gold);
+      color: var(--blue);
     }
   </style>
 </head>
@@ -314,7 +317,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div>
         <div class="link-text">
           <div class="link-label">Simula tu retiro · Es gratuito</div>
-          <div class="link-title">Simulador de Plan Personal de Retiro</div>
+          <div class="link-title">Simula tu Plan Personal de Retiro</div>
         </div>
         <span class="link-arrow">›</span>
       </a>
