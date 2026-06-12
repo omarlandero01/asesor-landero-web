@@ -284,11 +284,17 @@ a  { color: inherit; text-decoration: none; }
     grid-template-columns: 1fr;
     gap: 40px;
   }
+  .hero__text { order: -1; }
   .hero__photo-wrap {
     max-width: 100%;
+    height: 320px;
+    border-radius: 16px;
+    overflow: hidden;
     margin: 0 auto;
   }
-  .hero__photo { height: 340px; }
+  .hero__photo { height: 100%; width: 100%; }
+  .hero__headline { font-size: clamp(32px, 8vw, 40px); }
+  .hero__sub { font-size: clamp(15px, 4vw, 17px); }
 }
 
 /* ─── ② EL PROBLEMA REAL ─────────────────────────────── */
@@ -730,7 +736,8 @@ a  { color: inherit; text-decoration: none; }
   .problema__grid { grid-template-columns: 1fr; gap: 16px; }
   .herramientas__grid { grid-template-columns: 1fr; gap: 20px; }
   .omar__inner { grid-template-columns: 1fr; gap: 40px; }
-  .omar__photo-wrap { max-width: 100%; height: 300px; }
+  .omar__photo-wrap { max-width: 100%; height: 280px; border-radius: 16px; overflow: hidden; margin: 0 auto; }
+  .omar__photo { height: 100%; }
   .omar__creds { grid-template-columns: 1fr; }
   .testimonios__grid { grid-template-columns: 1fr; gap: 16px; }
   .blog__grid { grid-template-columns: 1fr; gap: 16px; }
@@ -741,7 +748,7 @@ a  { color: inherit; text-decoration: none; }
   .hero { padding: 100px 0 70px; }
   .hero__cta { flex-direction: column; }
   .hero__cta .btn { text-align: center; }
-  .problema, .herramientas, .omar, .testimonios, .blog { padding: 60px 0; }
+  .problema, .herramientas, .omar, .testimonios, .blog { padding: 48px 0; }
   .cta-final { padding: 80px 0; }
   .btn-nav { display: none; }
 }
