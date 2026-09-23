@@ -1,6 +1,6 @@
 # CLAUDE.md — asesor-landero-web
 
-> Leer completo al inicio de cada sesión. Última actualización: 2026-06-09 (GTM, sitemap, PPR v2, retiro simulador fixes).
+> Leer completo al inicio de cada sesión. Última actualización: 2026-09-23 (nueva página /gmm — landing de captura de leads para Seguro de Gastos Médicos Mayores).
 
 ---
 
@@ -31,7 +31,9 @@
 | `/` | Home principal | Funcional ✅ |
 | `/ppr` | Simulador PPR móvil (leads de Meta) | Completo y funcional ✅ |
 | `/retiro` | Landing PPR desktop con simulador embedded | Completo v2 ✅ |
-| `/seguro` | Landing cotizador seguros | Funcional ✅ |
+| `/retiro-ads` | Landing corta para tráfico frío de Meta Ads (hero + brecha AFORE compacta + simulador, sin calculadora/fiscal/19 portafolios) | Completo y en producción ✅ (sep 2026) |
+| `/seguro` | Landing cotizador seguros de vida (NO gastos médicos) | Funcional ✅ |
+| `/gmm` | Landing de captura de leads — Seguro de Gastos Médicos Mayores (sin cotizador, solo agenda asesoría) | Completo y en producción ✅ (sep 2026) |
 | `/links` | Link in bio Instagram | Existe, optimización pendiente |
 
 ---
@@ -51,6 +53,10 @@
 4. **`/retiro` nav pill y hero buttons:** apuntan a `#simulador`. No cambiar a `/ppr-sim` ni a otra ruta.
 
 5. **Meta Pixel y tracking:** gestionados EXCLUSIVAMENTE vía GTM (`GTM-TLMKJNZ4`). NO agregar píxeles, fbq, o scripts de analytics hardcodeados en las páginas. Todo tracking pasa por GTM.
+
+6. **`/retiro` y `/retiro-ads` usan Calendly** (`https://calendly.com/asesorlandero/ppr`) para agendar, NO el link de Google Calendar Appointments de la regla 1 — ese es exclusivo del home. No confundir ni unificar los dos.
+
+7. **`/gmm` tiene su propio Calendly** (`https://calendly.com/asesorlandero/gmmi`), distinto del de PPR — es un evento separado para asesoría de Gastos Médicos Mayores. No unificar con el Calendly de `/retiro`/`/retiro-ads`, y no confundir `/gmm` con `/seguro` (cotizador de seguro de **vida**, no de gastos médicos).
 
 ---
 
@@ -125,6 +131,69 @@
 - Fórmula: `capital = pension × 12 × 20`
 - IDs: `calcCapital`, `calcCapital2`, `calcPensionFmt`, `calcSub`, `calcPlaceholder`, `calcResult`
 
+### Fixes y mejoras — sep 2026 (campaña landing page para Meta Ads)
+
+- **Agendamiento cambiado a Calendly:** constante `CALENDLY_BASE = 'https://calendly.com/asesorlandero/ppr'` reemplaza el link viejo de Google Calendar Appointments (`CAL_BASE`) en el simulador. El link de Google Calendar de REGLAS CRÍTICAS es exclusivo del home.
+- **Captura de UTM:** función `simGetUtmParams()` lee `utm_source`, `utm_medium`, `utm_campaign`, `utm_content`, `utm_term`, `fbclid` de `window.location.search` → objeto `SIM_UTM`. Se usa en el passthrough del link de Calendly (`simBuildCalUrl()`) y en el payload que se manda a `SIM_SHEETS`.
+- **Lead capture al completar el formulario, no solo al dar clic en el CTA:** `simSendLead()` se dispara dentro de `simCheckReveal()` en cuanto el formulario queda completo — antes solo se mandaba si la persona hacía clic en WhatsApp o Calendly, y se perdían leads de gente que llenaba todo pero no daba clic en ningún CTA.
+- **Eventos al dataLayer (para GTM):** `simSendLead()` empuja `{event: 'sim_lead_complete', lead_source, lead_value}`; `simOnCtaClick(canal)` (recibe `'whatsapp'` o `'calendly'`) empuja `{event: 'sim_cta_click', cta_channel}`.
+- **Checkbox de privacidad reubicado:** ya no está al fondo del panel de resultados (después de la gráfica). Ahora vive al final de `.sim-form-card`, justo después de la nota de portafolios/S&P 500, con el mismo patrón visual `.sim-check-row` del toggle de inflación. Corrección de UX móvil — antes no era intuitivo que había que aceptarlo para destrabar los resultados.
+
+---
+
+## ESTADO /retiro-ads — retiro-ads/index.html ✅ (nueva, sep 2026)
+
+Página nueva, creada específicamente para tráfico frío de Meta Ads — versión corta de `/retiro`.
+
+### Por qué existe
+Las campañas de Formulario Instantáneo generaban CPL sano pero muy pocos leads llegaban a conectarse a la llamada de asesoría. Hipótesis: el Formulario nativo tiene fricción demasiado baja y capta interés superficial. Decisión: mover el destino de los anuncios a esta landing, que exige más pasos antes de convertir — filtro de intención real, a costa de CPL más alto esperado. No se reconstruyó `/retiro` desde cero; se hizo una versión corta nueva porque la completa se consideró con demasiada fricción/longitud para tráfico frío.
+
+### Estructura (más corta que /retiro)
+1. Nav
+2. `#hero` — headline, 4 bullets, un solo CTA a `#simulador`, badge CNSF, foto
+3. `#brecha` — brecha AFORE compacta: una barra + 2 stat boxes, sin imagen ni párrafo largo
+4. `#simulador` — mismo markup y lógica JS que `/retiro` (misma tasa 10%, mismo reveal progresivo, mismo doble CTA WhatsApp + Calendly, misma captura de UTM y evento Lead)
+5. `#masinfo` — franja de confianza (4 badges) + link a `/retiro` para quien quiera el comparativo fiscal completo y los 19 portafolios
+6. Footer
+
+**Eliminado respecto a /retiro:** `#calculadora`, grid de 6 sol-cards, comparación fiscal Art. 151/93 a detalle, grid de 19 portafolios.
+
+### Diferencias técnicas vs. /retiro
+- `fuente: 'retiro-ads'` en el payload de `SIM_SHEETS` (en vez de `'retiro-desktop'`)
+- Mismas constantes: `CALENDLY_BASE`, `SIM_WA`, `SIM_SHEETS`, `ANNUAL_RATE = 0.10`, GTM `GTM-TLMKJNZ4`
+
+---
+
+## ESTADO /gmm — gmm/index.html ✅ (nueva, sep 2026)
+
+Landing nueva, separada de `/seguro` (que es cotizador de seguro de **vida**, no de GMM). Propósito único: capturar leads para agendar asesoría de Seguro de Gastos Médicos Mayores — sin cotizador embebido (código postal/ciudad para cotizar en firme se resuelve en la llamada, no en la web).
+
+### Estructura
+1. Nav — logo + pill "Agendar asesoría →" a `#formulario`
+2. `#hero` — headline + subheadline + CTA
+3. `#beneficios` — grid de 4 bullets de cobertura
+4. `#formulario` — nombre, WhatsApp, correo, fecha de nacimiento (opcional), checkbox de privacidad → destraba doble CTA (WhatsApp + Calendly)
+5. `#trust` — franja de confianza (CNSF, red de hospitales, asesoría sin costo)
+6. Footer
+
+### Copy final
+- **Headline:** "Nadie decide cuándo enfermar. Sí puedes decidir cómo enfrentarlo." (elegido por Omar explícitamente por ser general — no encierra el mensaje a un perfil económico específico como "empresario"; sirve igual para profesionista que para dueño de negocio)
+- **Subheadline:** "Un Seguro de Gastos Médicos Mayores no es un gasto más: es lo que separa un imprevisto de salud de una crisis financiera."
+- **4 bullets de beneficios** (extraídos de material de coberturas de Allianz, sin nombrar la aseguradora — ver regla de cumplimiento de logo/marca más abajo): hospitalización/cirugías dentro y fuera del hospital, segunda opinión médica + telemedicina 24/7, ambulancia aérea/terrestre + asistencia en viajes, **beneficio por maternidad** (agregado a pedido explícito de Omar — lo identifica como uno de los argumentos que más convierte, en particular con audiencia femenina).
+- Se descartó mencionar "regulado por la CNSF" en el hero/subheadline por decisión de Omar: no aporta valor persuasivo para su audiencia: si se usa, va solo en la franja de confianza inferior, nunca como gancho principal.
+
+### Datos técnicos
+- **Paleta:** fondo blanco, texto navy `#1B2A4A`, acento verde `#1F7A38` (del logo) + verde WhatsApp `#25D366` para el botón de WA — distinto del azul accent de `/ppr`/`/retiro`.
+- **Logo:** `images/logo-navy-verde.png` (imagotipo azul marino y verde de Omar, tomado de su carpeta de Drive de logotipos).
+- **Formulario → doble CTA:** al completar nombre + WhatsApp (10 dígitos) + correo válido + privacidad aceptada, se revelan dos botones de igual peso — WhatsApp (mensaje prellenado con los datos capturados) y Calendly (evento propio de GMM, ver regla crítica 7).
+- **WhatsApp:** usa el formato estándar `https://wa.me/<número>?text=` (constante `GMM_WA = '529933205649'`) — **mismo número** que `/ppr`/`/retiro` (SIM_WA). Se descartó el link corto `wa.me/message/WQK3NQOCB76ZE1` de WhatsApp Business: ese formato no acepta override de `?text=`, y en pruebas reales (23 sep 2026, Omar desde su celular) abría una pantalla de "elegir contacto" en vez de ir directo al chat — funcionaba para Omar solo porque ya tenía el número guardado, pero se rompía para cualquier prospecto nuevo sin el contacto guardado. Corregido a `wa.me/<número>?text=`, el mismo patrón ya validado en el resto del sitio.
+- **Calendly:** `https://calendly.com/asesorlandero/gmmi` (constante `GMM_CAL_BASE`) con passthrough de `?name=&email=` + UTMs.
+- **Captura de leads:** función `gSendLead()` dispara en cuanto el formulario queda completo (mismo patrón que `/retiro`/`/retiro-ads`), vía `fetch` a Apps Script Web App propio (`GMM_SHEETS_URL`) — **hoja de Sheets separada** de la de PPR (`SIM_SHEETS`), porque los campos no coinciden (sin edad/aportación/portafolio). Hoja: ["Leads GMM — Asesor Landero"](https://docs.google.com/spreadsheets/d/1v40LylIsglccDWEno4w-M0esA_aNW38Q4o5z4Tq4Ow0/edit), columnas: Fecha, Nombre Completo, Telefono, Email, Fecha Nacimiento, fuente (`gmm-lead`), utm_source, utm_medium, utm_campaign, utm_content, utm_term, fbclid.
+- **Eventos al dataLayer (GTM):** `gmm_lead_complete` (al completar formulario) y `gmm_cta_click` con `cta_channel: 'whatsapp'|'calendly'` (al dar clic en cualquiera de los dos botones) — mismo patrón que `sim_lead_complete`/`sim_cta_click` de PPR, pero **sin** conectar todavía un evento Lead de Meta Pixel para este dataLayer event (pendiente si Omar decide pautar `/gmm` en Meta Ads — se replicaría el patrón ya verificado de PPR, ver Notas Técnicas).
+
+### Nota de verificación del Google Sheet de PPR (confirmado sep 2026)
+El Google Sheets de PPR que Omar usa para revisar leads manualmente (`docs.google.com/spreadsheets/d/1YcaO9loLBrSLFQ3cKvjS-0PYMo-s7Vzbw-HyD-gfIH0`) **sí es el mismo** al que escribe el webhook `SIM_SHEETS` usado por `/ppr`, `/retiro` y `/retiro-ads` — confirmado inspeccionando el contenido real de la hoja (columnas y filas de prueba de sesiones anteriores coinciden). No tiene columna `fuente` visible en el encabezado aunque el payload sí la manda — posible pérdida en el Apps Script, no verificado a fondo (no bloqueante, dato queda documentado por si se retoma).
+
 ---
 
 ## ESTADO /ppr — ppr/index.html ✅ (v2 — 2026-06-09)
@@ -153,7 +222,8 @@
 - **Imágenes del home:** en carpeta `images/` (subcarpeta en raíz del repo)
 - **Logo blanco:** `ISOLOGO_BLANCO.png` en raíz
 - **Token GitHub:** puede estar expirado. Generar nuevo en github.com/settings/tokens → classic → scope `repo`
-- **GTM:** contenedor `GTM-TLMKJNZ4` instalado en todas las páginas (`index.html`, `retiro/`, `ppr/`, `links/`). Todo el tracking (Meta Pixel, conversiones) pasa por aquí.
+- **GTM:** contenedor `GTM-TLMKJNZ4` instalado en todas las páginas (`index.html`, `retiro/`, `retiro-ads/`, `ppr/`, `links/`). Todo el tracking (Meta Pixel, conversiones) pasa por aquí.
+- **Evento Meta Pixel Lead (sep 2026):** trigger de Evento personalizado en GTM escucha `sim_lead_complete` en el dataLayer → dispara etiqueta HTML personalizada "Meta Pixel - Lead" (`fbq('init', '1238045745074227'); fbq('track', 'Lead');`). Dataset activo y verificado: `1238045745074227` (creado may 2026). Existe un segundo dataset `1285044970202759` (creado ago 2026, último disparo 14 sep 2026) de propósito no confirmado — pendiente que Omar diga si sigue en uso o se puede dar de baja.
 - **SEO:** `sitemap.xml` en raíz, verificación Google Search Console en `googledb889b23738069ac.html`
 - **Tasas Allianz (actualizar mensualmente):**
   - UDIS: `UDIS_RATE = 0.0847` (8.47%)

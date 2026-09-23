@@ -291,9 +291,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 <script>
 /* CONFIGURACIÓN */
-const GMM_WA_LINK    = 'https://wa.me/message/WQK3NQOCB76ZE1';
+const GMM_WA         = '529933205649';
 const GMM_CAL_BASE   = 'https://calendly.com/asesorlandero/gmmi';
-const GMM_SHEETS_URL = 'PENDIENTE_DESPLEGAR_APPS_SCRIPT'; // ver instrucciones — Apps Script nuevo, sheet "Leads GMM — Asesor Landero"
+const GMM_SHEETS_URL = 'https://script.google.com/macros/s/AKfycbzCm43_VeeiDarNEtRfH7tawJdzRNtnU5E4Fo_Fyj7hKOmreZ_8nCplc2NXyKDtQ1wL/exec';
 
 function gGetUtmParams() {
   const params = new URLSearchParams(window.location.search);
@@ -319,7 +319,7 @@ function gBuildWaUrl() {
     '• WhatsApp: +52' + tel + '\n' +
     '• Correo: ' + email + '\n\n' +
     'Quiero que me ayudes a ver mis opciones de cobertura.';
-  return GMM_WA_LINK + '?text=' + encodeURIComponent(msg);
+  return 'https://wa.me/' + GMM_WA + '?text=' + encodeURIComponent(msg);
 }
 
 function gBuildCalUrl() {
