@@ -54,49 +54,33 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
     /* HERO */
     #hero {
-      background: linear-gradient(160deg, var(--navy) 0%, var(--navy2) 100%);
-      padding: 56px 0 64px; color: var(--white); overflow: hidden; position: relative;
+      background: var(--light);
+      padding: 64px 0 56px; color: var(--navy); overflow: hidden; position: relative;
     }
     #hero::before {
-      content: ''; position: absolute; top: -120px; right: -120px; width: 500px; height: 500px;
-      background: radial-gradient(circle, rgba(74,124,247,.14) 0%, transparent 70%); pointer-events: none;
+      content: ''; position: absolute; top: -160px; right: -160px; width: 560px; height: 560px;
+      background: radial-gradient(circle, rgba(74,124,247,.08) 0%, transparent 70%); pointer-events: none;
     }
+    .hero-inner { max-width: 640px; margin: 0 auto; text-align: center; position: relative; }
     .hero-eyebrow {
       font-size: 12px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase;
-      color: rgba(255,255,255,0.85); margin-bottom: 16px;
+      color: var(--gray); margin-bottom: 16px;
     }
-    .hero-title { font-size: 44px; font-weight: 900; line-height: 1.12; margin-bottom: 18px; letter-spacing: -.02em; }
-    .hero-sub { font-size: 17px; color: rgba(255,255,255,.75); margin-bottom: 28px; max-width: 480px; line-height: 1.6; }
-    .hero-bullets { list-style: none; margin-bottom: 32px; display: flex; flex-direction: column; gap: 10px; }
-    .hero-bullets li { display: flex; align-items: center; gap: 10px; font-size: 15px; color: rgba(255,255,255,.88); }
-    .hero-bullets li::before { content: ''; width: 8px; height: 8px; background: var(--white); border-radius: 50%; flex-shrink: 0; }
+    .hero-title { font-size: 40px; font-weight: 900; line-height: 1.15; margin-bottom: 16px; letter-spacing: -.02em; color: var(--navy); }
+    .hero-sub { font-size: 17px; color: var(--gray); margin: 0 auto 28px; max-width: 540px; line-height: 1.65; }
+    .hero-bullets { list-style: none; margin: 0 auto 32px; display: flex; flex-direction: column; gap: 12px; max-width: 460px; text-align: left; }
+    .hero-bullets li { display: flex; align-items: flex-start; gap: 10px; font-size: 15px; color: var(--navy); font-weight: 500; }
+    .hero-bullets li::before { content: '✓'; flex-shrink: 0; width: 20px; height: 20px; background: var(--navy); color: var(--white); border-radius: 50%; font-size: 11px; font-weight: 800; display: flex; align-items: center; justify-content: center; margin-top: 1px; }
     .btn-sim {
-      display: inline-flex; align-items: center; gap: 10px; background: var(--white); color: var(--navy);
-      font-size: 16px; font-weight: 800; padding: 16px 32px; border-radius: 50px; border: none;
+      display: inline-flex; align-items: center; gap: 10px; background: var(--navy); color: var(--white);
+      font-size: 16px; font-weight: 800; padding: 16px 36px; border-radius: 50px; border: none;
       cursor: pointer; transition: background .2s, transform .15s; text-decoration: none;
     }
-    .btn-sim:hover { background: #e8ecf4; transform: translateY(-1px); }
-    .hero-photo { height: 400px; border-radius: 20px; position: relative; }
-    .hero-reg {
-      position: absolute; bottom: 20px; right: 20px; background: rgba(255,255,255,.95);
-      border-radius: 10px; padding: 10px 14px; font-size: 11px; font-weight: 700; color: var(--navy);
-      text-align: center; box-shadow: 0 4px 16px rgba(0,0,0,.15);
+    .btn-sim:hover { background: var(--navy2); transform: translateY(-1px); }
+    .hero-reg-inline {
+      display: inline-flex; align-items: center; gap: 8px; margin-top: 22px;
+      font-size: 12px; font-weight: 600; color: var(--gray);
     }
-    .hero-reg span { display: block; color: var(--gray); font-size: 9px; margin-top: 2px; }
-
-    /* COMPACT AFORE STRIP */
-    #brecha { padding: 40px 0; background: var(--light); }
-    .afore-numbers { display: flex; gap: 20px; flex-wrap: wrap; margin-bottom: 18px; }
-    .afore-stat {
-      background: var(--white); border: 1.5px solid var(--border); border-radius: 14px;
-      padding: 18px 22px; flex: 1; min-width: 160px;
-    }
-    .afore-stat__val { font-size: 28px; font-weight: 900; color: var(--red); line-height: 1; margin-bottom: 6px; }
-    .afore-stat__val.ok { color: var(--green); }
-    .afore-stat__label { font-size: 13px; color: var(--gray); font-weight: 500; }
-    .brecha-bar { background: var(--border); border-radius: 8px; height: 18px; overflow: hidden; display: flex; margin-bottom: 4px; }
-    .brecha-lbl { display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 6px; }
-    .brecha-title { font-size: 14px; font-weight: 700; color: var(--navy); text-align: center; margin-bottom: 16px; }
 
     /* SIMULADOR (idéntico a /retiro) */
     #simulador {
@@ -206,14 +190,10 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
     @media (max-width: 768px) {
       .container { padding: 0 20px; }
-      .grid-2 { grid-template-columns: 1fr; gap: 32px; }
-      .hero-title { font-size: 28px; }
+      .hero-title { font-size: 27px; }
       .hero-sub { font-size: 15px; }
       #simulador h2 { font-size: 24px; }
-      .hero-photo { height: 260px !important; background-position: center 20% !important; }
-      .hero-reg { font-size: 9px; padding: 7px 10px; bottom: 12px; right: 12px; }
       .nav-pill { font-size: 12px; padding: 8px 14px; }
-      .afore-numbers { flex-direction: column; }
       .trust-row { gap: 14px; }
     }
   </style>
@@ -232,54 +212,20 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- HERO -->
 <section id="hero">
   <div class="container">
-    <div class="grid-2">
-      <div>
-        <p class="hero-eyebrow">Plan Personal de Retiro · Allianz México</p>
-        <h1 class="hero-title">Tu retiro no puede<br>depender del AFORE</h1>
-        <p class="hero-sub">
-          Un Plan Personal de Retiro cierra esa diferencia: 19 portafolios de inversión, dos ventajas fiscales que la ley garantiza, y aportaciones desde $2,000 al mes.
-        </p>
-        <ul class="hero-bullets">
-          <li><span>Desde <strong>$2,000 MXN al mes</strong> de aportación</span></li>
-          <li>19 portafolios: S&amp;P 500, NASDAQ, ACWI, Oro y más</li>
-          <li>Deducible de impuestos — Art. 151 LISR</li>
-          <li>Retiro libre de ISR al cumplir requisitos — Art. 93 LISR</li>
-        </ul>
-        <a href="#simulador" class="btn-sim">🧮 Simula tu retiro ahora</a>
-      </div>
-      <div style="position:relative;">
-        <div class="hero-photo" style="background: #1B2A4A url('/retiro/omar.jpg') center 18% / cover no-repeat; border-radius:16px; overflow:hidden; position:relative;"></div>
-        <div class="hero-reg" style="text-align:center;">
-          Regulado por la<br>
-          <strong style="font-size:13px;">Comisión Nacional de<br>Seguros y Fianzas</strong>
-          <span style="margin-top:6px; display:block; font-size:9px; color:var(--gray);">Cédula CNSF · V409234</span>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- BRECHA AFORE (compacta) -->
-<section id="brecha">
-  <div class="container">
-    <p class="brecha-title">Con los parámetros actuales, el AFORE solo reemplaza entre el 30 y 40% de tu último salario.</p>
-    <div class="brecha-lbl">
-      <span style="color:var(--green); font-weight:700;">AFORE cubre ~35%</span>
-      <span style="color:var(--red); font-weight:700;">Brecha: 65%</span>
-    </div>
-    <div class="brecha-bar">
-      <div style="background:var(--green); width:35%; border-radius:8px 0 0 8px;"></div>
-      <div style="background:var(--red); width:65%; border-radius:0 8px 8px 0;"></div>
-    </div>
-    <div class="afore-numbers" style="margin-top:20px;">
-      <div class="afore-stat">
-        <div class="afore-stat__val ok">$14,000</div>
-        <div class="afore-stat__label">Pensión estimada del AFORE (sueldo de $40,000)</div>
-      </div>
-      <div class="afore-stat">
-        <div class="afore-stat__val">$26,000</div>
-        <div class="afore-stat__label">Brecha mensual sin cubrir</div>
-      </div>
+    <div class="hero-inner">
+      <p class="hero-eyebrow">Plan Personal de Retiro · Regulado por la CNSF</p>
+      <h1 class="hero-title">Tu retiro no depende solo del AFORE.<br>Depende de lo que hagas hoy.</h1>
+      <p class="hero-sub">
+        Un Plan Personal de Retiro te da acceso a 19 portafolios de inversión y dos beneficios fiscales que la ley te garantiza: deducir tus aportaciones cada año, o retirar tu dinero libre de impuestos al cumplir los requisitos. En ambos casos, difieres el pago de impuestos mientras tu dinero sigue creciendo.
+      </p>
+      <ul class="hero-bullets">
+        <li>Desde <strong>$2,000 MXN al mes</strong> de aportación</li>
+        <li>19 portafolios: S&amp;P 500, NASDAQ, ACWI, Oro y más</li>
+        <li>El AFORE cubre en promedio 30–40% de tu último sueldo — el resto lo decides tú</li>
+        <li>Elige entre deducir hoy <strong>(Art. 151 LISR)</strong> o retirar libre de impuestos después <strong>(Art. 93 LISR)</strong></li>
+      </ul>
+      <a href="#simulador" class="btn-sim">🧮 Simula tu retiro ahora</a>
+      <div class="hero-reg-inline">🏛️ Regulado por la Comisión Nacional de Seguros y Fianzas · Cédula CNSF V409234</div>
     </div>
   </div>
 </section>
