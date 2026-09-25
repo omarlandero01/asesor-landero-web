@@ -31,7 +31,7 @@
 | `/` | Home principal | Funcional ✅ |
 | `/ppr` | Simulador PPR móvil (leads de Meta) | Completo y funcional ✅ |
 | `/retiro` | Landing PPR desktop con simulador embedded | Completo v2 ✅ |
-| `/retiro-ads` | Landing corta para tráfico frío de Meta Ads (hero + brecha AFORE compacta + simulador, sin calculadora/fiscal/19 portafolios) | Completo y en producción ✅ (sep 2026) |
+| `/retiro-ads` | Landing corta para tráfico frío de Meta Ads (hero sin foto + simulador, paleta blanco/navy, sin mención Allianz) | v2 en producción ✅ (24 sep 2026) |
 | `/seguro` | Landing cotizador seguros de vida (NO gastos médicos) | Funcional ✅ |
 | `/gmm` | Landing de captura de leads — Seguro de Gastos Médicos Mayores (sin cotizador, solo agenda asesoría) | Completo y en producción ✅ (sep 2026) |
 | `/links` | Link in bio Instagram | Existe, optimización pendiente |
@@ -141,26 +141,21 @@
 
 ---
 
-## ESTADO /retiro-ads — retiro-ads/index.html ✅ (nueva, sep 2026)
+## ESTADO /retiro-ads — retiro-ads/index.html ✅ (v2 simplificada, 24 sep 2026)
 
-Página nueva, creada específicamente para tráfico frío de Meta Ads — versión corta de `/retiro`.
+Landing corta para tráfico frío de Meta Ads (campaña "Reels Sep26 - Landing Page"). **v2 aprobada por Omar el 24 sep 2026** — reemplaza a la v1 (con foto y bloque de brecha AFORE).
 
-### Por qué existe
-Las campañas de Formulario Instantáneo generaban CPL sano pero muy pocos leads llegaban a conectarse a la llamada de asesoría. Hipótesis: el Formulario nativo tiene fricción demasiado baja y capta interés superficial. Decisión: mover el destino de los anuncios a esta landing, que exige más pasos antes de convertir — filtro de intención real, a costa de CPL más alto esperado. No se reconstruyó `/retiro` desde cero; se hizo una versión corta nueva porque la completa se consideró con demasiada fricción/longitud para tráfico frío.
+### Estructura v2
+1. Nav navy — logo + pill "Simular mi retiro →"
+2. `#hero` — fondo **blanco**, sin foto. Eyebrow "Plan Personal de Retiro · Regulado por la CNSF"; H1 "Empieza tu Plan Personal de Retiro hoy"; subtítulo "Un Plan Personal de Retiro diseñado 100% a tu medida: aportaciones deducibles de impuestos, invertidas en instrumentos elegidos según tu perfil, capacidad de ahorro y horizonte de inversión."; 4 bullets: Desde $2,000 MXN al mes · S&P 500 o NASDAQ con historial superior a la inflación · 100% deducible de impuestos (Art. 151 LISR) · Tú defines el ingreso con el que te retiras. Cada `<li>` envuelve su contenido en `<span>` (el `li` es flex; sin el span, los `<strong>` se partían en columnas).
+3. `#simulador` — mismo JS que `/retiro` (tasa 10%, reveal progresivo, doble CTA WhatsApp + Calendly, UTM, `sim_lead_complete`). **Paleta clara:** `--sim-bg #FFFFFF`, `--sim-surf #F5F7FA`, `--sim-accent #21307C`, `--sim-text #1B2A4A`, `--sim-muted #6B7A99`, `--sim-bdr #DDE3EE`; verdes de texto `#1a9e4b` (contraste sobre blanco); botón Calendly navy `#1B2A4A`; botón WhatsApp `#25D366`.
+4. `#masinfo` — franja de confianza + link a `/retiro`
+5. Footer
 
-### Estructura (más corta que /retiro)
-1. Nav
-2. `#hero` — headline, 4 bullets, un solo CTA a `#simulador`, badge CNSF, foto
-3. `#brecha` — brecha AFORE compacta: una barra + 2 stat boxes, sin imagen ni párrafo largo
-4. `#simulador` — mismo markup y lógica JS que `/retiro` (misma tasa 10%, mismo reveal progresivo, mismo doble CTA WhatsApp + Calendly, misma captura de UTM y evento Lead)
-5. `#masinfo` — franja de confianza (4 badges) + link a `/retiro` para quien quiera el comparativo fiscal completo y los 19 portafolios
-6. Footer
+**Sin foto, sin bloque de brecha AFORE, sin mención de Allianz ni OptiMaxx** (eyebrow del simulador = "Simulador de Plan Personal de Retiro"; bono = "Bono de fidelidad"; disclaimer = "metodología oficial de la aseguradora").
 
-**Eliminado respecto a /retiro:** `#calculadora`, grid de 6 sol-cards, comparación fiscal Art. 151/93 a detalle, grid de 19 portafolios.
-
-### Diferencias técnicas vs. /retiro
-- `fuente: 'retiro-ads'` en el payload de `SIM_SHEETS` (en vez de `'retiro-desktop'`)
-- Mismas constantes: `CALENDLY_BASE`, `SIM_WA`, `SIM_SHEETS`, `ANNUAL_RATE = 0.10`, GTM `GTM-TLMKJNZ4`
+- `fuente: 'retiro-ads'` en el payload de `SIM_SHEETS`
+- Mismas constantes que `/retiro`: `CALENDLY_BASE`, `SIM_WA`, `SIM_SHEETS`, `ANNUAL_RATE = 0.10`, GTM `GTM-TLMKJNZ4`
 
 ---
 
@@ -231,4 +226,5 @@ El Google Sheets de PPR que Omar usa para revisar leads manualmente (`docs.googl
   - USD conservador: `ALLIANZ_USD_RATE = 0.0333` (3.33% USD)
   - Última actualización: Mayo 2025
 - **Chart.js:** versión 4.4.0 desde CDN jsdelivr
+- **Incidente 24 sep 2026 — sitio completo en 404:** un deploy por CLI de Vercel a producción (`dpl_9oyqFNhFLBxyYf7FWq8joYyk9nhx`, sin commit de GitHub) subió SOLO `retiro-ads/index.html`, y reemplazó todo el sitio → todas las rutas en 404. Se resolvió con rollback a `dpl_9MqrMdXfmZMNug7XTyjUAFYPsHkw` (commit 406dcf4). **Regla: nunca `vercel --prod` desde una subcarpeta ni con archivos sueltos; para previews usar `vercel` sin `--prod` desde la raíz del repo, o push a una rama.** Tras un rollback, Vercel deja de promover automáticamente los push a `main` hasta que se haga "Promote"/deshacer el rollback en el dashboard.
 - **CRITICAL `.replace()` bug:** Si el string de reemplazo contiene `$`, siempre usar `.replace(str, () => replacement)` para evitar interpretación de grupos.

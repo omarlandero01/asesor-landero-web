@@ -54,7 +54,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
     /* HERO */
     #hero {
-      background: var(--light);
+      background: var(--white);
       padding: 64px 0 56px; color: var(--navy); overflow: hidden; position: relative;
     }
     #hero::before {
@@ -84,10 +84,10 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
     /* SIMULADOR (idéntico a /retiro) */
     #simulador {
-      --sim-bg: #0F153F; --sim-surf: #1a2258; --sim-accent: #4A7CF7; --sim-green: #25D366;
-      --sim-text: #f1f5f9; --sim-muted: #94a3b8; --sim-dim: #64748b; --sim-bdr: rgba(255,255,255,0.09);
+      --sim-bg: #FFFFFF; --sim-surf: #F5F7FA; --sim-accent: #21307C; --sim-green: #25D366;
+      --sim-text: #1B2A4A; --sim-muted: #6B7A99; --sim-dim: #94a3b8; --sim-bdr: #DDE3EE;
       --sim-err: #ef4444;
-      background: var(--sim-bg); padding: 56px 0 64px; color: var(--sim-text);
+      background: var(--sim-bg); border-top: 1px solid #DDE3EE; /* sep */ padding: 56px 0 64px; color: var(--sim-text);
     }
     #simulador .sim-eyebrow { font-size: 11px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--sim-accent); margin-bottom: 12px; }
     #simulador h2 { font-size: 34px; font-weight: 900; color: var(--sim-text); line-height: 1.15; margin-bottom: 14px; letter-spacing: -.02em; }
@@ -105,14 +105,14 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       -webkit-appearance: none; appearance: none;
     }
     #simulador input::placeholder { color: var(--sim-dim); }
-    #simulador input:focus { outline: none; border-color: var(--sim-accent); box-shadow: 0 0 0 3px rgba(74,124,247,0.15); }
+    #simulador input:focus { outline: none; border-color: var(--sim-accent); box-shadow: 0 0 0 3px rgba(33,48,124,0.15); }
     .sim-err { font-size: 11px; color: var(--sim-err); display: none; }
     .sim-err.show { display: block; }
     .sim-hint { font-size: 11px; color: var(--sim-dim); margin-top: -4px; }
     .sim-input-wrap { position: relative; }
     .sim-phone-wrap { display: flex; align-items: center; background: var(--sim-bg); border: 1px solid var(--sim-bdr); border-radius: 10px; overflow: hidden; transition: border-color .2s; }
-    .sim-phone-wrap:focus-within { border-color: var(--sim-accent); box-shadow: 0 0 0 3px rgba(74,124,247,0.15); }
-    .sim-prefix { color: var(--sim-accent); font-weight: 600; font-size: 13px; pointer-events: none; padding: 11px 10px 11px 14px; flex-shrink: 0; border-right: 1px solid rgba(255,255,255,.2); letter-spacing: 0.5px; white-space: nowrap; }
+    .sim-phone-wrap:focus-within { border-color: var(--sim-accent); box-shadow: 0 0 0 3px rgba(33,48,124,0.15); }
+    .sim-prefix { color: var(--sim-accent); font-weight: 600; font-size: 13px; pointer-events: none; padding: 11px 10px 11px 14px; flex-shrink: 0; border-right: 1px solid #DDE3EE; letter-spacing: 0.5px; white-space: nowrap; }
     .sim-phone-wrap input { flex: 1; background: transparent !important; border: none !important; outline: none; padding: 11px 14px; color: var(--sim-text); font-family: 'Outfit', sans-serif; font-size: 14px; }
     .sim-phone-wrap input::placeholder { color: var(--sim-dim); }
     .sim-sfx { position: absolute; right: 13px; top: 50%; transform: translateY(-50%); color: var(--sim-dim); font-size: 11px; pointer-events: none; }
@@ -123,10 +123,10 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     .sim-input-currency input:focus { box-shadow: none !important; }
     .sim-check-row { display: flex; align-items: flex-start; gap: 10px; padding: 12px 14px; background: var(--sim-bg); border: 1px solid var(--sim-bdr); border-radius: 10px; }
     .sim-check-row input[type="checkbox"] { width: 16px; height: 16px; min-width: 16px; margin-top: 2px; accent-color: var(--sim-accent); cursor: pointer; padding: 0; border: none; background: none; }
-    .sim-check-row:has(input:checked) { border-color: rgba(74,124,247,.4); background: rgba(74,124,247,.06); }
+    .sim-check-row:has(input:checked) { border-color: rgba(33,48,124,.4); background: rgba(33,48,124,.06); }
     .sim-check-row > label { font-size: 12px; color: var(--sim-text); line-height: 1.5; cursor: pointer; font-weight: 400; text-transform: none; letter-spacing: 0; display: inline; }
-    .sim-badge { display: inline-block; font-size: 10px; background: rgba(74,124,247,.15); color: var(--sim-accent); border: 1px solid rgba(74,124,247,.25); padding: 1px 6px; border-radius: 4px; font-weight: 600; white-space: nowrap; margin-left: 6px; vertical-align: middle; }
-    .sim-portfolio-note { display: flex; align-items: flex-start; gap: 10px; background: rgba(74,124,247,.07); border: 1px solid rgba(74,124,247,.2); border-radius: 10px; padding: 12px 14px; font-size: 12px; color: var(--sim-muted); line-height: 1.6; }
+    .sim-badge { display: inline-block; font-size: 10px; background: rgba(33,48,124,.15); color: var(--sim-accent); border: 1px solid rgba(33,48,124,.25); padding: 1px 6px; border-radius: 4px; font-weight: 600; white-space: nowrap; margin-left: 6px; vertical-align: middle; }
+    .sim-portfolio-note { display: flex; align-items: flex-start; gap: 10px; background: rgba(33,48,124,.07); border: 1px solid rgba(33,48,124,.2); border-radius: 10px; padding: 12px 14px; font-size: 12px; color: var(--sim-muted); line-height: 1.6; }
     .sim-portfolio-note strong { color: var(--sim-text); }
     .sim-priv-link { color: var(--sim-accent); text-decoration: underline; cursor: pointer; }
     .sim-res-panel { background: var(--sim-surf); border: 1px solid var(--sim-bdr); border-radius: 16px; overflow: hidden; }
@@ -136,7 +136,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     .sim-res-head { padding: 22px 22px 14px; text-align: center; border-bottom: 1px solid var(--sim-bdr); }
     .sim-res-lbl { font-size: 11px; color: var(--sim-accent); font-weight: 500; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 4px; }
     .sim-output-portfolio { font-size: 13px; font-weight: 500; color: var(--sim-muted); }
-    .sim-bono-banner { background: linear-gradient(135deg, rgba(74,124,247,.15), rgba(74,124,247,.06)); border: 1px solid rgba(74,124,247,.3); border-radius: 10px; padding: 12px 16px; display: none; align-items: center; gap: 12px; margin: 16px 20px 0; }
+    .sim-bono-banner { background: linear-gradient(135deg, rgba(33,48,124,.15), rgba(33,48,124,.06)); border: 1px solid rgba(33,48,124,.3); border-radius: 10px; padding: 12px 16px; display: none; align-items: center; gap: 12px; margin: 16px 20px 0; }
     .sim-bono-banner.show { display: flex; }
     .sim-bono-icon { font-size: 20px; flex-shrink: 0; }
     .sim-bono-text { flex: 1; }
@@ -148,19 +148,19 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     .sim-metric.hi { background: rgba(37,211,102,.08); border-color: rgba(37,211,102,.3); }
     .sim-metric-lbl { font-size: 9px; color: var(--sim-dim); text-transform: uppercase; letter-spacing: .8px; margin-bottom: 5px; font-weight: 500; }
     .sim-metric-val { font-size: 13px; font-weight: 700; color: var(--sim-text); line-height: 1.2; }
-    .sim-green-val { color: #25D366 !important; font-size: 14px !important; }
+    .sim-green-val { color: #1a9e4b !important; font-size: 14px !important; }
     .sim-pension-box { margin: 14px 20px 0; background: linear-gradient(135deg, rgba(37,211,102,.12), rgba(37,211,102,.05)); border: 1px solid rgba(37,211,102,.25); border-radius: 10px; padding: 14px 18px; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
-    .sim-pension-lbl { font-size: 10px; color: #6ee7b7; font-weight: 600; letter-spacing: .8px; text-transform: uppercase; }
-    .sim-pension-val { font-size: 22px; font-weight: 800; color: #25D366; white-space: nowrap; }
+    .sim-pension-lbl { font-size: 10px; color: #1a9e4b; font-weight: 600; letter-spacing: .8px; text-transform: uppercase; }
+    .sim-pension-val { font-size: 22px; font-weight: 800; color: #1a9e4b; white-space: nowrap; }
     .sim-chart-wrap { padding: 18px 20px 10px; }
     .sim-chart-title { font-size: 10px; font-weight: 600; color: var(--sim-muted); text-transform: uppercase; letter-spacing: .8px; margin-bottom: 12px; }
     #simChart { max-height: 220px; }
     .sim-masked { filter: blur(6px); user-select: none; transition: filter 0.4s ease; pointer-events: none; }
     .sim-masked.revealed { filter: blur(0); pointer-events: auto; }
-    .sim-wa-box { margin: 14px 20px 20px; background: linear-gradient(135deg, #1a2540, #111827); border: 1px solid rgba(74,124,247,.2); border-radius: 12px; padding: 20px; text-align: center; position: relative; }
-    .sim-cta-overlay { position: absolute; inset: 0; background: rgba(10,18,45,0.82); border-radius: 12px; display: flex; align-items: center; justify-content: center; text-align: center; padding: 20px; backdrop-filter: blur(2px); transition: opacity 0.4s ease; z-index: 2; }
-    .sim-cta-overlay p { color: #E2E8F4; font-size: 13px; line-height: 1.6; }
-    .sim-cta-overlay strong { color: #fff; }
+    .sim-wa-box { margin: 14px 20px 20px; background: linear-gradient(135deg, #F5F7FA, #EEF2F9); border: 1px solid rgba(33,48,124,.2); border-radius: 12px; padding: 20px; text-align: center; position: relative; }
+    .sim-cta-overlay { position: absolute; inset: 0; background: rgba(255,255,255,0.92); border-radius: 12px; display: flex; align-items: center; justify-content: center; text-align: center; padding: 20px; backdrop-filter: blur(2px); transition: opacity 0.4s ease; z-index: 2; }
+    .sim-cta-overlay p { color: #1B2A4A; font-size: 13px; line-height: 1.6; }
+    .sim-cta-overlay strong { color: #1B2A4A; }
     .sim-cta-overlay.hidden { opacity: 0; pointer-events: none; }
     .sim-wa-title { font-size: 15px; font-weight: 700; color: var(--sim-text); margin-bottom: 6px; line-height: 1.4; }
     .sim-wa-sub { font-size: 12px; color: var(--sim-muted); margin-bottom: 16px; line-height: 1.6; }
@@ -168,13 +168,13 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     .sim-btn-wa { flex: 1; display: inline-flex; align-items: center; justify-content: center; gap: 8px; background: #25D366; color: #fff; font-family: 'Outfit', sans-serif; font-size: 13px; font-weight: 700; padding: 12px 16px; border-radius: 10px; text-decoration: none; transition: all .2s; min-width: 0; }
     .sim-btn-wa:hover { background: #1ebe5c; transform: translateY(-1px); }
     .sim-btn-wa svg { width: 18px; height: 18px; fill: currentColor; flex-shrink: 0; }
-    .sim-btn-cal { flex: 1; display: inline-flex; align-items: center; justify-content: center; gap: 8px; background: #4A7CF7; color: #fff; font-family: 'Outfit', sans-serif; font-size: 13px; font-weight: 700; padding: 12px 16px; border-radius: 10px; text-decoration: none; transition: all .2s; min-width: 0; }
-    .sim-btn-cal:hover { background: #3a6be0; transform: translateY(-1px); }
+    .sim-btn-cal { flex: 1; display: inline-flex; align-items: center; justify-content: center; gap: 8px; background: #1B2A4A; color: #fff; font-family: 'Outfit', sans-serif; font-size: 13px; font-weight: 700; padding: 12px 16px; border-radius: 10px; text-decoration: none; transition: all .2s; min-width: 0; }
+    .sim-btn-cal:hover { background: #243660; transform: translateY(-1px); }
     .sim-btn-cal svg { width: 18px; height: 18px; flex-shrink: 0; }
     @media (max-width: 480px) { .sim-cta-buttons { flex-direction: column; } }
     .sim-cta-note { font-size: 10px; color: var(--sim-dim); margin-top: 14px; line-height: 1.6; }
     .sim-privacy-row { padding: 0 20px 0; margin-bottom: 4px; }
-    .sim-privacy-label { display: flex; align-items: flex-start; gap: 10px; cursor: pointer; font-size: 11px; color: rgba(255,255,255,.5); line-height: 1.5; }
+    .sim-privacy-label { display: flex; align-items: flex-start; gap: 10px; cursor: pointer; font-size: 11px; color: #6B7A99; line-height: 1.5; }
     .sim-privacy-label input[type="checkbox"] { margin-top: 2px; flex-shrink: 0; accent-color: var(--sim-accent); width: 15px; height: 15px; cursor: pointer; }
     .sim-privacy-label a { color: var(--sim-accent); text-decoration: underline; }
 
@@ -214,15 +214,15 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <div class="container">
     <div class="hero-inner">
       <p class="hero-eyebrow">Plan Personal de Retiro · Regulado por la CNSF</p>
-      <h1 class="hero-title">Tu retiro no depende solo del AFORE.<br>Depende de lo que hagas hoy.</h1>
+      <h1 class="hero-title">Empieza tu Plan Personal de Retiro hoy</h1>
       <p class="hero-sub">
-        Un Plan Personal de Retiro te da acceso a 19 portafolios de inversión y dos beneficios fiscales que la ley te garantiza: deducir tus aportaciones cada año, o retirar tu dinero libre de impuestos al cumplir los requisitos. En ambos casos, difieres el pago de impuestos mientras tu dinero sigue creciendo.
+        Un Plan Personal de Retiro diseñado 100% a tu medida: aportaciones deducibles de impuestos, invertidas en instrumentos elegidos según tu perfil, capacidad de ahorro y horizonte de inversión.
       </p>
       <ul class="hero-bullets">
-        <li>Desde <strong>$2,000 MXN al mes</strong> de aportación</li>
-        <li>19 portafolios: S&amp;P 500, NASDAQ, ACWI, Oro y más</li>
-        <li>El AFORE cubre en promedio 30–40% de tu último sueldo — el resto lo decides tú</li>
-        <li>Elige entre deducir hoy <strong>(Art. 151 LISR)</strong> o retirar libre de impuestos después <strong>(Art. 93 LISR)</strong></li>
+        <li><span>Desde <strong>$2,000 MXN al mes</strong> de aportación</span></li>
+        <li><span>Instrumentos como el S&amp;P 500 o el NASDAQ, con historial de rendimiento superior a la inflación</span></li>
+        <li><span>100% deducible de impuestos <strong>(Art. 151 LISR)</strong></span></li>
+        <li><span>Tú defines el ingreso con el que te retiras</span></li>
       </ul>
       <a href="#simulador" class="btn-sim">🧮 Simula tu retiro ahora</a>
       <div class="hero-reg-inline">🏛️ Regulado por la Comisión Nacional de Seguros y Fianzas · Cédula CNSF V409234</div>
@@ -234,7 +234,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <section id="simulador">
   <div class="container">
     <div style="text-align:center;margin-bottom:44px;">
-      <div class="sim-eyebrow">Simulador OptiMaxx Plus</div>
+      <div class="sim-eyebrow">Simulador de Plan Personal de Retiro</div>
       <h2>¿Cuánto tendrás a los 65 años?</h2>
       <p class="sim-sub">Proyección al 10% anual, referenciado al promedio histórico del S&P 500. Con fines ilustrativos.</p>
     </div>
@@ -308,7 +308,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           <div class="sim-bono-banner" id="simBonoBanner">
             <div class="sim-bono-icon">🎁</div>
             <div class="sim-bono-text">
-              <div class="sim-bono-lbl">BONO DE FIDELIDAD ALLIANZ</div>
+              <div class="sim-bono-lbl">BONO DE FIDELIDAD</div>
               <div class="sim-bono-amt sim-masked" id="simBonoAmt">—</div>
               <div class="sim-bono-desc">Capital adicional al inicio del plan · <span id="simBonoPct">—</span> de tu aportación del primer año</div>
             </div>
@@ -349,7 +349,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </div>
 
     <p style="font-size:11px;color:rgba(255,255,255,.3);text-align:center;margin-top:28px;line-height:1.7;">
-      ⚠️ Proyecciones exclusivamente ilustrativas. Calculadas con la metodología del simulador oficial Allianz OptiMaxx Plus. Conforme a normativa Allianz México, ninguna proyección supera el 10% anual. Los rendimientos pasados no garantizan resultados futuros. No constituye asesoría de inversión.
+      ⚠️ Proyecciones exclusivamente ilustrativas. Calculadas con la metodología oficial de la aseguradora. Conforme a su normativa, ninguna proyección supera el 10% anual. Los rendimientos pasados no garantizan resultados futuros. No constituye asesoría de inversión.
     </p>
   </div>
 </section>
@@ -505,7 +505,7 @@ function simAutoCalc() {
   }
 
   const display = primerNombre || 'Tu';
-  document.getElementById('simWaTitle').innerHTML = display + ', tu retiro proyectado es de <span style="color:#25D366;font-weight:800;">' + pensionFmt + '</span> al mes.';
+  document.getElementById('simWaTitle').innerHTML = display + ', tu retiro proyectado es de <span style="color:#1a9e4b;font-weight:800;">' + pensionFmt + '</span> al mes.';
 
   simRenderChart(sim.annualSnaps);
 
@@ -521,7 +521,7 @@ function simOnNombre() {
     const nombre = document.getElementById('sNombre').value.trim();
     const display = nombre ? nombre.split(' ')[0] : 'Tu';
     const pensionFmt = document.getElementById('simResPension').textContent;
-    document.getElementById('simWaTitle').innerHTML = display + ', tu retiro proyectado es de <span style="color:#25D366;font-weight:800;">' + pensionFmt + '</span> al mes.';
+    document.getElementById('simWaTitle').innerHTML = display + ', tu retiro proyectado es de <span style="color:#1a9e4b;font-weight:800;">' + pensionFmt + '</span> al mes.';
     document.getElementById('simResNombre').textContent = nombre ? nombre.split(' ')[0] : '—';
   }
 }
@@ -654,14 +654,14 @@ function simRenderChart(snaps) {
           fill: true, tension: 0.4, borderWidth: 2, pointRadius: 2,
           pointBackgroundColor: '#25D366', pointBorderColor: '#25D366' },
         { label: 'Total aportado', data: contrib,
-          borderColor: '#4A7CF7', backgroundColor: 'rgba(74,124,247,0.08)',
+          borderColor: '#21307C', backgroundColor: 'rgba(33,48,124,0.08)',
           fill: true, tension: 0.4, borderWidth: 2, pointRadius: 2, pointBackgroundColor: '#4A7CF7' }
       ]
     },
     options: {
       responsive: true, maintainAspectRatio: true,
       plugins: {
-        legend: { position: 'bottom', labels: { color: '#94a3b8', font: { family: 'Outfit', size: 10 }, padding: 14, usePointStyle: true } },
+        legend: { position: 'bottom', labels: { color: '#6B7A99', font: { family: 'Outfit', size: 10 }, padding: 14, usePointStyle: true } },
         tooltip: {
           backgroundColor: '#1a2540', titleColor: '#f1f5f9', bodyColor: '#94a3b8',
           borderColor: 'rgba(255,255,255,.08)', borderWidth: 1,
@@ -669,11 +669,11 @@ function simRenderChart(snaps) {
         }
       },
       scales: {
-        x: { ticks: { color: '#64748b', font: { family: 'Outfit', size: 10 }, maxTicksLimit: 8 }, grid: { color: 'rgba(255,255,255,0.04)' } },
+        x: { ticks: { color: '#64748b', font: { family: 'Outfit', size: 10 }, maxTicksLimit: 8 }, grid: { color: 'rgba(27,42,74,0.06)' } },
         y: {
           ticks: { color: '#64748b', font: { family: 'Outfit', size: 10 },
             callback: v => v >= 1e6 ? '$' + (v / 1e6).toFixed(1) + 'M' : v >= 1e3 ? '$' + (v / 1e3).toFixed(0) + 'k' : '$' + v },
-          grid: { color: 'rgba(255,255,255,0.04)' }
+          grid: { color: 'rgba(27,42,74,0.06)' }
         }
       }
     },
