@@ -134,9 +134,11 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     .sim-portfolio-note { display: flex; align-items: flex-start; gap: 10px; background: rgba(33,48,124,.07); border: 1px solid rgba(33,48,124,.2); border-radius: 10px; padding: 12px 14px; font-size: 12px; color: var(--sim-muted); line-height: 1.6; }
     .sim-portfolio-note strong { color: var(--sim-text); }
     .sim-priv-link { color: var(--sim-accent); text-decoration: underline; cursor: pointer; }
+    .sim-priv-hint { font-size: 11px; font-weight: 700; color: var(--sim-accent); margin-bottom: -6px; }
     .sim-res-panel { background: var(--sim-surf); border: 1px solid var(--sim-bdr); border-radius: 16px; overflow: hidden; }
-    .sim-placeholder { padding: 80px 32px; text-align: center; color: var(--sim-muted); }
+    .sim-placeholder { padding: 60px 32px; text-align: center; color: var(--sim-muted); }
     .sim-ph-icon { font-size: 52px; margin-bottom: 16px; }
+    .sim-ph-note { font-size: 12px; color: var(--sim-dim); margin-top: 12px; line-height: 1.6; max-width: 320px; margin-left: auto; margin-right: auto; }
     .sim-placeholder p { font-size: 15px; line-height: 1.7; }
     .sim-res-head { padding: 22px 22px 14px; text-align: center; border-bottom: 1px solid var(--sim-bdr); }
     .sim-res-lbl { font-size: 11px; color: var(--sim-accent); font-weight: 500; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 4px; }
@@ -179,7 +181,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     .sim-btn-cal svg { width: 18px; height: 18px; flex-shrink: 0; }
     @media (max-width: 480px) { .sim-cta-buttons { flex-direction: column; } }
     .sim-cta-note { font-size: 10px; color: var(--sim-dim); margin-top: 14px; line-height: 1.6; }
-    .sim-cal-standalone { margin-top: 16px; padding-top: 16px; border-top: 1px dashed rgba(33,48,124,.25); }
+    .sim-cal-standalone { margin: 0 22px 22px; padding-top: 18px; border-top: 1px dashed rgba(33,48,124,.25); }
     .sim-cal-standalone-txt { font-size: 12px; color: var(--sim-muted); margin-bottom: 10px; line-height: 1.5; }
     .sim-privacy-row { padding: 0 20px 0; margin-bottom: 4px; }
     .sim-privacy-label { display: flex; align-items: flex-start; gap: 10px; cursor: pointer; font-size: 11px; color: #6B7A99; line-height: 1.5; }
@@ -288,6 +290,15 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           <p class="sim-hint">Aportación mínima: $2,000 MXN mensuales</p>
           <span class="sim-err" id="serr-aportacion">Mínimo $2,000 MXN</span>
         </div>
+        <!-- Privacidad: justo después de la aportación, antes del toggle de inflación —
+             es lo primero que desbloquea las cifras, así que va cerca de donde el lead
+             ya terminó de dar sus datos, no hasta el fondo del formulario. -->
+        <p class="sim-priv-hint">👇 Acepta esto para desbloquear tus cifras exactas</p>
+        <div class="sim-check-row">
+          <input type="checkbox" id="sPrivacy" onchange="simCheckReveal()">
+          <label for="sPrivacy">Acepto el <span class="sim-priv-link" onclick="simOpenPrivacy()">Aviso de Privacidad</span>. Mis datos serán utilizados únicamente para recibir información sobre planificación financiera y retiro de parte de Asesor Landero.</label>
+        </div>
+
         <div class="sim-check-row">
           <input type="checkbox" id="sInflToggle" onchange="simAutoCalc()">
           <label for="sInflToggle">Incremento de aportación conforme a la inflación<span class="sim-badge">+4% anual</span></label>
@@ -296,18 +307,13 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           <span>📊</span>
           <p>Proyección usando <strong>S&amp;P 500 como referencia</strong>. En tu asesoría analizamos cuál de los <strong>19 portafolios disponibles</strong> se adapta mejor a tu perfil.</p>
         </div>
-
-        <!-- Privacidad -->
-        <div class="sim-check-row">
-          <input type="checkbox" id="sPrivacy" onchange="simCheckReveal()">
-          <label for="sPrivacy">Acepto el <span class="sim-priv-link" onclick="simOpenPrivacy()">Aviso de Privacidad</span>. Mis datos serán utilizados únicamente para recibir información sobre planificación financiera y retiro de parte de Asesor Landero.</label>
-        </div>
       </div>
 
       <div class="sim-res-panel">
         <div class="sim-placeholder" id="simPlaceholder">
           <div class="sim-ph-icon">📊</div>
           <p>Ingresa tu edad y aportación mensual para ver tu proyección</p>
+          <p class="sim-ph-note">A partir de ahí vas a ver tu gráfica en tiempo real. Solo faltará completar tus datos de contacto y aceptar el aviso de privacidad para desbloquear las cifras exactas.</p>
         </div>
         <div id="simResInner" style="display:none;">
           <div class="sim-res-head">
@@ -349,20 +355,26 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 </a>
               </div>
             </div>
-            <div class="sim-cal-standalone">
-              <p class="sim-cal-standalone-txt">¿Ya sabes que quieres una asesoría? Agenda directo, sin llenar nada más.</p>
-              <a href="#" class="sim-btn-cal" id="simCalLink" target="_blank" rel="noopener" onclick="simOnCtaClick('calendly')">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-                Agendar asesoría directamente
-              </a>
-            </div>
             <p class="sim-cta-note">Proyección al 10% anual, referenciado al promedio histórico del S&amp;P 500. Los rendimientos históricos no garantizan resultados futuros.</p>
           </div>
+        </div>
+
+        <!-- Calendly vive fuera de #simResInner a propósito: ese bloque solo aparece
+             tras llenar edad+aportación (así funciona el placeholder). Quien ya sabe
+             que quiere agendar no debería tener que llegar hasta ahí — este botón está
+             visible y funcional desde que carga la página, sin importar el estado del
+             simulador. -->
+        <div class="sim-cal-standalone">
+          <p class="sim-cal-standalone-txt">¿Ya sabes que quieres una asesoría? Agenda directo, sin llenar nada más.</p>
+          <a href="#" class="sim-btn-cal" id="simCalLink" target="_blank" rel="noopener" onclick="simOnCtaClick('calendly')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            Agendar asesoría directamente
+          </a>
         </div>
       </div>
     </div>
 
-    <p style="font-size:11px;color:rgba(255,255,255,.3);text-align:center;margin-top:28px;line-height:1.7;">
+    <p style="font-size:11px;color:var(--sim-dim);text-align:center;margin-top:28px;line-height:1.7;">
       ⚠️ Proyecciones exclusivamente ilustrativas. Calculadas con la metodología oficial de la aseguradora. Conforme a su normativa, ninguna proyección supera el 10% anual. Los rendimientos pasados no garantizan resultados futuros. No constituye asesoría de inversión.
     </p>
   </div>
