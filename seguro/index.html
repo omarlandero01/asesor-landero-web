@@ -463,6 +463,22 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     const edad   = document.getElementById('edad').value;
     const wa     = document.getElementById('whatsapp').value.trim();
     const email  = document.getElementById('email').value.trim();
+
+    // Advanced Matching / CAPI — guarda los datos del lead para este evento Lead
+    // y para el evento del botón de WhatsApp (ver sendMetaEvent más abajo)
+    (function() {
+      const partes = nombre.split(/\s+/);
+      window.__capiUserData = {
+        email: email,
+        phone: '52' + wa,
+        firstName: partes[0] || '',
+        lastName: partes.length > 1 ? partes.slice(1).join(' ') : ''
+      };
+      if (typeof sendMetaEvent === 'function') {
+        sendMetaEvent('Lead', window.__capiUserData, { content_name: 'Cotizador Seguro', content_category: 'Seguros' });
+      }
+    })();
+
     fetch(SHEETS_URL, {
       method:'POST', mode:'no-cors',
       headers:{'Content-Type':'application/json'},
@@ -781,7 +797,7 @@ const PRECIOS = {
     sendMetaEvent('ViewContent', {}, { content_name: 'Cotizador Seguro', content_category: 'Seguros' });
     document.addEventListener('DOMContentLoaded', function() {
           document.querySelectorAll('a[href*="wa.me"], a[href*="whatsapp"]').forEach(function(btn) {
-                  btn.addEventListener('click', function() { sendMetaEvent('Lead', {}, { content_name: 'WhatsApp Seguro' }); });
+                  btn.addEventListener('click', function() { sendMetaEvent('Contact', window.__capiUserData || {}, { content_name: 'WhatsApp Seguro' }); });
           });
     });
 </script>

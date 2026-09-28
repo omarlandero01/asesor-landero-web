@@ -579,6 +579,21 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       inflacion:  useInflation ? 'Sí' : 'No'
     });
 
+    // Advanced Matching / CAPI — guarda los datos del lead para el evento Lead
+    // y para el evento Contact del botón de WhatsApp (ver sendMetaEvent más abajo)
+    (function() {
+      const partes = nombre.split(/\s+/);
+      window.__capiUserData = {
+        email: email,
+        phone: '52' + wa,
+        firstName: partes[0] || '',
+        lastName: partes.length > 1 ? partes.slice(1).join(' ') : ''
+      };
+      if (typeof sendMetaEvent === 'function') {
+        sendMetaEvent('Lead', window.__capiUserData, { content_name: 'Simulador PPR', content_category: 'Retiro' });
+      }
+    })();
+
     // ② ESPERA 1 SEGUNDO (garantiza que el lead llega a Sheets antes de mostrar resultados)
     await new Promise(r => setTimeout(r, 1000));
     btn.textContent = 'Calculando proyección...';
@@ -792,7 +807,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     sendMetaEvent('ViewContent', {}, { content_name: 'Simulador PPR', content_category: 'Retiro' });
     document.addEventListener('DOMContentLoaded', function() {
           document.querySelectorAll('a[href*="wa.me"], a[href*="whatsapp"]').forEach(function(btn) {
-                  btn.addEventListener('click', function() { sendMetaEvent('Contact', {}, { content_name: 'WhatsApp PPR' }); });
+                  btn.addEventListener('click', function() { sendMetaEvent('Contact', window.__capiUserData || {}, { content_name: 'WhatsApp PPR' }); });
           });
     });
 </script>
