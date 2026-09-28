@@ -603,8 +603,25 @@ function simSendLead() {
   window.dataLayer.push({
     event: 'sim_lead_complete',
     lead_source: SIM_UTM.utm_campaign || 'organico',
-    lead_value: aportacion
+    lead_value: aportacion,
+    user_data: buildUserData(nombre, email, wa)
   });
+}
+
+// Advanced Matching — normaliza datos del lead para la variable eventModel.user_data
+// que ya lee la etiqueta nativa "Meta Pixel" de GTM. Mismo esquema que usa GA4/Google
+// Ads (email, phone_number, address.first_name/last_name); no se hashea aquí — el
+// pixel/tag de Meta lo hace del lado del navegador antes de enviarlo.
+function buildUserData(nombreCompleto, email, waLocal) {
+  const partes = (nombreCompleto || '').trim().split(/\s+/);
+  const first_name = (partes[0] || '').toLowerCase();
+  const last_name  = partes.length > 1 ? partes.slice(1).join(' ').toLowerCase() : '';
+  const phone_digits = ('52' + (waLocal || '').replace(/\D/g, '')).replace(/^520/, '52');
+  return {
+    email: (email || '').trim().toLowerCase(),
+    phone_number: phone_digits,
+    address: { first_name, last_name }
+  };
 }
 
 function simOnCtaClick(canal) {
