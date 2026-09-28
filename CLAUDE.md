@@ -157,6 +157,27 @@ Landing corta para tráfico frío de Meta Ads (campaña "Reels Sep26 - Landing P
 - `fuente: 'retiro-ads'` en el payload de `SIM_SHEETS`
 - Mismas constantes que `/retiro`: `CALENDLY_BASE`, `SIM_WA`, `SIM_SHEETS`, `ANNUAL_RATE = 0.10`, GTM `GTM-TLMKJNZ4`
 
+### Fix de fricción en el simulador — 28 sep 2026 (0 clics a CTA pese a leads reales)
+
+**Diagnóstico con datos reales de Meta Ads** (campaña "Campaña Sep26 - Landing Page", ID `6979645135849`, gasto acumulado $404.93 MXN desde el 24 sep): 2,944 impresiones, 117 clics al link, 91 landing page views, **3 eventos Lead del píxel** (3 personas completaron el formulario) pero **0 clics conocidos a WhatsApp o Calendly**. Causa raíz: los dos botones CTA vivían dentro del mismo overlay que tapaba los números en pesos — nadie podía darle clic a ningún botón hasta llenar nombre + WhatsApp + correo + privacidad, y el texto del overlay ("Completa el formulario y acepta el aviso de privacidad...") sonaba a trámite legal, no a invitación.
+
+**Decisión de Omar tras discutirlo:** mantener el blur de los números (genera curiosidad, sigue calificando al lead), pero separar el comportamiento de los dos botones:
+- **Calendly siempre visible y clicable**, desde que carga la página, sin necesidad de llenar nada. Lógica de Omar: "quien quiera agendar directo, ya puede acceder a Calendly" — es autoagendable, no necesita que Omar tenga el contexto de antemano.
+- **WhatsApp sigue bloqueado hasta completar el formulario** — es conversación en vivo, Omar quiere tener nombre/edad/aportación/proyección a la mano antes de contestar.
+- **Correo ahora es opcional** (antes obligatorio) — sigue siendo dato de valor pero ya no bloquea el reveal.
+- **WhatsApp se movió a su propio campo de ancho completo** (antes compartía fila con edad) — es el único canal de contacto obligatorio, necesitaba más peso visual. Edad ahora comparte fila con correo (los dos campos "ligeros").
+- **Texto del overlay suavizado:** "Tu proyección ya está calculada. Completa tus datos y acepta el aviso de privacidad para verla — toma 30 segundos." — explica que la página sí funciona, en vez de sonar a requisito burocrático.
+
+**Implementación técnica:**
+- Nuevo contenedor `.sim-masked-zone` (dentro de `.sim-wa-box`) que envuelve SOLO el título + botón de WhatsApp + overlay — el overlay ya no cubre el box completo.
+- Botón de Calendly se sacó a un bloque separado `.sim-cal-standalone`, con su propio copy ("¿Ya sabes que quieres una asesoría? Agenda directo, sin llenar nada más.") y borde punteado como separador visual.
+- `simIsComplete()` — helper nuevo, extraído de la lógica que antes vivía inline en `simCheckReveal()`. Se reusa en `simOnCtaClick()`.
+- `simCheckReveal()`: el botón de Calendly ya no se gatea por `complete` — su `href` se reconstruye en cada input vía `simBuildCalUrl()` (que ahora omite `name=`/`email=` del query string si están vacíos, en vez de mandarlos en blanco).
+- `simOnCtaClick(canal)`: solo llama a `simSendLead()` (Sheets + evento `sim_lead_complete` + Pixel Lead) si el formulario está completo — un clic en Calendly antes de llenar todo ya NO manda un lead a medias (edad/aportación en NaN) a la hoja ni dispara un evento Lead de baja calidad. Se agregó `form_complete: true/false` al evento `sim_cta_click` del dataLayer para poder medir cuántos clics a Calendly vienen de gente que no llenó nada.
+- Email opcional: `simIsComplete()` valida formato solo si el campo no está vacío (`email === '' || regex.test(email)`).
+
+**Pendiente de observar:** con solo 3 leads históricos no hay tendencia estadística todavía — monitorear los próximos días si sube la tasa de clic a CTA (antes 0/3) y si el CPL baja del actual $134.98 MXN. Si el patrón de "gente llena el form pero no da clic en nada" persiste incluso con Calendly liberado, el siguiente sospechoso sería el copy de los botones mismos o la posición del bloque en la página.
+
 ---
 
 ## ESTADO /gmm — gmm/index.html ✅ (nueva, sep 2026)
