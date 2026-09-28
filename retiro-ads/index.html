@@ -77,6 +77,11 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       cursor: pointer; transition: background .2s, transform .15s; text-decoration: none;
     }
     .btn-sim:hover { background: var(--navy2); transform: translateY(-1px); }
+    .hero-cal-link {
+      display: block; margin-top: 14px; font-size: 13px; font-weight: 600;
+      color: var(--navy); opacity: .75; text-decoration: underline; text-underline-offset: 3px;
+    }
+    .hero-cal-link:hover { opacity: 1; }
     .hero-reg-inline {
       display: inline-flex; align-items: center; gap: 8px; margin-top: 22px;
       font-size: 12px; font-weight: 600; color: var(--gray);
@@ -228,6 +233,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <li><span>Tú defines el ingreso con el que te retiras</span></li>
       </ul>
       <a href="#simulador" class="btn-sim">🧮 Simula tu retiro ahora</a>
+      <a href="#" id="heroCalLink" class="hero-cal-link" target="_blank" rel="noopener" onclick="heroOnCalClick()">¿Ya sabes que quieres una asesoría? Agenda directo, sin simular →</a>
       <div class="hero-reg-inline">🏛️ Regulado por la Comisión Nacional de Seguros y Fianzas · Cédula CNSF V409234</div>
     </div>
   </div>
@@ -567,11 +573,16 @@ function simBuildCalUrl() {
 
 function simIsComplete() {
   const nombre  = document.getElementById('sNombre').value.trim();
+  const edad    = parseInt(document.getElementById('sEdad').value);
   const wa      = document.getElementById('sWa').value.trim();
   const email   = document.getElementById('sEmail').value.trim();
   const privacy = document.getElementById('sPrivacy').checked;
+  // La edad es obligatoria: sin ella el simulador no sabe desde qué año proyectar
+  // (simAutoCalc no corre sin edad válida) y el mensaje de WhatsApp saldría con
+  // capital/pensión en blanco.
+  const edadOk  = !isNaN(edad) && edad >= 18 && edad <= 64;
   const emailOk = email === '' || /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-  return !!(nombre && wa.length === 10 && emailOk && privacy);
+  return !!(nombre && edadOk && wa.length === 10 && emailOk && privacy);
 }
 
 function simCheckReveal() {
@@ -647,7 +658,7 @@ function simOnCtaClick(canal) {
   const complete = simIsComplete();
   if (complete) simSendLead();
   window.dataLayer = window.dataLayer || [];
-  window.dataLayer.push({ event: 'sim_cta_click', cta_channel: canal, form_complete: complete });
+  window.dataLayer.push({ event: 'sim_cta_click', cta_channel: canal, cta_source: 'simulador', form_complete: complete });
 }
 
 function simRenderChart(snaps) {
@@ -719,6 +730,24 @@ function simRenderChart(snaps) {
 }
 
 simCheckReveal();
+
+// CTA directo del hero — Calendly sin pasar por el simulador. Sin nombre/correo
+// capturados en este punto (el form aún no se tocó), solo UTMs para atribución.
+(function() {
+  const heroCalLink = document.getElementById('heroCalLink');
+  if (!heroCalLink) return;
+  let url = CALENDLY_BASE + '?';
+  const parts = [];
+  ['utm_source','utm_medium','utm_campaign','utm_content','utm_term'].forEach(function(k){
+    if (SIM_UTM[k]) parts.push(k + '=' + encodeURIComponent(SIM_UTM[k]));
+  });
+  heroCalLink.href = url + parts.join('&');
+})();
+
+function heroOnCalClick() {
+  window.dataLayer = window.dataLayer || [];
+  window.dataLayer.push({ event: 'sim_cta_click', cta_channel: 'calendly', cta_source: 'hero' });
+}
 
 function simOpenPrivacy()  { const m = document.getElementById('simPrivModal'); m.style.display = 'flex'; document.body.style.overflow = 'hidden'; }
 function simClosePrivacy() { const m = document.getElementById('simPrivModal'); m.style.display = 'none'; document.body.style.overflow = ''; }

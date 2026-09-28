@@ -178,6 +178,11 @@ Landing corta para tráfico frío de Meta Ads (campaña "Reels Sep26 - Landing P
 
 **Pendiente de observar:** con solo 3 leads históricos no hay tendencia estadística todavía — monitorear los próximos días si sube la tasa de clic a CTA (antes 0/3) y si el CPL baja del actual $134.98 MXN. Si el patrón de "gente llena el form pero no da clic en nada" persiste incluso con Calendly liberado, el siguiente sospechoso sería el copy de los botones mismos o la posición del bloque en la página.
 
+### Segunda ronda — mismo día (28 sep 2026): CTA directo en el hero + fix de edad obligatoria
+
+- **Bug corregido: `simIsComplete()` no exigía edad válida.** El botón de WhatsApp podía desbloquearse con nombre + WhatsApp + privacidad aunque la persona nunca hubiera llenado la edad — y sin edad el simulador nunca corre (`simAutoCalc` no calcula nada), así que el mensaje de WhatsApp se hubiera mandado con capital/pensión en blanco ("—"). Detectado por Omar, no por QA. Ahora `simIsComplete()` exige `edad` numérica entre 18 y 64, igual que el límite ya validado en el campo.
+- **CTA directo en el hero:** link secundario `#heroCalLink` debajo del botón principal "🧮 Simula tu retiro ahora", copy "¿Ya sabes que quieres una asesoría? Agenda directo, sin simular →", va a Calendly sin pasar por el simulador. Decisión: peso visual menor que el botón principal (texto subrayado, no botón sólido) para no competirle protagonismo — el simulador sigue siendo el CTA primario de la página. Sin nombre/correo en el passthrough (el form nunca se tocó en este punto), solo UTMs. Evento `sim_cta_click` con `cta_source: 'hero'` vs `cta_source: 'simulador'` (agregado también al Calendly/WhatsApp de dentro del simulador) para poder comparar en GTM/Sheets cuántos leads vienen de cada camino.
+
 ---
 
 ## ESTADO /gmm — gmm/index.html ✅ (nueva, sep 2026)
