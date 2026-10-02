@@ -86,6 +86,13 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       display: inline-flex; align-items: center; gap: 8px; margin-top: 22px;
       font-size: 12px; font-weight: 600; color: var(--gray);
     }
+    .hero-sub-short { font-size: 15px; color: var(--gray); margin: 0 auto 24px; max-width: 480px; line-height: 1.5; }
+
+    /* SECCIÓN DE DETALLE — movida debajo del simulador (antes vivía arriba, en el hero) */
+    #detalle { padding: 48px 0 8px; }
+    #detalle h2 { font-size: 26px; font-weight: 900; color: var(--navy); line-height: 1.2; margin-bottom: 14px; letter-spacing: -.02em; text-align: center; }
+    #detalle .detalle-sub { font-size: 16px; color: var(--gray); max-width: 560px; margin: 0 auto 28px; line-height: 1.65; text-align: center; }
+    #detalle .hero-bullets { max-width: 480px; margin: 0 auto; }
 
     /* SIMULADOR (idéntico a /retiro) */
     #simulador {
@@ -219,24 +226,17 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <a href="#simulador" class="nav-pill">🧮 Simular mi retiro →</a>
 </nav>
 
-<!-- HERO -->
+<!-- HERO — reducido al mínimo a propósito (28 sep/2 oct): el formulario estaba quedando
+     demasiado lejos del primer scroll. Solo título + leyenda de proyección + CTA directo,
+     el resto de la información (descripción larga, bullets) se movió a #detalle, debajo
+     del simulador. Ver nota en #detalle. -->
 <section id="hero">
   <div class="container">
     <div class="hero-inner">
       <p class="hero-eyebrow">Plan Personal de Retiro · Regulado por la CNSF</p>
       <h1 class="hero-title">Empieza tu Plan Personal de Retiro hoy</h1>
-      <p class="hero-sub">
-        Un Plan Personal de Retiro diseñado 100% a tu medida: aportaciones deducibles de impuestos, invertidas en instrumentos elegidos según tu perfil, capacidad de ahorro y horizonte de inversión.
-      </p>
-      <ul class="hero-bullets">
-        <li><span>Desde <strong>$2,000 MXN al mes</strong> de aportación</span></li>
-        <li><span>Instrumentos como el S&amp;P 500 o el NASDAQ, con historial de rendimiento superior a la inflación</span></li>
-        <li><span>100% deducible de impuestos <strong>(Art. 151 LISR)</strong></span></li>
-        <li><span>Tú defines el ingreso con el que te retiras</span></li>
-      </ul>
-      <a href="#simulador" class="btn-sim">🧮 Simula tu retiro ahora</a>
+      <p class="hero-sub-short">Proyección al 10% anual, referenciado al promedio histórico del S&amp;P 500.</p>
       <a href="#" id="heroCalLink" class="hero-cal-link" target="_blank" rel="noopener" onclick="heroOnCalClick()">¿Ya sabes que quieres una asesoría? Agenda directo, sin simular →</a>
-      <div class="hero-reg-inline">🏛️ Regulado por la Comisión Nacional de Seguros y Fianzas · Cédula CNSF V409234</div>
     </div>
   </div>
 </section>
@@ -244,12 +244,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- SIMULADOR -->
 <section id="simulador">
   <div class="container">
-    <div style="text-align:center;margin-bottom:44px;">
-      <div class="sim-eyebrow">Simulador de Plan Personal de Retiro</div>
-      <h2>¿Cuánto tendrás a los 65 años?</h2>
-      <p class="sim-sub">Proyección al 10% anual, referenciado al promedio histórico del S&P 500. Con fines ilustrativos.</p>
-    </div>
-
     <div class="sim-grid">
       <div class="sim-form-card">
         <div class="sim-field">
@@ -377,6 +371,26 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <p style="font-size:11px;color:var(--sim-dim);text-align:center;margin-top:28px;line-height:1.7;">
       ⚠️ Proyecciones exclusivamente ilustrativas. Calculadas con la metodología oficial de la aseguradora. Conforme a su normativa, ninguna proyección supera el 10% anual. Los rendimientos pasados no garantizan resultados futuros. No constituye asesoría de inversión.
     </p>
+  </div>
+</section>
+
+<!-- DETALLE — todo lo que antes vivía arriba en el hero (descripción larga + 4 bullets).
+     Se movió aquí, después del simulador, para que quien ya está convencido (o solo
+     quiere agendar) no tenga que deslizar de más para llegar al formulario. Quien sí
+     quiere leer el detalle antes de decidir lo encuentra justo debajo del simulador,
+     no se eliminó, solo se reordenó. -->
+<section id="detalle">
+  <div class="container">
+    <h2>¿Cómo funciona tu Plan Personal de Retiro?</h2>
+    <p class="detalle-sub">
+      Un Plan Personal de Retiro diseñado 100% a tu medida: aportaciones deducibles de impuestos, invertidas en instrumentos elegidos según tu perfil, capacidad de ahorro y horizonte de inversión.
+    </p>
+    <ul class="hero-bullets">
+      <li><span>Desde <strong>$2,000 MXN al mes</strong> de aportación</span></li>
+      <li><span>Instrumentos como el S&amp;P 500 o el NASDAQ, con historial de rendimiento superior a la inflación</span></li>
+      <li><span>100% deducible de impuestos <strong>(Art. 151 LISR)</strong></span></li>
+      <li><span>Tú defines el ingreso con el que te retiras</span></li>
+    </ul>
   </div>
 </section>
 
@@ -742,6 +756,27 @@ function simRenderChart(snaps) {
 }
 
 simCheckReveal();
+
+// Instrumentación (2 oct 2026) — mide cuántos de los que ven la landing llegan a ver
+// el simulador, para poder diagnosticar con datos (no con intuición) si la fricción real
+// está antes de llegar al formulario o después. Dispara una sola vez por sesión, cuando
+// el simulador entra al menos 20% en pantalla.
+(function() {
+  let fired = false;
+  const target = document.getElementById('simulador');
+  if (!target || !('IntersectionObserver' in window)) return;
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting && !fired) {
+        fired = true;
+        window.dataLayer = window.dataLayer || [];
+        window.dataLayer.push({ event: 'sim_section_viewed' });
+        obs.disconnect();
+      }
+    });
+  }, { threshold: 0.2 });
+  obs.observe(target);
+})();
 
 // CTA directo del hero — Calendly sin pasar por el simulador. Sin nombre/correo
 // capturados en este punto (el form aún no se tocó), solo UTMs para atribución.

@@ -189,6 +189,20 @@ Omar reportó por WhatsApp/chat que no veía los cambios ("ni el botón de Calen
 
 **Bug real encontrado por Omar, confirmado y corregido:** el disclaimer legal al fondo de la sección del simulador ("⚠️ Proyecciones exclusivamente ilustrativas...") estaba en `color:rgba(255,255,255,.3)` (blanco al 30%) — invisible sobre el fondo blanco de `/retiro-ads`. Ese estilo se heredó tal cual de `/retiro` (fondo navy oscuro, donde blanco translúcido sí se ve) al construir la v1 de esta página y nunca se corrigió al pasar a paleta clara. Cambiado a `var(--sim-dim)` (#94a3b8, gris legible sobre blanco). **Pendiente revisar si el mismo problema existe en otros textos copiados de `/retiro` hacia `/retiro-ads` o `/gmm`** — no se hizo una auditoría completa de contraste esta sesión, solo se corrigió el caso reportado.
 
+### Cuarta ronda — 2 oct 2026: reorganización "formulario primero" + instrumentación de scroll
+
+**Diagnóstico actualizado con datos frescos de la API de Meta (no CSV):** campaña "Campaña Sep26 - Landing Page" (ID `6979645135849`), acumulado desde el 24 sep: 4,017 impresiones, 153 link clicks, 120 landing page views, 6 Leads, $643.10 MXN gastados, CPL $107.18. Mejora real respecto al checkpoint del 28 sep (3 leads, CPL $134.98) tras los fixes de esa fecha, aunque la muestra (6 leads) sigue siendo demasiado chica para confianza estadística.
+
+**Hipótesis de Omar:** el formulario queda muy abajo en el primer scroll (hero largo con descripción + 4 bullets antes de llegar al simulador), y en tráfico frío de Meta Ads la gente abandona si no ve de inmediato qué hacer. Problema real al intentar validarlo: Meta no da profundidad de scroll, y no había ningún evento que marcara "llegó a ver el simulador" por separado de "completó el formulario" — sin eso, 120 landing views → 6 leads no dice *dónde* se pierde el resto.
+
+**Dos acciones ejecutadas en la misma sesión:**
+
+1. **Instrumentación de scroll (antes de tocar el diseño, para poder medir el efecto después):** nuevo `IntersectionObserver` sobre `#simulador` en el JS de `/retiro-ads` — dispara `sim_section_viewed` al dataLayer una sola vez por sesión, cuando el simulador entra al menos 20% en pantalla. **Pendiente de Omar, no se puede hacer desde aquí:** este evento no tiene ningún destino todavía (no hay GA4 instalado en el proyecto). Para poder verlo reflejado en algún reporte, hay que replicar en GTM el mismo patrón que ya existe para `sim_lead_complete` → "Meta Pixel - Lead": crear un trigger de Evento personalizado que escuche `sim_section_viewed`, y una etiqueta nueva de Meta Pixel con un evento custom (ej. `ViewedSimulator`, nunca reusar `Lead` ni `ViewContent` para esto, contaminaría la optimización de las campañas). Una vez configurado, se podrá ver en Meta Events Manager cuántas personas de las que entran a la landing sí llegan a ver el simulador — ese es el dato que faltaba para confirmar o descartar la hipótesis de fricción.
+
+2. **Reorganización "formulario primero":** el hero se redujo al mínimo — eyebrow + H1 ("Empieza tu Plan Personal de Retiro hoy") + una sola línea con la leyenda de proyección (10% anual, S&P 500) + el link directo a Calendly del hero (`#heroCalLink`, sin tocar). Se quitaron de ahí: el párrafo largo de descripción, los 4 bullets, el botón "Simula tu retiro ahora" (ya no hace falta, el simulador queda inmediatamente debajo) y la línea de cédula CNSF completa. El simulador (`#simulador`) ya no repite título/subtítulo propio (se quitó el `<h2>¿Cuánto tendrás a los 65 años?</h2>` y su eyebrow, quedaban redundantes con el nuevo H1 del hero) — va directo al `.sim-grid` (formulario + resultados). Todo lo que se quitó del hero (descripción larga + 4 bullets) se movió a una sección nueva, `#detalle`, ubicada **después** del simulador y antes de la franja de confianza (`#masinfo`) — queda disponible para quien sí quiere leer el detalle antes de decidir, pero ya no bloquea el camino al formulario. CSS nuevo: `.hero-sub-short` (reemplaza `.hero-sub` en el hero reducido), `#detalle`/`#detalle h2`/`.detalle-sub` (estilos de la sección movida, reusa `.hero-bullets` ya existente).
+
+**Pendiente de observar:** monitorear si sube el % de landing page views → leads con esta estructura, y en cuanto Omar configure el trigger de GTM del punto 1, cruzar ambos datos (views → simulador visto → lead) para saber si de verdad la fricción estaba en el scroll o en otro punto del embudo.
+
 ---
 
 ## ESTADO /gmm — gmm/index.html ✅ (nueva, sep 2026)
@@ -241,6 +255,7 @@ El Google Sheets de PPR que Omar usa para revisar leads manualmente (`docs.googl
 | SEO: robots.txt, meta tags por página | 🟡 Media |
 | /testimonios con formulario de reseñas | 🟢 Baja |
 | /links optimización visual | 🟢 Baja |
+| Agregar `fbc`/`fbp` (cookies del navegador) al payload de `api/meta-events.js` en `/ppr` y `/seguro` — Meta las sugirió vía la herramienta "Parameter Builder" (28 sep 2026) para subir su EMQ bajo (Ver contenido 3.0/10, Cliente potencial 6.1/10). **No implementar todavía**: ninguna de las dos páginas está en campaña activa hoy (solo `/retiro-ads` y `/gmm` jalan tráfico pagado, y esas ya capturan `fbc`/`fbp` automático vía el píxel nativo de GTM). Retomar solo si se vuelve a pautar `/ppr` o `/seguro`. | 🟢 Baja (condicional) |
 
 ---
 
