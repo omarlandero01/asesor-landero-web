@@ -92,6 +92,14 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       font-size: 12px; font-weight: 600; color: var(--gray);
     }
     .hero-sub-short { font-size: 15px; color: var(--gray); margin: 0 auto 24px; max-width: 480px; line-height: 1.5; }
+    /* Leyenda de "recompensa" (2 oct 2026) — a petición de Omar: sin esto, el formulario
+       se leía como "llena tus datos y ya", sin dejar claro que al completarlo el lead
+       ve su proyección al instante. Va justo debajo de la leyenda del 10% anual. */
+    .hero-reward {
+      display: inline-flex; align-items: center; gap: 6px; margin: 0 auto 20px;
+      font-size: 13px; font-weight: 700; color: var(--navy);
+      background: rgba(33,48,124,.07); padding: 7px 16px; border-radius: 20px;
+    }
 
     /* SECCIÓN DE DETALLE — movida debajo del simulador (antes vivía arriba, en el hero) */
     #detalle { padding: 48px 0 8px; }
@@ -232,6 +240,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       .hero-eyebrow { font-size: 11px; margin-bottom: 8px; }
       .hero-title { margin-bottom: 8px; }
       .hero-sub-short { margin: 0 auto 12px; font-size: 14px; }
+      .hero-reward { font-size: 12px; padding: 6px 14px; margin-bottom: 14px; }
       .hero-cal-link { margin-top: 8px; font-size: 12px; }
 
       #simulador { padding: 24px 0 40px; }
@@ -260,6 +269,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <p class="hero-eyebrow">Plan Personal de Retiro · Regulado por la CNSF</p>
       <h1 class="hero-title">Empieza tu Plan Personal de Retiro hoy</h1>
       <p class="hero-sub-short">Proyección al 10% anual, referenciado al promedio histórico del S&amp;P 500.</p>
+      <p class="hero-reward">Ingresa tus datos y ve tu proyección al instante, abajo.</p>
       <a href="#" id="heroCalLink" class="hero-cal-link" target="_blank" rel="noopener" onclick="heroOnCalClick()">¿Ya sabes que quieres una asesoría? Agenda directo, sin simular →</a>
     </div>
   </div>

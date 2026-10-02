@@ -220,6 +220,10 @@ Omar reportó por WhatsApp/chat que no veía los cambios ("ni el botón de Calen
 
 Omar también preguntó si el `position: sticky` de la barra (que la mantiene fija al hacer scroll) era intencional o recomendable. **Se le explicó y se quitó**: tenía sentido cuando la barra traía el botón "Simular mi retiro" (acceso al CTA en todo momento), pero ya sin botón, mantenerla fija solo le resta espacio vertical permanente a la pantalla mientras se llena el formulario — exactamente lo contrario de la compactación que se ha estado persiguiendo toda la sesión. Ahora `nav` se desliza con el resto de la página como cualquier sección (se quitó `position: sticky; top: 0`, se dejó `z-index` implícito sin necesidad).
 
+Omar verificó en vivo y confirmó que todo lo de esta sesión (rondas 5-7) quedó funcionando correctamente.
+
+**Octava ronda — mismo día (2 oct 2026): leyenda de "recompensa" en el hero.** Último ajuste de la sesión. Omar notó que, aunque el hero ya deja claro el 10% de proyección, nada le decía al lead que al llenar el formulario iba a ver sus números al instante — se podía leer como "un formulario más", sin dejar claro qué recibe a cambio de sus datos. Se agregó `.hero-reward`, un párrafo nuevo justo debajo de la leyenda del 10% anual y antes del link de Calendly del hero: "Ingresa tus datos y ve tu proyección al instante, abajo." Estilo tipo badge/pill (fondo navy al 7% de opacidad, texto navy bold, `border-radius: 20px`) para que destaque un poco más que texto plano gris, sin competir con el H1. Ajustado proporcionalmente en el `@media (max-width: 768px)` ya existente.
+
 ---
 
 ## ESTADO /gmm — gmm/index.html ✅ (nueva, sep 2026)
