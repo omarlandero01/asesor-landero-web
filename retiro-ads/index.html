@@ -43,12 +43,17 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
        dejó de aportar y solo hacía la barra más alta. Ahora la barra navy es solo el logo,
        centrado y más grande, para ocupar el mínimo espacio vertical posible. */
     nav {
-      background: var(--navy); padding: 12px 40px;
-      display: flex; align-items: center; justify-content: center;
+      background: var(--navy); padding: 10px 40px;
+      display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px;
       position: sticky; top: 0; z-index: 100;
     }
     .nav-logo { font-size: 22px; font-weight: 800; color: var(--white); letter-spacing: -.02em; display: flex; align-items: center; }
     .nav-logo img { height: 38px; margin-right: 10px; }
+    .nav-backed {
+      display: flex; align-items: center; gap: 6px;
+      font-size: 10px; font-weight: 600; color: rgba(255,255,255,.55); letter-spacing: .02em;
+    }
+    .nav-backed img { height: 14px; opacity: .9; }
 
     /* HERO */
     #hero {
@@ -218,6 +223,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       nav { padding: 10px 20px; }
       .nav-logo { font-size: 17px; }
       .nav-logo img { height: 40px; margin-right: 8px; }
+      .nav-backed { font-size: 9px; }
+      .nav-backed img { height: 13px; }
 
       #hero { padding: 24px 0 18px; }
       .hero-eyebrow { font-size: 11px; margin-bottom: 8px; }
@@ -238,6 +245,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 <nav>
   <div class="nav-logo"><img src="../ISOLOGO_BLANCO.png" alt="Asesor Landero">Asesor Landero</div>
+  <div class="nav-backed">Soluciones respaldadas por <img src="../images/logo-allianz-blanco.png" alt="Allianz"></div>
 </nav>
 
 <!-- HERO — reducido al mínimo a propósito (28 sep/2 oct): el formulario estaba quedando
