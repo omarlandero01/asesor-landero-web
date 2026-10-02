@@ -205,6 +205,13 @@ Omar reportó por WhatsApp/chat que no veía los cambios ("ni el botón de Calen
 
 **Tercer cambio, mismo día: aviso de privacidad ya no es checkbox.** Decisión de Omar tras revisar formularios de competencia (GBM, entre otros) que dan la aceptación por hecho con solo una leyenda informativa, en vez de un checkbox que el lead tiene que activar manualmente — un freno menos antes de desbloquear la proyección. Se quitó el `<input type="checkbox" id="sPrivacy">` y su `sim-priv-hint` ("👇 Acepta esto..."); quedó solo un párrafo no interactivo, `.sim-priv-notice`: "Al ingresar tus datos, aceptas nuestro Aviso de Privacidad..." con el link que sigue abriendo el mismo modal de siempre (`simOpenPrivacy()`, sin cambios). `simIsComplete()` ya no exige `privacy` en el AND — ahora solo nombre + edad válida + WhatsApp (10 dígitos) + correo con formato válido si no está vacío. Se actualizaron también los dos textos que mencionaban "aceptar el aviso de privacidad" como acción pendiente (overlay del CTA y `.sim-ph-note` del placeholder) para que ya no la describan como un paso que falta.
 
+**Quinta ronda — mismo día (2 oct 2026): compactación móvil del hero/nav.** Omar revisó la página ya publicada desde su celular (captura anotada a mano) y señaló que, pese al hero reducido de la ronda anterior, seguía habiendo espacio vertical perdido antes de llegar al formulario — el padding/márgenes de escritorio se heredaban tal cual en móvil. Pidió explícitamente actuar como diseñador: compactar el hero, agrandar y centrar el logo en la barra navy superior, y reorganizar el botón "Simular mi retiro" del nav para que se vea más estético (redondo, en una o dos filas alineadas). Cambio solo dentro del `@media (max-width: 768px)` ya existente — desktop no se tocó:
+- `nav` pasa a `flex-direction: column` en móvil (logo arriba centrado, pill debajo centrado, `gap: 8px`, `padding: 14px 20px`), en vez del layout horizontal logo-izquierda/pill-derecha de escritorio.
+- `.nav-logo img` sube de 32px a 42px de alto; `.nav-pill` con `border-radius: 30px` (más redondo).
+- `#hero` baja de `padding: 64px 0 56px` (heredado, sin override previo en móvil) a `24px 0 18px`; márgenes internos del hero (`.hero-eyebrow`, `.hero-title`, `.hero-sub-short`, `.hero-cal-link`) reducidos a la mitad aprox.
+- `#simulador` baja su padding-top de 56px a 24px en móvil, y `.sim-form-card` de `padding: 28px` a `20px` (`gap` de 16px a 12px) — el formulario entra antes en la primera pantalla.
+- No se tocó el flujo lógico del simulador (`simIsComplete()`, gateo de WhatsApp/Calendly, etc.), solo CSS de espaciado y el layout del nav en el breakpoint móvil.
+
 ---
 
 ## ESTADO /gmm — gmm/index.html ✅ (nueva, sep 2026)

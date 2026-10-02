@@ -213,6 +213,27 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       #simulador h2 { font-size: 24px; }
       .nav-pill { font-size: 12px; padding: 8px 14px; }
       .trust-row { gap: 14px; }
+
+      /* Compactación móvil (2 oct 2026) — en pantallas de celular se perdía mucho espacio
+         vertical antes de llegar al formulario (eyebrow + h1 + sub + link, todo con el
+         padding de escritorio). Se reduce el espaciado del hero y se acerca el simulador,
+         sin tocar nada en desktop (>768px). */
+      nav {
+        flex-direction: column; justify-content: center; height: auto;
+        padding: 14px 20px; gap: 8px;
+      }
+      .nav-logo { font-size: 15px; display: flex; align-items: center; justify-content: center; }
+      .nav-logo img { height: 42px; margin-right: 8px; }
+      .nav-pill { border-radius: 30px; }
+
+      #hero { padding: 24px 0 18px; }
+      .hero-eyebrow { font-size: 11px; margin-bottom: 8px; }
+      .hero-title { margin-bottom: 8px; }
+      .hero-sub-short { margin: 0 auto 12px; font-size: 14px; }
+      .hero-cal-link { margin-top: 8px; font-size: 12px; }
+
+      #simulador { padding: 24px 0 40px; }
+      .sim-form-card { padding: 20px; gap: 12px; }
     }
   </style>
 </head>
