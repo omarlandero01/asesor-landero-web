@@ -203,6 +203,8 @@ Omar reportó por WhatsApp/chat que no veía los cambios ("ni el botón de Calen
 
 **Pendiente de observar:** monitorear si sube el % de landing page views → leads con esta estructura, y en cuanto Omar configure el trigger de GTM del punto 1, cruzar ambos datos (views → simulador visto → lead) para saber si de verdad la fricción estaba en el scroll o en otro punto del embudo.
 
+**Tercer cambio, mismo día: aviso de privacidad ya no es checkbox.** Decisión de Omar tras revisar formularios de competencia (GBM, entre otros) que dan la aceptación por hecho con solo una leyenda informativa, en vez de un checkbox que el lead tiene que activar manualmente — un freno menos antes de desbloquear la proyección. Se quitó el `<input type="checkbox" id="sPrivacy">` y su `sim-priv-hint` ("👇 Acepta esto..."); quedó solo un párrafo no interactivo, `.sim-priv-notice`: "Al ingresar tus datos, aceptas nuestro Aviso de Privacidad..." con el link que sigue abriendo el mismo modal de siempre (`simOpenPrivacy()`, sin cambios). `simIsComplete()` ya no exige `privacy` en el AND — ahora solo nombre + edad válida + WhatsApp (10 dígitos) + correo con formato válido si no está vacío. Se actualizaron también los dos textos que mencionaban "aceptar el aviso de privacidad" como acción pendiente (overlay del CTA y `.sim-ph-note` del placeholder) para que ya no la describan como un paso que falta.
+
 ---
 
 ## ESTADO /gmm — gmm/index.html ✅ (nueva, sep 2026)

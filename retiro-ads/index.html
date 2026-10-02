@@ -142,6 +142,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     .sim-portfolio-note strong { color: var(--sim-text); }
     .sim-priv-link { color: var(--sim-accent); text-decoration: underline; cursor: pointer; }
     .sim-priv-hint { font-size: 11px; font-weight: 700; color: var(--sim-accent); margin-bottom: -6px; }
+    .sim-priv-notice { font-size: 11px; color: var(--sim-dim); line-height: 1.6; padding: 2px 2px 0; }
     .sim-res-panel { background: var(--sim-surf); border: 1px solid var(--sim-bdr); border-radius: 16px; overflow: hidden; }
     .sim-placeholder { padding: 60px 32px; text-align: center; color: var(--sim-muted); }
     .sim-ph-icon { font-size: 52px; margin-bottom: 16px; }
@@ -284,14 +285,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           <p class="sim-hint">Aportación mínima: $2,000 MXN mensuales</p>
           <span class="sim-err" id="serr-aportacion">Mínimo $2,000 MXN</span>
         </div>
-        <!-- Privacidad: justo después de la aportación, antes del toggle de inflación —
-             es lo primero que desbloquea las cifras, así que va cerca de donde el lead
-             ya terminó de dar sus datos, no hasta el fondo del formulario. -->
-        <p class="sim-priv-hint">👇 Acepta esto para desbloquear tus cifras exactas</p>
-        <div class="sim-check-row">
-          <input type="checkbox" id="sPrivacy" onchange="simCheckReveal()">
-          <label for="sPrivacy">Acepto el <span class="sim-priv-link" onclick="simOpenPrivacy()">Aviso de Privacidad</span>. Mis datos serán utilizados únicamente para recibir información sobre planificación financiera y retiro de parte de Asesor Landero.</label>
-        </div>
+        <!-- Privacidad: ya no es un checkbox que el lead tenga que activar (2 oct 2026,
+             a petición de Omar) — se asume aceptada al llenar el formulario, como hacen
+             GBM y otros competidores que revisó. Solo queda la leyenda informativa, sin
+             interacción, y el link sigue abriendo el modal por si alguien quiere leerlo. -->
+        <p class="sim-priv-notice">Al ingresar tus datos, aceptas nuestro <span class="sim-priv-link" onclick="simOpenPrivacy()">Aviso de Privacidad</span>. Tu información se usa únicamente para brindarte asesoría de planificación financiera y retiro.</p>
 
         <div class="sim-check-row">
           <input type="checkbox" id="sInflToggle" onchange="simAutoCalc()">
@@ -307,7 +305,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <div class="sim-placeholder" id="simPlaceholder">
           <div class="sim-ph-icon">📊</div>
           <p>Ingresa tu edad y aportación mensual para ver tu proyección</p>
-          <p class="sim-ph-note">A partir de ahí vas a ver tu gráfica en tiempo real. Solo faltará completar tus datos de contacto y aceptar el aviso de privacidad para desbloquear las cifras exactas.</p>
+          <p class="sim-ph-note">A partir de ahí vas a ver tu gráfica en tiempo real. Solo faltará completar tus datos de contacto para desbloquear las cifras exactas.</p>
         </div>
         <div id="simResInner" style="display:none;">
           <div class="sim-res-head">
@@ -338,7 +336,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           <div class="sim-wa-box">
             <div class="sim-masked-zone">
               <div class="sim-cta-overlay" id="sim-cta-overlay">
-                <p>Tu proyección ya está calculada.<br>Completa tus datos y acepta el aviso de privacidad para verla — toma 30 segundos.</p>
+                <p>Tu proyección ya está calculada.<br>Completa tus datos para verla — toma 30 segundos.</p>
               </div>
               <div class="sim-wa-title sim-masked" id="simWaTitle">Tu retiro proyectado</div>
               <p class="sim-wa-sub">¿Quieres que lo estructuremos juntos?</p>
@@ -602,13 +600,14 @@ function simIsComplete() {
   const edad    = parseInt(document.getElementById('sEdad').value);
   const wa      = document.getElementById('sWa').value.trim();
   const email   = document.getElementById('sEmail').value.trim();
-  const privacy = document.getElementById('sPrivacy').checked;
+  // El aviso de privacidad ya no es un checkbox que el lead tenga que activar (2 oct
+  // 2026) — se da por aceptado al llenar el formulario, solo queda la leyenda informativa.
   // La edad es obligatoria: sin ella el simulador no sabe desde qué año proyectar
   // (simAutoCalc no corre sin edad válida) y el mensaje de WhatsApp saldría con
   // capital/pensión en blanco.
   const edadOk  = !isNaN(edad) && edad >= 18 && edad <= 64;
   const emailOk = email === '' || /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-  return !!(nombre && edadOk && wa.length === 10 && emailOk && privacy);
+  return !!(nombre && edadOk && wa.length === 10 && emailOk);
 }
 
 function simCheckReveal() {
