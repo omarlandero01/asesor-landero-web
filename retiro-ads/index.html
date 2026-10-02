@@ -40,18 +40,20 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
     /* NAV — simplificado (2 oct 2026): se quitó el pill "Simular mi retiro" a petición de
        Omar. Con el formulario ya inmediatamente debajo del hero (ronda anterior), el botón
-       dejó de aportar y solo hacía la barra más alta. Ahora la barra navy es solo el logo,
-       centrado y más grande, para ocupar el mínimo espacio vertical posible. */
+       dejó de aportar y solo hacía la barra más alta. Ahora la barra navy es una sola fila:
+       logo a la izquierda (texto más chico) y "Soluciones respaldadas por Allianz" a la
+       derecha. Ya NO es sticky — sin CTA que defender en todo momento, mantenerla fija solo
+       le quitaba espacio vertical permanente a la pantalla mientras se llena el formulario;
+       ahora se desliza con el resto de la página como cualquier sección. */
     nav {
       background: var(--navy); padding: 10px 40px;
-      display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px;
-      position: sticky; top: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between; gap: 12px;
     }
-    .nav-logo { font-size: 22px; font-weight: 800; color: var(--white); letter-spacing: -.02em; display: flex; align-items: center; }
-    .nav-logo img { height: 38px; margin-right: 10px; }
+    .nav-logo { font-size: 16px; font-weight: 800; color: var(--white); letter-spacing: -.02em; display: flex; align-items: center; flex-shrink: 0; }
+    .nav-logo img { height: 28px; margin-right: 8px; }
     .nav-backed {
-      display: flex; align-items: center; gap: 6px;
-      font-size: 10px; font-weight: 600; color: rgba(255,255,255,.55); letter-spacing: .02em;
+      display: flex; align-items: center; gap: 6px; flex-shrink: 0;
+      font-size: 10px; font-weight: 600; color: rgba(255,255,255,.55); letter-spacing: .02em; white-space: nowrap;
     }
     .nav-backed img { height: 14px; opacity: .9; }
 
@@ -220,11 +222,11 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
          vertical antes de llegar al formulario (eyebrow + h1 + sub + link, todo con el
          padding de escritorio). Se reduce el espaciado del hero y se acerca el simulador,
          sin tocar nada en desktop (>768px). */
-      nav { padding: 10px 20px; }
-      .nav-logo { font-size: 17px; }
-      .nav-logo img { height: 40px; margin-right: 8px; }
-      .nav-backed { font-size: 9px; }
-      .nav-backed img { height: 13px; }
+      nav { padding: 8px 16px; gap: 8px; }
+      .nav-logo { font-size: 13px; }
+      .nav-logo img { height: 24px; margin-right: 6px; }
+      .nav-backed { font-size: 7.5px; gap: 4px; line-height: 1.3; }
+      .nav-backed img { height: 11px; }
 
       #hero { padding: 24px 0 18px; }
       .hero-eyebrow { font-size: 11px; margin-bottom: 8px; }
