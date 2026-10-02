@@ -38,19 +38,17 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     .container { max-width: 1200px; margin: 0 auto; padding: 0 40px; }
     .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
 
-    /* NAV */
+    /* NAV — simplificado (2 oct 2026): se quitó el pill "Simular mi retiro" a petición de
+       Omar. Con el formulario ya inmediatamente debajo del hero (ronda anterior), el botón
+       dejó de aportar y solo hacía la barra más alta. Ahora la barra navy es solo el logo,
+       centrado y más grande, para ocupar el mínimo espacio vertical posible. */
     nav {
-      background: var(--navy); padding: 0 40px; height: 64px;
-      display: flex; align-items: center; justify-content: space-between;
+      background: var(--navy); padding: 12px 40px;
+      display: flex; align-items: center; justify-content: center;
       position: sticky; top: 0; z-index: 100;
     }
-    .nav-logo { font-size: 20px; font-weight: 800; color: var(--white); letter-spacing: -.02em; }
-    .nav-pill {
-      background: var(--white); color: var(--navy); font-size: 13px; font-weight: 700;
-      padding: 8px 20px; border-radius: 24px; cursor: pointer; transition: background .2s;
-      text-decoration: none; display: inline-block;
-    }
-    .nav-pill:hover { background: #e8ecf4; }
+    .nav-logo { font-size: 22px; font-weight: 800; color: var(--white); letter-spacing: -.02em; display: flex; align-items: center; }
+    .nav-logo img { height: 38px; margin-right: 10px; }
 
     /* HERO */
     #hero {
@@ -211,20 +209,15 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       .hero-title { font-size: 27px; }
       .hero-sub { font-size: 15px; }
       #simulador h2 { font-size: 24px; }
-      .nav-pill { font-size: 12px; padding: 8px 14px; }
       .trust-row { gap: 14px; }
 
       /* Compactación móvil (2 oct 2026) — en pantallas de celular se perdía mucho espacio
          vertical antes de llegar al formulario (eyebrow + h1 + sub + link, todo con el
          padding de escritorio). Se reduce el espaciado del hero y se acerca el simulador,
          sin tocar nada en desktop (>768px). */
-      nav {
-        flex-direction: column; justify-content: center; height: auto;
-        padding: 14px 20px; gap: 8px;
-      }
-      .nav-logo { font-size: 15px; display: flex; align-items: center; justify-content: center; }
-      .nav-logo img { height: 42px; margin-right: 8px; }
-      .nav-pill { border-radius: 30px; }
+      nav { padding: 10px 20px; }
+      .nav-logo { font-size: 17px; }
+      .nav-logo img { height: 40px; margin-right: 8px; }
 
       #hero { padding: 24px 0 18px; }
       .hero-eyebrow { font-size: 11px; margin-bottom: 8px; }
@@ -244,8 +237,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- End Google Tag Manager (noscript) -->
 
 <nav>
-  <div class="nav-logo"><img src="../ISOLOGO_BLANCO.png" alt="Asesor Landero" height="32" style="vertical-align:middle; margin-right:8px;">Asesor Landero</div>
-  <a href="#simulador" class="nav-pill">🧮 Simular mi retiro →</a>
+  <div class="nav-logo"><img src="../ISOLOGO_BLANCO.png" alt="Asesor Landero">Asesor Landero</div>
 </nav>
 
 <!-- HERO — reducido al mínimo a propósito (28 sep/2 oct): el formulario estaba quedando
