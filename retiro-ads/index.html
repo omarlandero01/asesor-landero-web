@@ -295,9 +295,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             <span class="sim-err" id="serr-edad">Entre 18 y 64</span>
           </div>
           <div class="sim-field">
-            <label>CORREO (opcional)</label>
+            <label>CORREO *</label>
             <input type="email" id="sEmail" placeholder="tucorreo@ejemplo.com" autocomplete="email" oninput="simCheckReveal()">
-            <span class="sim-err" id="serr-email">Correo electrónico válido</span>
+            <span class="sim-err" id="serr-email">Ingresa un correo válido</span>
           </div>
         </div>
         <div class="sim-field">
@@ -639,7 +639,9 @@ function simIsComplete() {
   // (simAutoCalc no corre sin edad válida) y el mensaje de WhatsApp saldría con
   // capital/pensión en blanco.
   const edadOk  = !isNaN(edad) && edad >= 18 && edad <= 64;
-  const emailOk = email === '' || /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  // Correo obligatorio (11 oct 2026): Omar lo necesita para precargar Calendly y no
+  // tener que pedirlo después por WhatsApp. El campo de GMM ya lo pedía sin fricción.
+  const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
   return !!(nombre && edadOk && wa.length === 10 && emailOk);
 }
 
