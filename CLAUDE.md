@@ -226,6 +226,16 @@ Omar verificó en vivo y confirmó que todo lo de esta sesión (rondas 5-7) qued
 
 ---
 
+## ACTUALIZACIÓN 11 oct 2026 — correo obligatorio, UTM en la hoja de leads
+
+- **`/retiro-ads`: correo obligatorio.** `simIsComplete()` ahora exige correo con formato válido (antes `email === '' || regex`). Etiqueta "CORREO *", error "Ingresa un correo válido". Porqué: Omar tenía que pedirlo por WhatsApp para precargar Calendly; en GMM los leads lo dejan sin problema; mejora el EMQ del evento Lead. Medir tasa visita→lead una semana antes y después. Publicado el 11 oct (commit "retiro-ads: correo obligatorio").
+- **Hoja "Leads PPR Asesor Landero" (webhook `SIM_SHEETS`, usado por `/ppr`, `/retiro` y `/retiro-ads`): ahora guarda `Inflación`, `fuente`, `utm_source`, `utm_medium`, `utm_campaign`, `utm_content`, `utm_term` y `fbclid`.** El Apps Script se reescribió para escribir por nombre de columna (agrega columnas faltantes, neutraliza valores que empiecen con `=`, `+`, `-`, `@`). Verificado con lead de prueba el 11 oct. El código está respaldado en `Drive/Asesor Landero/bitacora/respaldos/apps-script-leads-ppr-v2-2026-10-11.gs`. **Para actualizarlo: Implementar > Administrar implementaciones > Nueva versión. Nunca "Nueva implementación" (cambia la URL y se pierden leads).**
+- **Pruebas de UTM:** la página y las redirecciones apex→www conservan los parámetros (verificado en navegador real). Si en el equipo de Omar la dirección pierde el `?utm_...`, es su red o VPN; el tráfico real de anuncios no se ve afectado (los leads de GMM llegan con UTM). Aprendizaje: la herramienta de lectura de páginas de Claude muestra la URL final sin query; no usarla para concluir sobre redirecciones.
+- **Git desde el sandbox de Claude:** no puede escribir en `.git` (queda un `HEAD.lock`). Los commits y pushes los hace Omar desde su terminal. Si hay `.git/HEAD.lock` sin otro git corriendo, `rm .git/HEAD.lock`.
+- Memoria y decisiones del negocio: `Drive/Asesor Landero/bitacora/`.
+
+---
+
 ## ESTADO /gmm — gmm/index.html ✅ (nueva, sep 2026)
 
 Landing nueva, separada de `/seguro` (que es cotizador de seguro de **vida**, no de GMM). Propósito único: capturar leads para agendar asesoría de Seguro de Gastos Médicos Mayores — sin cotizador embebido (código postal/ciudad para cotizar en firme se resuelve en la llamada, no en la web).

@@ -146,6 +146,13 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     .sim-input-currency > span:last-child { border-right: none; border-left: 1px solid var(--sim-bdr); }
     .sim-input-currency input { border: none !important; border-radius: 0 !important; background: transparent !important; flex: 1; }
     .sim-input-currency input:focus { box-shadow: none !important; }
+    .sim-input-currency select { flex: 1; border: none; background: transparent; font: inherit; font-size: 16px; color: var(--sim-text); padding: 12px 10px; outline: none; cursor: pointer; min-width: 0; }
+    /* Comparación "con $1,000 más al mes" (11 oct 2026) */
+    .sim-compare { margin: 10px 20px 0; border: 1px dashed var(--sim-bdr); border-radius: 10px; padding: 12px 16px; background: var(--sim-surf); }
+    .sim-compare-lbl { font-size: 12px; font-weight: 700; color: var(--sim-text); margin-bottom: 4px; }
+    .sim-compare-row { font-size: 13px; color: var(--sim-muted); line-height: 1.5; }
+    .sim-compare-row b { color: var(--sim-text); }
+    .sim-compare-delta { color: #1a9e4b; font-weight: 800; }
     .sim-check-row { display: flex; align-items: flex-start; gap: 10px; padding: 12px 14px; background: var(--sim-bg); border: 1px solid var(--sim-bdr); border-radius: 10px; }
     .sim-check-row input[type="checkbox"] { width: 16px; height: 16px; min-width: 16px; margin-top: 2px; accent-color: var(--sim-accent); cursor: pointer; padding: 0; border: none; background: none; }
     .sim-check-row:has(input:checked) { border-color: rgba(33,48,124,.4); background: rgba(33,48,124,.06); }
@@ -312,7 +319,22 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           <label>APORTACIÓN MENSUAL *</label>
           <div class="sim-input-currency">
             <span>$</span>
-            <input type="number" id="sAportacion" value="2000" min="2000" step="500" inputmode="numeric" oninput="simAutoCalc()">
+            <!-- 11 oct 2026: de campo libre (default $2,000) a desplegable con montos. Con campo
+                 libre todos los leads se quedaban en el mínimo; la comisión del plan depende de
+                 aportación x plazo, y un lead de $2,000 a pocos años no es rentable. Default $3,000.
+                 Mismo id y .value numérico: el resto del JS (WhatsApp, Sheets, simAutoCalc) no cambia. -->
+            <select id="sAportacion" onchange="simAutoCalc()">
+              <option value="2000">2,000</option>
+              <option value="2500">2,500</option>
+              <option value="3000" selected>3,000</option>
+              <option value="3500">3,500</option>
+              <option value="4000">4,000</option>
+              <option value="5000">5,000</option>
+              <option value="7500">7,500</option>
+              <option value="10000">10,000</option>
+              <option value="15000">15,000</option>
+              <option value="20000">20,000</option>
+            </select>
             <span>MXN</span>
           </div>
           <p class="sim-hint">Aportación mínima: $2,000 MXN mensuales</p>
@@ -361,6 +383,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           <div class="sim-pension-box">
             <div class="sim-pension-lbl">💰 PENSIÓN MENSUAL ESTIMADA AL RETIRO</div>
             <div class="sim-pension-val sim-masked" id="simResPension">—</div>
+          </div>
+          <div class="sim-compare" id="simCompare">
+            <div class="sim-compare-lbl" id="simCmpTitle">¿Y con $1,000 más al mes?</div>
+            <div class="sim-compare-row">Con <b id="simCmpAmt">—</b> mensuales, tu capital proyectado sería <b class="sim-masked" id="simCmpTotal">—</b>, es decir <span class="sim-compare-delta sim-masked" id="simCmpDelta">—</span> más.</div>
           </div>
           <div class="sim-chart-wrap">
             <div class="sim-chart-title">CRECIMIENTO ACUMULADO PROYECTADO</div>
@@ -565,6 +591,16 @@ function simAutoCalc() {
   document.getElementById('simResTotal').textContent    = mxnFmt(totalFV);
   document.getElementById('simResGanancia').textContent = mxnFmt(ganancia);
   document.getElementById('simResPension').textContent  = pensionFmt;
+
+  // Comparación con $1,000 más al mes (11 oct 2026): quien ve cuánto cambia el capital
+  // suele darse cuenta de que $1,000 extra sí le caben. Mismas reglas de bono y tasa.
+  const aportMas = aportacion + 1000;
+  const bonoMas  = simGetBono(aportMas, years);
+  const simMas   = simSimular(aportMas, ANNUAL_RATE, years, bonoMas.amount, useInfl);
+  document.getElementById('simCmpTitle').textContent = '¿Y con $1,000 más al mes?';
+  document.getElementById('simCmpAmt').textContent   = mxnFmt(aportMas);
+  document.getElementById('simCmpTotal').textContent = mxnFmt(simMas.finalBalance);
+  document.getElementById('simCmpDelta').textContent = mxnFmt(simMas.finalBalance - totalFV);
 
   const bonoBanner = document.getElementById('simBonoBanner');
   if (bono.amount > 0) {
