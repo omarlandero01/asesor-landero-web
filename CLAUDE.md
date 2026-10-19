@@ -1,6 +1,6 @@
 # CLAUDE.md — asesor-landero-web
 
-> Leer completo al inicio de cada sesión. Última actualización: 2026-09-28 (Advanced Matching en dataLayer + descubrimiento de sistema de tracking paralelo en /ppr, /seguro, /links — ver NOTAS TÉCNICAS. **Commit local sin pushear, ver bloqueo de deploy abajo**).
+> Leer completo al inicio de cada sesión. Última actualización: 2026-10-19 (nueva landing `/vida`, ver su sección; sin publicar). Anterior: 2026-09-28 (Advanced Matching en dataLayer + descubrimiento de sistema de tracking paralelo en /ppr, /seguro, /links — ver NOTAS TÉCNICAS. **Commit local sin pushear, ver bloqueo de deploy abajo**).
 
 ---
 
@@ -34,7 +34,36 @@
 | `/retiro-ads` | Landing corta para tráfico frío de Meta Ads (hero sin foto + simulador, paleta blanco/navy, sin mención Allianz) | v2 en producción ✅ (24 sep 2026) |
 | `/seguro` | Landing cotizador seguros de vida (NO gastos médicos) | Funcional ✅ |
 | `/gmm` | Landing de captura de leads — Seguro de Gastos Médicos Mayores (sin cotizador, solo agenda asesoría) | Completo y en producción ✅ (sep 2026) |
+| `/vida` | Landing de captura de leads para campaña de Meta de seguro de vida temporal (sin precios dinámicos, formulario → WhatsApp) | Construida el 19 oct 2026, **sin publicar** (falta commit y push de Omar; URL del Apps Script ya pegada) |
 | `/links` | Link in bio Instagram | Existe, optimización pendiente |
+
+---
+
+## ESTADO /vida — vida/index.html (nueva, 19 oct 2026, sin publicar)
+
+Landing para los anuncios (2 Reels y 1 estático) de la campaña de seguro de vida temporal del Q4 2026. Mismo esqueleto visual que `/gmm` (navy/blanco/verde, Outfit). **Sin Allianz y sin nombre de producto** (regla de cumplimiento; a diferencia de `/retiro-ads`, aquí Omar no autorizó la excepción).
+
+### Estructura
+1. Nav (logo + pill a `#formulario`) → `#hero` (H1 "¿Cuántos meses aguanta una familia sin el ingreso de quien la sostiene?", mismo gancho que el Reel A, por coherencia anuncio-landing).
+2. `#cuenta`: calculadora "Haz la cuenta" (`cGasto`, `cAhorros` → meses; no guarda datos; evento `vida_calc_used` una vez por sesión).
+3. `#como`: 4 tarjetas (pago fijo 25 años, cantidad contratada a beneficiarios, devolución de primas opcional con condiciones, pago en vida por enfermedad grave con periodos de espera).
+4. `#paraquien`: familia que depende de un ingreso / apoyo a papás / resolverlo con calma.
+5. `#faq`: 4 `<details>`. Incluye 2 cotizaciones de referencia (oct 2026): hombre 35 años, $1 millón, paquete más completo, $623/mes; mujer 62 años, $500 mil, $778/mes; ambas a 25 años, pago mensual, sin devolución. **Caducan: actualizar cuando cambien las tarifas.**
+6. `#formulario`: nombre, WhatsApp (10 dígitos), correo (obligatorio), ¿para quién? (select), edad aproximada del asegurado (18 a 70). Aviso de privacidad informativo (sin checkbox, igual que `/retiro-ads`). Solo botón de WhatsApp (sin Calendly por decisión de Omar el 19 oct; se agrega después si hace falta).
+7. `#trust`, footer con leyenda legal, modal de privacidad `vPrivModal`.
+
+### Datos técnicos
+- Prefijo de funciones y IDs: `v` (`vCheckReveal`, `vState`, `vSendLead`, `vOnCtaClick`, `vTrack`, `vCalc`).
+- Constantes: `VIDA_WA = '529933205649'`, `VIDA_SHEETS_URL` = URL `/exec` del Apps Script de la hoja "Leads Seguro de Vida - Asesor Landero" (pegada el 19 oct 2026; **nunca crear una "Nueva implementación", solo "Nueva versión"**; código en `Drive/Asesor Landero/bitacora/respaldos/apps-script-leads-vida-v1-2026-10-19.gs`), `EDAD_MIN = 18`, `EDAD_MAX = 70`.
+- **Variantes por anuncio (19 oct 2026):** `<html data-v="familia|papas">` se define con un script inline en `<head>` según el parámetro `?e=papas` (cualquier otro valor o sin parámetro = `familia`). Los bloques con `data-only="familia"` o `data-only="papas"` se muestran u ocultan por CSS (sin parpadeo). `familia` = hero del Reel A + calculadora `#cuenta`; `papas` = hero "¿Se puede asegurar a los papás? Sí. Ellos firman y tú pagas." + caso real `#caso` (mamá de 62 años, $778/mes) y el selector llega preseleccionado en "Para mis papás". `VIDA_VARIANT` viaja en `lead_variant` del dataLayer y en la columna "Enfoque" de la hoja. URL del Reel B en Meta: parámetro `e=papas`.
+- Mensaje de WhatsApp (formato natural pedido por Omar): "Hola Omar, soy [nombre]. Mi correo es [correo] y mi número de teléfono es +52[tel]. Quiero un seguro de vida [para mí / para mi pareja / para mis papás / para otra persona]. La persona asegurada tiene [edad] años." El botón dice "Enviar mis datos por WhatsApp"; la persona debe presionar enviar. Respaldo del lead: hoja + correo de aviso del Apps Script (no depende de que presionen enviar).
+- Texto de la página sin jerga: se dice "puede devolverte lo que pagaste, con condiciones" (Omar confirmó el 19 oct que el pago mensual cotizado es la prima neta).
+- Si la edad es mayor a 70 o menor a 18, el formulario no se completa y no se dispara el Lead (evita contaminar el optimizador de Meta con leads que no se pueden atender; mismo problema que se vio con GMM y mayores de 60).
+- El lead se registra 1.5 s después de que el formulario queda completo (debounce), para no mandar un correo a medias a la hoja ni al pixel. También se dispara de inmediato si hacen clic en WhatsApp.
+- Eventos al dataLayer: `vida_lead_complete` (con `lead_source`, `lead_for`, `lead_age_band`, `user_data` normalizado vía `buildUserData`), `vida_cta_click` (`cta_channel: 'whatsapp'`), `vida_hero_click`, `vida_calc_used`, `vida_calc_cta_click`, `vida_form_viewed` (IntersectionObserver al 20%, una vez por sesión).
+- **Pendiente en GTM (Omar):** agregar un activador de Evento personalizado `vida_lead_complete` a la etiqueta "Meta Pixel - Lead" (mismo patrón que `sim_lead_complete`). Ver guía en `Drive/Asesor Landero/bitacora/entregables/2026-10-19-guia-gtm-y-meta-landing-vida.md`.
+- Probado el 19 oct en Node con stubs: validación de edad, armado del mensaje de WhatsApp, evento del dataLayer y calculadora. Falta prueba en navegador real con GTM Preview.
+- **No se ha hecho commit ni push** (el sandbox de Claude no escribe en `.git`; Omar lo hace desde su terminal).
 
 ---
 
