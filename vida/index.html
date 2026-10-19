@@ -44,8 +44,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     /* VARIANTES (familia / papás): se oculta lo que no corresponde al anuncio */
     html[data-v="familia"] [data-only="papas"],
     html[data-v="papas"] [data-only="familia"] { display: none !important; }
-    .caso-text { font-size: 17px; line-height: 1.65; color: var(--navy); margin-bottom: 10px; }
-    .caso-fine { font-size: 12px; color: var(--gray); line-height: 1.6; margin-top: 10px; }
     .cta-hint { font-size: 12px; color: var(--gray); text-align: center; margin-top: 2px; line-height: 1.5; }
 
     /* NAV */
@@ -191,18 +189,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <p class="hero-sub">Un <strong>seguro de vida por 25 años</strong>, con pago fijo, para papá o mamá de hasta 70 años. Tú pagas y eliges quién recibe. Lo revisamos juntos en una asesoría, sin letra chica.</p>
     </div>
     <a href="#formulario" class="btn-primary" onclick="vTrack('vida_hero_click')">Quiero mi asesoría sin costo →</a>
-  </div>
-</section>
-
-<!-- CASO REAL (solo enfoque papás) -->
-<section id="caso" data-only="papas" style="padding:8px 0 52px;">
-  <div class="container">
-    <div class="calc-card">
-      <h2 class="calc-title">Un caso real</h2>
-      <p class="caso-text">Mi mamá tiene 62 años. Su seguro de vida, por 500 mil pesos, me cuesta <strong>778 pesos al mes</strong>. Yo lo pago.</p>
-      <p class="caso-fine">Caso real, cotización de octubre de 2026, plazo de 25 años, sin devolución de primas. El precio cambia según edad, salud y suma asegurada. Sujeto a aceptación de la aseguradora y, en su caso, evaluación médica.</p>
-      <a class="calc-link" href="#formulario" onclick="vTrack('vida_caso_cta_click')">Quiero ver cómo sería con mis papás →</a>
-    </div>
   </div>
 </section>
 
@@ -471,10 +457,16 @@ function vState() {
 }
 
 function vBuildWaUrl(s) {
-  const msg = 'Hola Omar, soy ' + s.nombre + '. ' +
-    'Mi correo es ' + s.email + ' y mi número de teléfono es +52' + s.tel + '. ' +
-    'Quiero un seguro de vida ' + s.para + '. ' +
-    'La persona asegurada tiene ' + s.edad + ' años.';
+  const paraTxt = s.para.replace(/^para\s+/, '');
+  const msg = 'Hola Omar, quiero una asesoría de seguro de vida.\n\n' +
+    '📋 Mis datos:\n' +
+    '• Nombre: ' + s.nombre + '\n' +
+    '• WhatsApp: +52' + s.tel + '\n' +
+    '• Correo: ' + s.email + '\n\n' +
+    '🛡️ Sobre el seguro:\n' +
+    '• Sería para: ' + paraTxt + '\n' +
+    '• Edad de la persona asegurada: ' + s.edad + ' años\n\n' +
+    'Quiero que me expliques mis opciones.';
   return 'https://wa.me/' + VIDA_WA + '?text=' + encodeURIComponent(msg);
 }
 
