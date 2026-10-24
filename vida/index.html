@@ -566,6 +566,33 @@ function vOnCtaClick(canal) {
   }, { threshold: 0.2 }).observe(el);
 })();
 
+/* Embudo del formulario (sin datos personales): empezó a llenar, campo completado y edad fuera de rango */
+(function(){
+  const form = document.getElementById('formulario');
+  if (!form) return;
+  const names = { vNombre: 'nombre', vTel: 'whatsapp', vEmail: 'correo', vPara: 'para_quien', vEdad: 'edad' };
+  let started = false;
+  const doneFields = {};
+  let ageBlockSent = false;
+  form.addEventListener('focusin', function(e){
+    const f = names[e.target && e.target.id];
+    if (f && !started) { started = true; vTrack('vida_form_started', { first_field: f }); }
+  });
+  form.addEventListener('focusout', function(e){
+    const id = e.target && e.target.id, f = names[id];
+    if (!f || doneFields[f]) return;
+    if ((e.target.value || '').trim() !== '') { doneFields[f] = true; vTrack('vida_field_done', { field: f }); }
+  });
+  const edadEl = document.getElementById('vEdad');
+  if (edadEl) edadEl.addEventListener('change', function(){
+    const n = parseInt(edadEl.value, 10);
+    if (!ageBlockSent && !isNaN(n) && (n > EDAD_MAX || (n >= 10 && n < EDAD_MIN))) {
+      ageBlockSent = true;
+      vTrack('vida_age_blocked', { band: n > EDAD_MAX ? 'mayor_70' : 'menor_18', variant: VIDA_VARIANT });
+    }
+  });
+})();
+
 function vOpenPrivacy()  { const m = document.getElementById('vPrivModal'); m.style.display = 'flex'; document.body.style.overflow = 'hidden'; }
 function vClosePrivacy() { const m = document.getElementById('vPrivModal'); m.style.display = 'none'; document.body.style.overflow = ''; }
 function vCloseOutside(e){ if (e.target === document.getElementById('vPrivModal')) vClosePrivacy(); }
